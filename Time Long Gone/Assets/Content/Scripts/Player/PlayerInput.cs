@@ -3,10 +3,8 @@ using UnityEngine.InputSystem;
 
 namespace Content.Scripts.Player
 {
-    public class PlayerMovement : MonoBehaviour
+    public class PlayerInput : MonoBehaviour
     {
-        
-
         [SerializeField] private PlayerMain playerScript;
 
         private static float Vertical
@@ -44,7 +42,7 @@ namespace Content.Scripts.Player
         //   [SerializeField] private float jumpHeight = 10;
 
 
-        private static PlayerMovement Instance;
+        private static PlayerInput Instance;
         private Rigidbody _rb;
         private CharacterController _controller;
 
@@ -68,7 +66,7 @@ namespace Content.Scripts.Player
             _controller.Move(direction * playerScript.walkSpeed * Time.deltaTime);
         }
 
-        public void Dash()
+        public void Dash(InputAction.CallbackContext context)
         {
         }
 
@@ -81,11 +79,19 @@ namespace Content.Scripts.Player
         }
 
 
-        public void attack()
-        {
-        }
+        public void attack(InputAction.CallbackContext context)
+            =>
+                playerScript.isAttacking = true;
 
-        public void ChargeAttack()
+        public void ChargeAttack(InputAction.CallbackContext context)
+            =>
+                playerScript.isChargingAttack = true;
+
+        public void Block(InputAction.CallbackContext context)
+            => playerScript.isBlocking = true;
+
+
+        public void Stun(InputAction.CallbackContext context)
         {
         }
     }
