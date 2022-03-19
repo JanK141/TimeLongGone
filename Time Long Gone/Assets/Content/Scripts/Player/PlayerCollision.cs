@@ -4,18 +4,18 @@ namespace Content.Scripts.Player
 {
     public class PlayerCollision : MonoBehaviour
     {
-        [SerializeField] private PlayerMain playerScript;
+        [SerializeField] private PlayerScript playerScript;
 
         private void OnCollisionExit(Collision collision)
         {
             if (collision.gameObject.name != "ground") return;
-            playerScript.inTheAir = true;
+            playerScript.currentGround = PlayerScript.GroundStatus.Air;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.name != "ground") return;
-            playerScript.inTheAir = false;
+            playerScript.currentGround = PlayerScript.GroundStatus.Ground;
         }
     }
 }

@@ -5,94 +5,63 @@ namespace Content.Scripts.Player
 {
     public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] private PlayerMain playerScript;
+        [SerializeField] private PlayerScript playerScript;
 
-        private static float Vertical
-        {
-            get
-            {
-                var keyboard = Keyboard.current;
-                var vertical = 0;
-
-                if (keyboard.wKey.isPressed)
-                    vertical = 1;
-                else if (keyboard.sKey.isPressed) vertical = -1;
-
-                return vertical;
-            }
-        }
-
-        private static float Horizontal
-        {
-            get
-            {
-                var keyboard = Keyboard.current;
-                var horizontal = 0;
-
-                if (keyboard.dKey.isPressed)
-                    horizontal = 1;
-                else if (keyboard.aKey.isPressed) horizontal = -1;
-
-                return horizontal;
-            }
-        }
-
-
-        //   [SerializeField] private float gravity = -30;
-        //   [SerializeField] private float jumpHeight = 10;
-
-
-        private static PlayerInput Instance;
-        private Rigidbody _rb;
-        private CharacterController _controller;
-
-        private void Awake()
-        {
-            _rb = GetComponent<Rigidbody>();
-            Instance = this;
-            _controller = GetComponent<CharacterController>();
-        }
-
-        public void Move(InputAction.CallbackContext context)
+        public void WantMove(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
 
-            var direction = new Vector3(Horizontal, 0f, Vertical).normalized;
+            var keyboard = Keyboard.current;
 
-            if (!(direction.magnitude >= 0.1f)) return;
-
-            var targetAngel = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, targetAngel, 0f);
-            _controller.Move(direction * playerScript.walkSpeed * Time.deltaTime);
+            if (keyboard.wKey.isPressed)
+                playerScript.isUpPressed = true;
+            if (keyboard.sKey.isPressed)
+                playerScript.isDownPressed = true;
+            if (keyboard.aKey.isPressed)
+                playerScript.isLeftPressed = true;
+            if (keyboard.dKey.isPressed)
+                playerScript.isRightPressed = true;
         }
 
-        public void Dash(InputAction.CallbackContext context)
+        public void WantDash(InputAction.CallbackContext context)
         {
+            if (context.performed)
+                playerScript.isDashPressed = true;
         }
 
-        public void Jump(InputAction.CallbackContext context)
+        public void WantJump(InputAction.CallbackContext context)
         {
-            if (!context.performed || playerScript.inTheAir) return;
+            if (context.performed)
+                playerScript.isJumpPressed = true;
+        }
 
-            Debug.Log("Jump");
-            _rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+        public void WantAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                playerScript.isAttackPressed = true;
+        }
+
+        public void WantChargeAttack(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                playerScript.isChargeAttackPressed = true;
+        }
+
+        public void WantBlock(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                playerScript.isBlockPressed = true;
+        }
+
+        public void WantTime(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+                playerScript.isTimePressed = true;
         }
 
 
-        public void attack(InputAction.CallbackContext context)
+        public void WantStun(InputAction.CallbackContext context)
             =>
-                playerScript.isAttacking = true;
-
-        public void ChargeAttack(InputAction.CallbackContext context)
-            =>
-                playerScript.isChargingAttack = true;
-
-        public void Block(InputAction.CallbackContext context)
-            => playerScript.isBlocking = true;
-
-
-        public void Stun(InputAction.CallbackContext context)
-        {
-        }
+                playerScript.CurrentCombat = PlayerScript.CombatStatus.Stun;
     }
 }
