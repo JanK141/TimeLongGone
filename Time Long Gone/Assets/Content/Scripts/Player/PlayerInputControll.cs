@@ -3,89 +3,71 @@ using UnityEngine.InputSystem;
 
 namespace Content.Scripts.Player
 {
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInputControll : MonoBehaviour
     {
         [SerializeField] private PlayerScript playerScript;
+        [SerializeField] private PlayerMovement playerMovement;
 
         public void WantMove(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
+            Debug.Log("wantMove");
 
-            var keyboard = Keyboard.current;
+            var x = context.ReadValue<Vector2>().x;
+            var z = context.ReadValue<Vector2>().y;
 
-            if (keyboard.wKey.isPressed)
-            {
-                playerScript.isUpPressed = true;
-                Debug.Log("wantMoveUp");
-            }
-
-            if (keyboard.sKey.isPressed)
-            {
-                playerScript.isDownPressed = true;
-                Debug.Log("wantMoveDown");
-            }
-
-            if (keyboard.aKey.isPressed)
-            {
-                playerScript.isLeftPressed = true;
-                Debug.Log("wantMoveLeft");
-            }
-
-            if (keyboard.dKey.isPressed)
-            {
-                playerScript.isRightPressed = true;
-                Debug.Log("wantMoveRight");
-            }
-        }
-
-        public void WantDash(InputAction.CallbackContext context)
-        {
-            if (!context.performed) return;
-            playerScript.isDashPressed = true;
-            Debug.Log("wantDash");
+            var xzVector = new Vector3(x, 0, z);
+            playerMovement.ProcessMovement(xzVector);
         }
 
         public void WantJump(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.isJumpPressed = true;
             Debug.Log("wantJump");
+            playerScript.movementScript.ProcessJump();
         }
 
         public void WantAttack(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.isAttackPressed = true;
             Debug.Log("wantAttack");
+            // todo
         }
 
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.isChargeAttackPressed = true;
             Debug.Log("wantChargeAttack");
+            // todo
         }
 
         public void WantBlock(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.isBlockPressed = true;
             Debug.Log("wantBlock");
+            // todo
         }
 
         public void WantTime(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.isTimePressed = true;
             Debug.Log("wantTime");
+            // todo
         }
 
 
         public void WantStun(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            playerScript.CurrentCombat = PlayerScript.CombatStatus.Stun;
             Debug.Log("wantStun");
+            // todo
+        }
+
+        public void WantDash(InputAction.CallbackContext context)
+        {
+            if (!context.performed) return;
+            Debug.Log("wantDash");
+            playerScript.movementScript.ProcessDash();
         }
     }
 }
