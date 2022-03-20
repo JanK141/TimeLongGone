@@ -10,14 +10,16 @@ namespace Content.Scripts.Player
 
         public void WantMove(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            Debug.Log("wantMove");
+            if (context.performed)
+            {
+                Debug.Log("wantMove");
+                var x = context.ReadValue<Vector2>().x;
+                var z = context.ReadValue<Vector2>().y;
 
-            var x = context.ReadValue<Vector2>().x;
-            var z = context.ReadValue<Vector2>().y;
-
-            var xzVector = new Vector3(x, 0, z);
-            playerMovement.ProcessMovement(xzVector);
+                playerMovement.InputVector = new Vector3(x, 0, z);
+            }
+            else if (context.canceled)
+                playerMovement.InputVector = new Vector3(0, 0, 0);
         }
 
         public void WantJump(InputAction.CallbackContext context)

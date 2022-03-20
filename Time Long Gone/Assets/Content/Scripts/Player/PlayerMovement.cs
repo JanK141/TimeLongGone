@@ -11,7 +11,7 @@ namespace Content.Scripts.Player
         private float speed = 10;
 
         [SerializeField] private float gravity = -30;
-        [SerializeField] private float jumpHeight = 10;
+        [SerializeField] private float jumpHeight = 1;
         [Header("Dashing")] [SerializeField] private float dashCd = 1f;
 
         [SerializeField] [Tooltip("How long dash animation is")]
@@ -56,6 +56,8 @@ namespace Content.Scripts.Player
 
         private bool IsInvincible { get; set; }
 
+        public Vector3 InputVector { get; set; }
+
         public Vector3 Velocity
         {
             get => _velocity;
@@ -77,22 +79,28 @@ namespace Content.Scripts.Player
             _instance = this;
             _controller = GetComponent<CharacterController>();
         }
-        private void Update() => ProcessGravity();
+
+        private void Update()
+        {
+            ProcessGravity();
+            ProcessMovement();
+        }
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public void ProcessMovement(Vector3 v3)
+        private void ProcessMovement()
         {
-            var vertical = v3.x;
-            var horizontal = v3.z;
+            var vertical = InputVector.x;
+            var horizontal = InputVector.z;
 
             _move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f));
 
             if (!_canMove || !(_move.magnitude > 0.05)) return;
-            
+
             _controller.Move(_move * (speed * Time.deltaTime));
             transform.LookAt(transform.position + _move);
         }
+
 
         public void ProcessDash()
         {
@@ -105,7 +113,6 @@ namespace Content.Scripts.Player
         public void ProcessJump()
         {
             if (!_isGrounded) return;
-            Debug.Log(_isGrounded);
             _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 

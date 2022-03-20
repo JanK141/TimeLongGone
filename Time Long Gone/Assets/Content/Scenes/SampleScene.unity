@@ -517,13 +517,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.009991008, y: 0.99465597, z: -0.10026394, w: -0.02251581}
-  m_LocalPosition: {x: 1.51, y: 4.67, z: -0.81}
+  m_LocalRotation: {x: 0.18023631, y: -0.032368682, z: -0.011079529, w: 0.9830282}
+  m_LocalPosition: {x: 0.95, y: 7.84, z: -15.82}
   m_LocalScale: {x: 1, y: 2.2398689, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 11.479, y: 182.737, z: 1.426}
+  m_LocalEulerAnglesHint: {x: 20.71, y: -4.146, z: -2.049}
 --- !u!114 &963194229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   gravity: -30
-  jumpHeight: 10
+  jumpHeight: 5
   dashCd: 1
   dashTime: 0.25
   dashMoveMultiplier: 2
@@ -1099,5 +1099,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2144b11a7cddd4588613961c1e0ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputControllScript: {fileID: 1796424148}
   movementScript: {fileID: 1796424149}
