@@ -5,7 +5,6 @@ namespace Content.Scripts.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        private static PlayerMovement _instance;
 
         [Header("Basic movement")] [SerializeField]
         private float speed = 10;
@@ -52,7 +51,7 @@ namespace Content.Scripts.Player
             set => m_CanMove = value;
         }
 
-        private bool IsInvincible { get; set; }
+        public bool IsInvincible { get; set; }
 
         public Vector3 InputVector { get; set; }
 
@@ -71,11 +70,12 @@ namespace Content.Scripts.Player
         private bool m_CanMove = true;
 
         private CharacterController m_Controller;
+        private PlayerScript player;
 
-        private void Awake()
+        private void Start()
         {
-            _instance = this;
             m_Controller = GetComponent<CharacterController>();
+            player = PlayerScript.Instance;
         }
 
         private void Update()
