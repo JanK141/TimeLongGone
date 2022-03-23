@@ -20,6 +20,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float maxClampPower = 3f;
 
     [Space] [SerializeField] private LayerMask enemyMask;
+    [SerializeField] private Animator anim;
     #endregion
 
     #region Cached dependencies
@@ -49,6 +50,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if(!canAttack) return;
+        anim.SetTrigger("Attack");
         if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
         {
             DummyTest.Instance.Damage(damage);
