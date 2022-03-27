@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Content.Scripts.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-
         [Header("Basic movement")] [SerializeField]
         private float speed = 10;
 
@@ -71,6 +71,10 @@ namespace Content.Scripts.Player
 
         private CharacterController m_Controller;
         private PlayerScript player;
+
+        public static PlayerMovement Instance;
+
+        private void Awake() => Instance = this;
 
         private void Start()
         {
