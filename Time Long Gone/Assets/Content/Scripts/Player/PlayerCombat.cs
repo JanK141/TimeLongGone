@@ -11,6 +11,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float attackRadius = 1;
     [SerializeField] private float attackDistance = 0.5f;
     [SerializeField] private float damage = 10f;
+    [SerializeField] private float lastHitDamage = 15f;
     //[SerializeField] private float attackCooldown = 0.2f;
 
     [Header("Charged attack")]
@@ -18,6 +19,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Collider ChargedAttackHitBox;
     [SerializeField] private float minClampPower = 1.5f;
     [SerializeField] private float maxClampPower = 3f;
+    [SerializeField] private float maxDistance = 8f;
 
     [Space] [SerializeField] private LayerMask enemyMask;
     [SerializeField] private Animator anim;
@@ -51,9 +53,20 @@ public class PlayerCombat : MonoBehaviour
     {
         if(!canAttack) return;
         anim.SetTrigger("Attack");
+    }
+
+    public void Hit()
+    {
         if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
         {
             DummyTest.Instance.Damage(damage);
+        }
+    }
+    public void LastHit()
+    {
+        if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
+        {
+            DummyTest.Instance.Damage(lastHitDamage);
         }
     }
 
@@ -71,22 +84,17 @@ public class PlayerCombat : MonoBehaviour
         chargedHitBox.damage = damage * strength;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
         pm.CanDash = false;
-        pm.CanMove = false;
-        Vector3 motion = transform.forward;
-        float time = 0f;
 
-        while (time < player.movementScript.DashTime)
-        {
-            if (!pm.IsInvincible && time >= pm.FramesStart * pm.DashTime) pm.IsInvincible = true;
-            if (pm.IsInvincible && time >= pm.FramesEnd * pm.DashTime) pm.IsInvincible = false;
-            time += Time.deltaTime;
-            controller.Move(motion * pm.Speed * strength * Time.deltaTime);
-            yield return null;
-        }
+        yield return StartCoroutine(pm.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
 
         pm.CanDash = true;
-        pm.CanMove = true;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        UnityEditor.Handles.color = new Color32(255, 0, 0, 200);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, maxDistance);
     }
 }

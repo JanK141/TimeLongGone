@@ -12,12 +12,14 @@ namespace Content.Scripts.Inputs
 
         private bool isCharging = false;
         private bool isOnPressCd = false;
-        float holdTime;
+        private float holdTime;
+        private float initialMoveSpeed;
 
         void Start()
         {
             playerScript = PlayerScript.Instance;
             holdTime = holdTreshhold;
+            initialMoveSpeed = playerScript.movementScript.Speed;
         }
 
         void Update()
@@ -47,9 +49,14 @@ namespace Content.Scripts.Inputs
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
             if(isOnPressCd) return;
-            if (context.started) isCharging = true;
+            if (context.started)
+            {
+                isCharging = true;
+                playerScript.movementScript.Speed *= 0.4f;
+            }
             else if (context.performed)
             {
+                playerScript.movementScript.Speed = initialMoveSpeed;
                 if(holdTime>0)playerScript.combat.ChargedAttack(holdTime);
                 else playerScript.combat.Attack();
                 isOnPressCd = true;
@@ -57,7 +64,8 @@ namespace Content.Scripts.Inputs
             }
             else if (context.canceled)
             {
-                if(holdTime<0) playerScript.combat.Attack();
+                playerScript.movementScript.Speed = initialMoveSpeed;
+                if (holdTime<0) playerScript.combat.Attack();
                 isOnPressCd = true;
                 Invoke(nameof(ResetHold), -holdTreshhold);
             }

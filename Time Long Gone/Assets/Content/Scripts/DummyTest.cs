@@ -9,6 +9,7 @@ public class DummyTest : MonoBehaviour
     public static DummyTest Instance;
 
     [SerializeField] private TextMeshProUGUI text;
+    private Tweener t;
 
     void Awake()
     {
@@ -17,6 +18,7 @@ public class DummyTest : MonoBehaviour
     void Start()
     {
         text.text = "";
+        t = text.transform.DOLocalMoveY(2f, 1f).OnComplete(Reset).SetAutoKill(false).SetRecyclable(true);
     }
 
     // Update is called once per frame
@@ -29,7 +31,7 @@ public class DummyTest : MonoBehaviour
     {
         transform.DOShakePosition(0.5f);
         text.text = $"{value} DAMAGE!";
-        text.transform.DOLocalMoveY(2f, 1f).OnComplete(Reset);
+        t.Restart();
     }
 
     void Reset()

@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Content.Scripts.Player
 {
+    [SelectionBase]
     public class PlayerScript : MonoBehaviour
     {
         public static PlayerScript Instance;

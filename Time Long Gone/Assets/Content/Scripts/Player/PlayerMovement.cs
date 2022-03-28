@@ -17,7 +17,7 @@ namespace Content.Scripts.Player
         private float dashTime = 0.25f;
 
         [SerializeField] [Tooltip("What product of speed is applied every frame of a dash")]
-        private float dashMoveMultiplier = 2f;
+        private float dashDistance = 2f;
 
         [Header("Dash i-frames"), SerializeField, Range(0, 1),
          Tooltip("In what percent of dash animation i-frames start")]
@@ -51,6 +51,7 @@ namespace Content.Scripts.Player
             set => m_CanMove = value;
         }
 
+        public bool CanRotate { get; set; } = true;
         public bool IsInvincible { get; set; }
 
         public Vector3 InputVector { get; set; }
@@ -92,17 +93,17 @@ namespace Content.Scripts.Player
             m_Move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f));
 
-            if (!m_CanMove || !(m_Move.magnitude > 0.05)) return;
+            if (!m_CanMove) return;
 
             m_Controller.Move(m_Move * (speed * Time.deltaTime));
-            transform.LookAt(transform.position + m_Move);
+            if(CanRotate)transform.LookAt(transform.position + m_Move);
         }
 
         public void ProcessDash()
         {
             if (!m_CanDash) return;
             m_CanDash = false;
-            StartCoroutine(nameof(Dash));
+            StartCoroutine(Dash(dashDistance));
             Invoke(nameof(ResetDashCd), dashCd);
         }
 
@@ -128,17 +129,17 @@ namespace Content.Scripts.Player
             m_Controller.Move(m_Velocity * Time.deltaTime);
         }
 
-        private IEnumerator Dash()
+        public IEnumerator Dash(float distance)
         {
             m_CanMove = false;
-            var motion = m_Move.normalized;
+            var motion = transform.forward * distance;
             var time = 0f;
             while (time < dashTime)
             {
                 if (!IsInvincible && time >= iframesStart * dashTime) IsInvincible = true;
                 if (IsInvincible && time >= iframesEnd * dashTime) IsInvincible = false;
                 time += Time.deltaTime;
-                m_Controller.Move(motion * speed * dashMoveMultiplier * Time.deltaTime);
+                m_Controller.Move(motion/ (dashTime / Time.deltaTime));
                 yield return new WaitForEndOfFrame();
             }
 
@@ -147,13 +148,12 @@ namespace Content.Scripts.Player
 
         private void ResetDashCd() => m_CanDash = true;
 
-        /*
+        
         private void OnDrawGizmosSelected()
         {
             UnityEditor.Handles.color = new Color32(10, 200, 100, 200);
-            if (GetComponent<DrawGizmos>().drawGizmos)
-                UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, speed * dashMoveMultiplier * dashTime);
+            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, dashDistance);
         }
-        */
+        
     }
 }

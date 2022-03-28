@@ -354,12 +354,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 696ec6da63c1c2f4789330efc87d20f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackRadius: 1
-  attackDistance: 0.5
+  attackRadius: 1.39
+  attackDistance: 0.9
   damage: 10
   ChargedAttackHitBox: {fileID: 1472406627}
   minClampPower: 1.5
   maxClampPower: 3
+  maxDistance: 10.02
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
@@ -531,12 +532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba62c1bc1acd594699bfa6b4ef590fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  gravity: -30
-  jumpHeight: 1
-  dashCd: 1
-  dashTime: 0.25
-  dashMoveMultiplier: 2
+  speed: 12
+  gravity: -80
+  jumpHeight: 5
+  dashCd: 0.5
+  dashTime: 0.15
+  dashDistance: 5.5
   iframesStart: 0
   iframesEnd: 0.3
   groundMask:
@@ -567,6 +568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 310245620}
   - component: {fileID: 310245621}
+  - component: {fileID: 310245622}
   m_Layer: 0
   m_Name: model
   m_TagString: Untagged
@@ -608,6 +610,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &310245622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310245619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec0fcc703602ce043b7b9db824c53057, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &457237598
 GameObject:
   m_ObjectHideFlags: 0
