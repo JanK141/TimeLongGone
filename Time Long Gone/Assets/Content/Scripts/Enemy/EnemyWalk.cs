@@ -59,7 +59,7 @@ namespace Content.Scripts.Enemy
             anim.SetTrigger(StopWalking);
         }
 
-        internal void WalkTo(Vector3 destination)
+        public void WalkTo(Vector3 destination)
         {
             agent.isStopped = false;
             isWalking = true;
@@ -68,6 +68,8 @@ namespace Content.Scripts.Enemy
         }
 
         private void SetDestination(Vector3 desVector3)
-            => agent.SetDestination(desVector3);
+        {
+            agent.SetDestination(desVector3);
+        }
     }
 }
