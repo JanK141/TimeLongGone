@@ -2,14 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MainMenuGameEventSystem : MonoBehaviour
+public class MenuGameEventSystem : MonoBehaviour
 {
     [SerializeField]
-    public MainMenuGameEventSystem Instance;
+    public MenuGameEventSystem Instance;
     [SerializeField]
     public MainMenu MainMenu;
     [SerializeField]
-    public SettingsMainMenu SettingsMenu;
+    public SettingsMenu SettingsMenu;
+    [SerializeField]
+    public GameplaySettings GameplaySettings;
+    [SerializeField]
+    public AudioSettings AudioSettings;
+    [SerializeField]
+    public VideoSettings VideoSettings;
+    [SerializeField]
+    public PauseMenu PauseMenu;
+
 
     private void Awake()
     {
