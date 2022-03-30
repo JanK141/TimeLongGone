@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Content.Scripts.Player
@@ -31,11 +32,7 @@ namespace Content.Scripts.Player
         public float FramesStart => iframesStart;
         public float FramesEnd => iframesEnd;
 
-        public float Speed
-        {
-            get => speed;
-            set => speed = value;
-        }
+        public float Speed { get; set; }
 
         public float DashTime => dashTime;
 
@@ -52,6 +49,7 @@ namespace Content.Scripts.Player
         }
 
         public bool CanRotate { get; set; } = true;
+        public bool RotateSlow { get; set; } = false;
         public bool IsInvincible { get; set; }
 
         public Vector3 InputVector { get; set; }
@@ -77,9 +75,10 @@ namespace Content.Scripts.Player
         {
             m_Controller = GetComponent<CharacterController>();
             player = PlayerScript.Instance;
+            Speed = speed;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             ProcessGravity();
             ProcessMovement();
@@ -93,16 +92,17 @@ namespace Content.Scripts.Player
             m_Move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f));
 
-            if (!m_CanMove) return;
-
-            m_Controller.Move(m_Move * (speed * Time.deltaTime));
-            if(CanRotate)transform.LookAt(transform.position + m_Move);
+            if(m_CanMove) m_Controller.Move(m_Move * (Speed * Time.fixedDeltaTime));
+            if (RotateSlow && !m_Move.Equals(Vector3.zero)) transform.DOLookAt(transform.position + m_Move, 1f);
+            else if (CanRotate) transform.LookAt(transform.position + m_Move);
+             
         }
 
         public void ProcessDash()
         {
             if (!m_CanDash) return;
             m_CanDash = false;
+            player.anim.SetTrigger("Dash");
             StartCoroutine(Dash(dashDistance));
             Invoke(nameof(ResetDashCd), dashCd);
         }
@@ -125,14 +125,14 @@ namespace Content.Scripts.Player
             if (m_IsGrounded && m_Velocity.y < 0)
                 m_Velocity = new Vector3(0, -2f, 0);
 
-            m_Velocity.y += gravity * Time.deltaTime;
-            m_Controller.Move(m_Velocity * Time.deltaTime);
+            m_Velocity.y += gravity * Time.fixedDeltaTime;
+            m_Controller.Move(m_Velocity * Time.fixedDeltaTime);
         }
 
         public IEnumerator Dash(float distance)
         {
             m_CanMove = false;
-            var motion = transform.forward * distance;
+            var motion = (m_Move.Equals(Vector3.zero)?transform.forward:m_Move.normalized) * distance;
             var time = 0f;
             while (time < dashTime)
             {
@@ -147,6 +147,7 @@ namespace Content.Scripts.Player
         }
 
         private void ResetDashCd() => m_CanDash = true;
+        public void ResetSpeed() => Speed = speed;
 
         
         private void OnDrawGizmosSelected()

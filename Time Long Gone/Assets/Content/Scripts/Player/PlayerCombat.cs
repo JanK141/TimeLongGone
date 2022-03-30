@@ -22,7 +22,6 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float maxDistance = 8f;
 
     [Space] [SerializeField] private LayerMask enemyMask;
-    [SerializeField] private Animator anim;
     #endregion
 
     #region Cached dependencies
@@ -52,7 +51,7 @@ public class PlayerCombat : MonoBehaviour
     public void Attack()
     {
         if(!canAttack) return;
-        anim.SetTrigger("Attack");
+        player.anim.SetTrigger("Attack");
     }
 
     public void Hit()
@@ -80,6 +79,7 @@ public class PlayerCombat : MonoBehaviour
     {
         var pm = player.movementScript;
 
+        player.anim.SetBool("DashAttack", true);
         chargedHitBox.gameObject.SetActive(true);
         chargedHitBox.damage = damage * strength;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
@@ -90,6 +90,7 @@ public class PlayerCombat : MonoBehaviour
         pm.CanDash = true;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
+        player.anim.SetBool("DashAttack", false);
     }
 
     private void OnDrawGizmosSelected()

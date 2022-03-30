@@ -7,24 +7,28 @@ namespace Content.Scripts.Inputs
     public class PlayerInput : MonoBehaviour
     {
         [SerializeField] [Range(-1, 0)] private float holdTreshhold = -0.25f;
+        [SerializeField] private float blockCD = 0.5f;
 
         private PlayerScript playerScript;
 
         private bool isCharging = false;
-        private bool isOnPressCd = false;
         private float holdTime;
-        private float initialMoveSpeed;
+        private bool isBlocking = false;
+        private bool canBlock = true;
 
         void Start()
         {
             playerScript = PlayerScript.Instance;
             holdTime = holdTreshhold;
-            initialMoveSpeed = playerScript.movementScript.Speed;
         }
 
         void Update()
         {
-            if (isCharging) holdTime += Time.deltaTime;
+            if (isCharging)
+            {
+                holdTime += Time.deltaTime;
+                if(holdTime>=0)playerScript.anim.SetBool("isCharging", true);
+            }
         }
 
         public void WantMove(InputAction.CallbackContext context)
@@ -48,26 +52,20 @@ namespace Content.Scripts.Inputs
 
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
-            if(isOnPressCd) return;
-            if (context.started)
+            if (context.started && !isBlocking)
             {
                 isCharging = true;
-                playerScript.movementScript.Speed *= 0.4f;
             }
-            else if (context.performed)
+            else if (context.performed && isCharging)
             {
-                playerScript.movementScript.Speed = initialMoveSpeed;
                 if(holdTime>0)playerScript.combat.ChargedAttack(holdTime);
                 else playerScript.combat.Attack();
-                isOnPressCd = true;
-                Invoke(nameof(ResetHold), -holdTreshhold);
+                ResetHold();
             }
-            else if (context.canceled)
+            else if (context.canceled && isCharging)
             {
-                playerScript.movementScript.Speed = initialMoveSpeed;
                 if (holdTime<0) playerScript.combat.Attack();
-                isOnPressCd = true;
-                Invoke(nameof(ResetHold), -holdTreshhold);
+                ResetHold();
             }
         }
         
@@ -79,8 +77,19 @@ namespace Content.Scripts.Inputs
 
         public void WantBlock(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            // todo
+            if(!canBlock) return;
+            if (context.started)
+            {
+                isBlocking = true;
+                playerScript.anim.SetBool("Blocking", true);
+                if(isCharging) ResetHold();
+            }
+            else if((context.performed || context.canceled) && isBlocking)
+            {
+                isBlocking = false;
+                playerScript.anim.SetBool("Blocking", false);
+                Invoke(nameof(ResetBlock), blockCD);
+            }
         }
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
@@ -99,8 +108,9 @@ namespace Content.Scripts.Inputs
         {
             isCharging = false;
             holdTime = holdTreshhold;
-            isOnPressCd = false;
+            playerScript.anim.SetBool("isCharging", false);
         }
 
+        void ResetBlock() => canBlock = true;
     }
 }

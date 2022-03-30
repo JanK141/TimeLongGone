@@ -357,14 +357,14 @@ MonoBehaviour:
   attackRadius: 1.39
   attackDistance: 0.9
   damage: 10
+  lastHitDamage: 15
   ChargedAttackHitBox: {fileID: 1472406627}
-  minClampPower: 1.5
+  minClampPower: 0.5
   maxClampPower: 3
   maxDistance: 10.02
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
-  anim: {fileID: 310245621}
 --- !u!114 &186596742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,6 +378,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdTreshhold: -0.3
+  blockCD: 0.5
 --- !u!114 &186596743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,6 +556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2144b11a7cddd4588613961c1e0ea6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 310245621}
   movementScript: {fileID: 186596744}
   playerInput: {fileID: 0}
   combat: {fileID: 0}
