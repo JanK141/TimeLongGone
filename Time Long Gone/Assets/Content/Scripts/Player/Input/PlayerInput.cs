@@ -14,7 +14,7 @@ namespace Content.Scripts.Inputs
         private bool isOnPressCd = false;
         float holdTime;
 
-        void Start()
+        private void Start()
         {
             playerScript = PlayerScript.Instance;
             holdTime = holdTreshhold;

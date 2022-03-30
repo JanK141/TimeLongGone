@@ -11,7 +11,7 @@ namespace Content.Scripts.Player
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public PlayerCombat combat;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null) Instance = this;
             movementScript = GetComponent<PlayerMovement>();
