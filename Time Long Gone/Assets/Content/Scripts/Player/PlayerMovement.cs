@@ -5,6 +5,7 @@ namespace Content.Scripts.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        public static PlayerMovement Instance;
 
         [Header("Basic movement")] [SerializeField]
         private float speed = 10;
@@ -51,11 +52,13 @@ namespace Content.Scripts.Player
             set => m_CanMove = value;
         }
 
-        public bool IsInvincible { get; set; }
+        public bool isInvincible { get; set; }
 
-        public Vector3 InputVector { get; set; }
+        public Vector3 inputVector { get; set; }
 
-        public Vector3 Velocity
+        public Vector3 currPosition { get; set; }
+
+        public Vector3 velocity
         {
             get => m_Velocity;
             set => m_Velocity = value;
@@ -72,6 +75,8 @@ namespace Content.Scripts.Player
         private CharacterController m_Controller;
         private PlayerScript player;
 
+        private void Awake() => Instance = this;
+
         private void Start()
         {
             m_Controller = GetComponent<CharacterController>();
@@ -86,8 +91,8 @@ namespace Content.Scripts.Player
 
         private void ProcessMovement()
         {
-            var vertical = InputVector.x;
-            var horizontal = InputVector.z;
+            var vertical = inputVector.x;
+            var horizontal = inputVector.z;
 
             m_Move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f));
@@ -135,8 +140,8 @@ namespace Content.Scripts.Player
             var time = 0f;
             while (time < dashTime)
             {
-                if (!IsInvincible && time >= iframesStart * dashTime) IsInvincible = true;
-                if (IsInvincible && time >= iframesEnd * dashTime) IsInvincible = false;
+                if (!isInvincible && time >= iframesStart * dashTime) isInvincible = true;
+                if (isInvincible && time >= iframesEnd * dashTime) isInvincible = false;
                 time += Time.deltaTime;
                 m_Controller.Move(motion * speed * dashMoveMultiplier * Time.deltaTime);
                 yield return new WaitForEndOfFrame();

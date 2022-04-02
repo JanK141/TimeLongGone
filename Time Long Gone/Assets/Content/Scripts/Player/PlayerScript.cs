@@ -6,6 +6,7 @@ namespace Content.Scripts.Player
     public class PlayerScript : MonoBehaviour
     {
         public static PlayerScript Instance;
+
         // Store a reference to all the sub player scripts
         [HideInInspector] public PlayerMovement movementScript;
         [HideInInspector] public PlayerInput playerInput;

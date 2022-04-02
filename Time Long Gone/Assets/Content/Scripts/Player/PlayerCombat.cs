@@ -1,7 +1,6 @@
 using System.Collections;
 using Content.Scripts.Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -40,7 +39,7 @@ public class PlayerCombat : MonoBehaviour
 
     #endregion
 
-    void Start()
+    private void Start()
     {
         player = PlayerScript.Instance;
         chargedHitBox = chargedAttackHitBox.GetComponent<ChargedAttackTrigger>();
@@ -74,13 +73,13 @@ public class PlayerCombat : MonoBehaviour
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
         pm.CanDash = false;
         pm.CanMove = false;
-        Vector3 motion = transform.forward;
-        float time = 0f;
+        var motion = transform.forward;
+        var time = 0f;
 
         while (time < player.movementScript.DashTime)
         {
-            if (!pm.IsInvincible && time >= pm.FramesStart * pm.DashTime) pm.IsInvincible = true;
-            if (pm.IsInvincible && time >= pm.FramesEnd * pm.DashTime) pm.IsInvincible = false;
+            if (!pm.isInvincible && time >= pm.FramesStart * pm.DashTime) pm.isInvincible = true;
+            if (pm.isInvincible && time >= pm.FramesEnd * pm.DashTime) pm.isInvincible = false;
             time += Time.deltaTime;
             controller.Move(motion * (pm.Speed * strength * Time.deltaTime));
             yield return null;
