@@ -6,29 +6,32 @@ namespace Content.Scripts.Inputs
 {
     public class PlayerInput : MonoBehaviour
     {
+        #region Inspector Fields
         [SerializeField] [Range(-1, 0)] private float holdTreshhold = -0.25f;
-        [SerializeField] private float blockCD = 0.5f;
+        #endregion
 
-        private PlayerScript playerScript;
+        #region Private Variables
+        private bool _isCharging = false;
+        private float _holdTime;
+        private bool _isBlocking = false;
+        #endregion
 
-        private bool isCharging = false;
-        private float holdTime;
-        private bool isBlocking = false;
-        private bool canBlock = true;
+        private PlayerScript player;
 
         void Start()
         {
-            playerScript = PlayerScript.Instance;
-            holdTime = holdTreshhold;
+            player = PlayerScript.Instance;
+            _holdTime = holdTreshhold;
         }
 
         void Update()
         {
-            if (isCharging)
+            if (_isCharging)
             {
-                holdTime += Time.deltaTime;
-                if(holdTime>=0)playerScript.anim.SetBool("isCharging", true);
+                _holdTime += Time.deltaTime;
+                if(_holdTime>=0 && !player.combat.IsCharging) player.combat.StartCharging();
             }
+            if(_isBlocking && !player.combat.IsBlocking) player.combat.Block(true);
         }
 
         public void WantMove(InputAction.CallbackContext context)
@@ -36,35 +39,35 @@ namespace Content.Scripts.Inputs
             if (context.performed)
             {
                 var x = context.ReadValue<Vector2>().x;
-                var z = context.ReadValue<Vector2>().y;
+                var y = context.ReadValue<Vector2>().y;
 
-                playerScript.movementScript.InputVector = new Vector3(x, 0, z);
+                player.movementScript.InputVector = new Vector2(x, y);
             }
             else if (context.canceled)
-                playerScript.movementScript.InputVector = new Vector3(0, 0, 0);
+                player.movementScript.InputVector = new Vector2(0, 0);
         }
 
         public void WantJump(InputAction.CallbackContext context)
         {
             if (context.performed)
-                playerScript.movementScript.ProcessJump();
+                player.movementScript.ProcessJump();
         }
 
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
-            if (context.started && !isBlocking)
+            if (context.started && !_isBlocking)
             {
-                isCharging = true;
+                _isCharging = true;
             }
-            else if (context.performed && isCharging)
+            else if (context.performed && _isCharging)
             {
-                if(holdTime>0)playerScript.combat.ChargedAttack(holdTime);
-                else playerScript.combat.Attack();
+                if(_holdTime>0)player.combat.ChargedAttack(_holdTime);
+                else player.combat.Attack();
                 ResetHold();
             }
-            else if (context.canceled && isCharging)
+            else if (context.canceled && _isCharging)
             {
-                if (holdTime<0) playerScript.combat.Attack();
+                if (_holdTime<0) player.combat.Attack();
                 ResetHold();
             }
         }
@@ -77,18 +80,16 @@ namespace Content.Scripts.Inputs
 
         public void WantBlock(InputAction.CallbackContext context)
         {
-            if(!canBlock) return;
             if (context.started)
             {
-                isBlocking = true;
-                playerScript.anim.SetBool("Blocking", true);
-                if(isCharging) ResetHold();
+                _isBlocking = true;
+                player.combat.Block(true);
+                if(_isCharging) ResetHold();
             }
-            else if((context.performed || context.canceled) && isBlocking)
+            else if((context.performed || context.canceled) && _isBlocking)
             {
-                isBlocking = false;
-                playerScript.anim.SetBool("Blocking", false);
-                Invoke(nameof(ResetBlock), blockCD);
+                _isBlocking = false;
+                player.combat.Block(false);
             }
         }
 
@@ -101,16 +102,14 @@ namespace Content.Scripts.Inputs
         public void WantDash(InputAction.CallbackContext context)
         {
             if (!context.performed)
-                playerScript.movementScript.ProcessDash();
+                player.movementScript.ProcessDash();
         }
 
-        void ResetHold()
+        public void ResetHold()
         {
-            isCharging = false;
-            holdTime = holdTreshhold;
-            playerScript.anim.SetBool("isCharging", false);
+            _isCharging = false;
+            _holdTime = holdTreshhold;
         }
 
-        void ResetBlock() => canBlock = true;
     }
 }

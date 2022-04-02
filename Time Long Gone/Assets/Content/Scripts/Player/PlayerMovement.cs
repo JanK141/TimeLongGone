@@ -6,74 +6,51 @@ namespace Content.Scripts.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-
-        [Header("Basic movement")] [SerializeField]
-        private float speed = 10;
-
+        #region Inspector Fields
+        [Header("Basic movement")] 
+        [SerializeField] private float speed = 10;
         [SerializeField] private float gravity = -30;
         [SerializeField] private float jumpHeight = 1;
-        [Header("Dashing")] [SerializeField] private float dashCd = 1f;
+        
+        [Header("Dashing")] 
+        [SerializeField] private float dashCd = 1f;
+        [SerializeField] [Tooltip("How long dash animation is")] private float dashTime = 0.25f;
+        [SerializeField] [Tooltip("How far does the dash reach")] private float dashDistance = 2f;
 
-        [SerializeField] [Tooltip("How long dash animation is")]
-        private float dashTime = 0.25f;
+        [Header("Dash i-frames")] 
+        [SerializeField, Range(0, 1), Tooltip("In what percent of dash animation i-frames start")] private float iframesStart;
+        [SerializeField] [Range(0, 1)] [Tooltip("In what percent of dash animation i-frames end")] private float iframesEnd = 0.3f;
 
-        [SerializeField] [Tooltip("What product of speed is applied every frame of a dash")]
-        private float dashDistance = 2f;
+        [Space] 
+        
+        [SerializeField] private LayerMask groundMask;
+        #endregion
 
-        [Header("Dash i-frames"), SerializeField, Range(0, 1),
-         Tooltip("In what percent of dash animation i-frames start")]
-        private float iframesStart;
-
-        [SerializeField] [Range(0, 1)] [Tooltip("In what percent of dash animation i-frames end")]
-        private float iframesEnd = 0.3f;
-
-        [Space] [SerializeField] private LayerMask groundMask;
-
-        public float FramesStart => iframesStart;
-        public float FramesEnd => iframesEnd;
-
+        #region Properties
         public float Speed { get; set; }
-
-        public float DashTime => dashTime;
-
-        public bool CanDash
-        {
-            get => m_CanDash;
-            set => m_CanDash = value;
-        }
-
-        public bool CanMove
-        {
-            get => m_CanMove;
-            set => m_CanMove = value;
-        }
-
+        public bool CanDash { get; set; } = true;
+        public bool CanMove { get; set; } = true;
+        public bool CanJump { get; set; } = true;
         public bool CanRotate { get; set; } = true;
         public bool RotateSlow { get; set; } = false;
         public bool IsInvincible { get; set; }
+        public bool IsGrounded { get; private set; }
+        public Vector2 InputVector { get; set; }
+        #endregion
 
-        public Vector3 InputVector { get; set; }
-
-        public Vector3 Velocity
-        {
-            get => m_Velocity;
-            set => m_Velocity = value;
-        }
-
-        public float Gravity => gravity;
-
-        private Vector3 m_Velocity;
-        private Vector3 m_Move;
-        private bool m_IsGrounded;
-        private bool m_CanDash = true;
-        private bool m_CanMove = true;
-
-        private CharacterController m_Controller;
+        #region Cached Dependencies
+        private CharacterController _Controller;
         private PlayerScript player;
+        #endregion
+
+        #region Private Variables
+        private Vector3 _Velocity;
+        private Vector3 _Move;
+        #endregion
 
         private void Start()
         {
-            m_Controller = GetComponent<CharacterController>();
+            _Controller = GetComponent<CharacterController>();
             player = PlayerScript.Instance;
             Speed = speed;
         }
@@ -87,74 +64,91 @@ namespace Content.Scripts.Player
         private void ProcessMovement()
         {
             var vertical = InputVector.x;
-            var horizontal = InputVector.z;
+            var horizontal = InputVector.y;
 
-            m_Move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
+            _Move = new Vector3(vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f), 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f));
 
-            if(m_CanMove) m_Controller.Move(m_Move * (Speed * Time.fixedDeltaTime));
-            if (RotateSlow && !m_Move.Equals(Vector3.zero)) transform.DOLookAt(transform.position + m_Move, 1f);
-            else if (CanRotate) transform.LookAt(transform.position + m_Move);
+            if(CanMove) _Controller.Move(_Move * (Speed * Time.fixedDeltaTime));
+            if (RotateSlow && !_Move.Equals(Vector3.zero)) transform.DOLookAt(transform.position + _Move, 1f);
+            else if (CanRotate) transform.LookAt(transform.position + _Move);
              
         }
 
         public void ProcessDash()
         {
-            if (!m_CanDash) return;
-            m_CanDash = false;
-            player.anim.SetTrigger("Dash");
+            if (!CanDash) return;
+
+            CanDash = false;
+            player.combat.IsCharging = false;
+            player.anim.Play("Dash");
             StartCoroutine(Dash(dashDistance));
             Invoke(nameof(ResetDashCd), dashCd);
         }
 
         public void ProcessJump()
         {
-            if (!m_IsGrounded) return;
-            m_Velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            if (!IsGrounded || !CanJump) return;
+
+            player.combat.Block(false);
+            player.combat.IsCharging = false;
+            player.playerInput.ResetHold();
+            player.anim.Play("Jump");
+            _Velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
 
         private void ProcessGravity()
         {
             var position = transform.position;
-            m_IsGrounded = Physics.CheckSphere(new Vector3(position.x,
-                    position.y - m_Controller.height / 2,
+            IsGrounded = Physics.CheckSphere(new Vector3(position.x,
+                    position.y - _Controller.height / 2,
                     position.z),
                 0.4f,
                 groundMask);
 
-            if (m_IsGrounded && m_Velocity.y < 0)
-                m_Velocity = new Vector3(0, -2f, 0);
+            if (IsGrounded && _Velocity.y < 0)
+                _Velocity = new Vector3(0, -2f, 0);
 
-            m_Velocity.y += gravity * Time.fixedDeltaTime;
-            m_Controller.Move(m_Velocity * Time.fixedDeltaTime);
+            _Velocity.y += gravity * Time.fixedDeltaTime;
+            _Controller.Move(_Velocity * Time.fixedDeltaTime);
         }
 
         public IEnumerator Dash(float distance)
         {
-            m_CanMove = false;
-            var motion = (m_Move.Equals(Vector3.zero)?transform.forward:m_Move.normalized) * distance;
+            player.playerInput.ResetHold();
+            player.combat.Block(false);
+            transform.DOKill();
+            float tmpGravity = gravity;
+            if (!IsGrounded) gravity = 0;
+            CanMove = false;
+            var motion = (_Move.Equals(Vector3.zero)?transform.forward:_Move.normalized) * distance;
+            transform.LookAt(transform.position+motion);
             var time = 0f;
             while (time < dashTime)
             {
                 if (!IsInvincible && time >= iframesStart * dashTime) IsInvincible = true;
                 if (IsInvincible && time >= iframesEnd * dashTime) IsInvincible = false;
                 time += Time.deltaTime;
-                m_Controller.Move(motion/ (dashTime / Time.deltaTime));
+                _Controller.Move(motion/ (dashTime / Time.deltaTime));
                 yield return new WaitForEndOfFrame();
             }
 
-            m_CanMove = true;
+            gravity = tmpGravity;
+            CanMove = true;
         }
 
-        private void ResetDashCd() => m_CanDash = true;
+
+        private void ResetDashCd() => CanDash = true;
         public void ResetSpeed() => Speed = speed;
 
-        
+
+
+        #region Gizmos
         private void OnDrawGizmosSelected()
         {
             UnityEditor.Handles.color = new Color32(10, 200, 100, 200);
             UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, dashDistance);
         }
-        
+        #endregion
     }
 }

@@ -9,7 +9,6 @@ namespace Content.Scripts.Player
         public static PlayerScript Instance;
 
         [SerializeField] public Animator anim;
-        // Store a reference to all the sub player scripts
         [HideInInspector] public PlayerMovement movementScript;
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public PlayerCombat combat;

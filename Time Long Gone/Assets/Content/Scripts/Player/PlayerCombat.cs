@@ -21,6 +21,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float maxClampPower = 3f;
     [SerializeField] private float maxDistance = 8f;
 
+    [Header("Block")] [SerializeField] private float blockCD = 0.5f;
+
     [Space] [SerializeField] private LayerMask enemyMask;
     #endregion
 
@@ -30,14 +32,17 @@ public class PlayerCombat : MonoBehaviour
     private CharacterController controller;
     #endregion
 
-    #region private variables
-
-    private bool canAttack = true;
-
+    #region Properties
+    public bool CanAttack { get; set; } = true;
+    public float Damage { get; set; }
+    public bool IsCharging { get; set; } = false;
+    public bool IsBlocking { get; set; } = false;
+    public bool CanBlock { get; set; } = true;
     #endregion
 
     void Start()
     {
+        Damage = damage;
         player = PlayerScript.Instance;
         chargedHitBox = ChargedAttackHitBox.GetComponent<ChargedAttackTrigger>();
         controller = GetComponent<CharacterController>();
@@ -50,15 +55,31 @@ public class PlayerCombat : MonoBehaviour
 
     public void Attack()
     {
-        if(!canAttack) return;
-        player.anim.SetTrigger("Attack");
+        if(!CanAttack) return;
+
+        CanAttack = false;
+        player.movementScript.CanRotate = false;
+        player.movementScript.CanMove = false;
+        var state = player.anim.GetCurrentAnimatorStateInfo(0);
+        if (state.IsName("Attack2post"))
+        {
+            player.anim.Play("Attack3");
+        }
+        else if (state.IsName("Attack1post"))
+        {
+            player.anim.Play("Attack2");
+        }
+        else
+        {
+            player.anim.Play("Attack1");
+        }
     }
 
     public void Hit()
     {
         if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
         {
-            DummyTest.Instance.Damage(damage);
+            DummyTest.Instance.Damage(Damage);
         }
     }
     public void LastHit()
@@ -69,9 +90,38 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    public void Block(bool state)
+    {
+        if(!CanBlock) return;
+
+        IsBlocking = state;
+        IsCharging = false;
+        if (state)
+        {
+            player.anim.Play("Block");
+            player.movementScript.Speed = 0.5f;
+        }
+        else
+        {
+            CanBlock = false;
+            player.anim.SetTrigger("StopBlock");
+            player.movementScript.ResetSpeed();
+            Invoke(nameof(ResetBlock), blockCD);
+        }
+    }
+
+    public void StartCharging()
+    {
+        if (!CanAttack || !player.movementScript.IsGrounded) return;
+        IsCharging = true;
+        player.movementScript.Speed = 1.5f;
+        player.anim.Play("Charging");
+    }
     public void ChargedAttack(float power)
     {
-        if(!canAttack) return;
+        if(!CanAttack || !IsCharging) return;
+        player.anim.Play("DashAttack");
+        IsCharging = false;
         StartCoroutine(DashAttack(Mathf.Clamp(power, minClampPower, maxClampPower)));
     }
 
@@ -79,9 +129,8 @@ public class PlayerCombat : MonoBehaviour
     {
         var pm = player.movementScript;
 
-        player.anim.SetBool("DashAttack", true);
         chargedHitBox.gameObject.SetActive(true);
-        chargedHitBox.damage = damage * strength;
+        chargedHitBox.damage = Damage * strength;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
         pm.CanDash = false;
 
@@ -90,8 +139,23 @@ public class PlayerCombat : MonoBehaviour
         pm.CanDash = true;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
-        player.anim.SetBool("DashAttack", false);
+        player.movementScript.ResetSpeed();
     }
+
+    public void InvokeAttackReset(float time) => Invoke(nameof(AttackReset), time);
+    void AttackReset()
+    {
+        CanAttack = true;
+        player.movementScript.CanRotate = true;
+        player.movementScript.CanMove = true;
+    }
+
+    void ResetBlock()
+    {
+        player.anim.ResetTrigger("StopBlock");
+        CanBlock = true;
+    }
+
 
     private void OnDrawGizmosSelected()
     {
