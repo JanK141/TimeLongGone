@@ -8,12 +8,17 @@ namespace Content.Scripts.Inputs
     {
         #region Inspector Fields
         [SerializeField] [Range(-1, 0)] private float holdTreshhold = -0.25f;
+        [SerializeField] private float finisherCancelWindow = 1f;
         #endregion
 
         #region Private Variables
         private bool _isCharging = false;
         private float _holdTime;
         private bool _isBlocking = false;
+        private bool _finisherPerformed = false;
+        private bool _wantsFinisher = false;
+        private float _finisherHold = 0f;
+        private bool _doLoadFinisher = false;
         #endregion
 
         private PlayerScript player;
@@ -31,7 +36,26 @@ namespace Content.Scripts.Inputs
                 _holdTime += Time.deltaTime;
                 if(_holdTime>=0 && !player.combat.IsCharging) player.combat.StartCharging();
             }
+
             if(_isBlocking && !player.combat.IsBlocking) player.combat.Block(true);
+
+            if (_wantsFinisher && player.combat.CanAttack)
+            {
+                _doLoadFinisher = true;
+                player.combat.HeavyAttack();
+            }
+
+            if (_doLoadFinisher)
+            {
+                _finisherHold += Time.deltaTime;
+                if (_finisherHold > finisherCancelWindow)
+                {
+                    _wantsFinisher = false;
+                    _doLoadFinisher = false;
+                    _finisherHold = 0;
+                    _finisherPerformed = true;
+                }
+            }
         }
 
         public void WantMove(InputAction.CallbackContext context)
@@ -75,7 +99,7 @@ namespace Content.Scripts.Inputs
         public void WantStunAttack(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
-            // todo
+            player.combat.StunAttack();
         }
 
         public void WantBlock(InputAction.CallbackContext context)
@@ -90,6 +114,22 @@ namespace Content.Scripts.Inputs
             {
                 _isBlocking = false;
                 player.combat.Block(false);
+            }
+        }
+
+        public void WantHeavy(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                _wantsFinisher = true;
+                _finisherPerformed = false;
+            }
+            else if (_finisherHold <= finisherCancelWindow && !_finisherPerformed)
+            {
+                player.combat.ResetHeavy();
+                _wantsFinisher = false;
+                _doLoadFinisher = false;
+                _finisherHold = 0;
             }
         }
 

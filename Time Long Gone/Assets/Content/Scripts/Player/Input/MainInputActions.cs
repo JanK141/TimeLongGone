@@ -80,6 +80,24 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Finisher"",
+                    ""type"": ""Button"",
+                    ""id"": ""bac2a9d3-2561-4ad5-b511-0fec0c75897c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""SlowTap"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Stun"",
+                    ""type"": ""Button"",
+                    ""id"": ""baa68614-df94-43c2-8291-da6b17948711"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -163,7 +181,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""74569cbc-f5e4-48a3-954c-634f21b8e37f"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""gamepad"",
@@ -251,11 +269,55 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7912f5f8-9ebd-443e-8cd1-c68f0e14e1b9"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""gamepad"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fcb92ca8-a3d6-459e-9e1f-3ae3992dc974"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""gamepad"",
+                    ""action"": ""Finisher"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2dff394-c9e7-4eae-86ce-c5f503d3e963"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard and mouse"",
+                    ""action"": ""Finisher"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48b38350-c3ae-4708-a3cf-334c33cd4002"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""gamepad"",
+                    ""action"": ""Stun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""40ffe83f-c4f4-4ea9-8d63-34e2baab5eaf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard and mouse"",
+                    ""action"": ""Stun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -388,6 +450,8 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         m_Player_Time = m_Player.FindAction("Time", throwIfNotFound: true);
+        m_Player_Finisher = m_Player.FindAction("Finisher", throwIfNotFound: true);
+        m_Player_Stun = m_Player.FindAction("Stun", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
@@ -459,6 +523,8 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Block;
     private readonly InputAction m_Player_Time;
+    private readonly InputAction m_Player_Finisher;
+    private readonly InputAction m_Player_Stun;
     public struct PlayerActions
     {
         private @MainInputActions m_Wrapper;
@@ -469,6 +535,8 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputAction @Time => m_Wrapper.m_Player_Time;
+        public InputAction @Finisher => m_Wrapper.m_Player_Finisher;
+        public InputAction @Stun => m_Wrapper.m_Player_Stun;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -496,6 +564,12 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 @Time.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTime;
                 @Time.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTime;
                 @Time.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnTime;
+                @Finisher.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFinisher;
+                @Finisher.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFinisher;
+                @Finisher.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFinisher;
+                @Stun.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
+                @Stun.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
+                @Stun.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -518,6 +592,12 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 @Time.started += instance.OnTime;
                 @Time.performed += instance.OnTime;
                 @Time.canceled += instance.OnTime;
+                @Finisher.started += instance.OnFinisher;
+                @Finisher.performed += instance.OnFinisher;
+                @Finisher.canceled += instance.OnFinisher;
+                @Stun.started += instance.OnStun;
+                @Stun.performed += instance.OnStun;
+                @Stun.canceled += instance.OnStun;
             }
         }
     }
@@ -605,6 +685,8 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         void OnAttack(InputAction.CallbackContext context);
         void OnBlock(InputAction.CallbackContext context);
         void OnTime(InputAction.CallbackContext context);
+        void OnFinisher(InputAction.CallbackContext context);
+        void OnStun(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

@@ -362,6 +362,7 @@ MonoBehaviour:
   minClampPower: 0.5
   maxClampPower: 3
   maxDistance: 10.02
+  blockCD: 0.5
   enemyMask:
     serializedVersion: 2
     m_Bits: 128
@@ -378,7 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   holdTreshhold: -0.3
-  blockCD: 0.5
+  finisherCancelWindow: 1
 --- !u!114 &186596743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,6 +517,38 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 99c8fc86-002f-44c6-845a-b9a81a13ead4
     m_ActionName: Menu/navigating
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 186596742}
+        m_TargetAssemblyTypeName: Content.Scripts.Inputs.PlayerInput, Assembly-CSharp
+        m_MethodName: WantHeavy
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bac2a9d3-2561-4ad5-b511-0fec0c75897c
+    m_ActionName: Player/Finisher[/XInputControllerWindows/buttonNorth,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 186596742}
+        m_TargetAssemblyTypeName: Content.Scripts.Inputs.PlayerInput, Assembly-CSharp
+        m_MethodName: WantStunAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: baa68614-df94-43c2-8291-da6b17948711
+    m_ActionName: Player/Stun[/XInputControllerWindows/rightShoulder,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

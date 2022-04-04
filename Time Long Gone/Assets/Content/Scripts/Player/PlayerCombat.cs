@@ -90,12 +90,26 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
+    public void HeavyAttack()
+    {
+        if(!CanAttack || !player.movementScript.IsGrounded) return;
+        
+        player.anim.Play("HeavyAttack");
+        StickToGround(false);
+    }
+
+    public void StunAttack()
+    {
+        player.anim.Play("StunAttack");
+        StickToGround(false);
+    }
+
     public void Block(bool state)
     {
         if(!CanBlock) return;
 
         IsBlocking = state;
-        IsCharging = false;
+        InterruptCharging();
         if (state)
         {
             player.anim.Play("Block");
@@ -105,7 +119,6 @@ public class PlayerCombat : MonoBehaviour
         {
             CanBlock = false;
             player.anim.SetTrigger("StopBlock");
-            player.movementScript.ResetSpeed();
             Invoke(nameof(ResetBlock), blockCD);
         }
     }
@@ -114,46 +127,65 @@ public class PlayerCombat : MonoBehaviour
     {
         if (!CanAttack || !player.movementScript.IsGrounded) return;
         IsCharging = true;
+        CanAttack = false;
         player.movementScript.Speed = 1.5f;
         player.anim.Play("Charging");
     }
     public void ChargedAttack(float power)
     {
-        if(!CanAttack || !IsCharging) return;
+        if(!IsCharging) return;
         player.anim.Play("DashAttack");
-        IsCharging = false;
+        InterruptCharging();
         StartCoroutine(DashAttack(Mathf.Clamp(power, minClampPower, maxClampPower)));
     }
 
     IEnumerator DashAttack(float strength)
     {
-        var pm = player.movementScript;
-
         chargedHitBox.gameObject.SetActive(true);
         chargedHitBox.damage = Damage * strength;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
-        pm.CanDash = false;
 
-        yield return StartCoroutine(pm.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
+        yield return StartCoroutine(player.movementScript.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
 
-        pm.CanDash = true;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
         player.movementScript.ResetSpeed();
     }
 
     public void InvokeAttackReset(float time) => Invoke(nameof(AttackReset), time);
-    void AttackReset()
+    public void AttackReset()
     {
         CanAttack = true;
         player.movementScript.CanRotate = true;
         player.movementScript.CanMove = true;
     }
 
+    public void ResetHeavy()
+    {
+        if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack")) player.anim.Play("Idle");
+        StickToGround(true);
+    }
+
+    public void StickToGround(bool a) //Allow or disallow every functionality
+    {
+        CanAttack = a;
+        player.movementScript.CanMove = a;
+        player.movementScript.RotateSlow = !a;
+        player.movementScript.CanDash = a;
+        player.movementScript.CanJump = a;
+        CanBlock = a;
+    }
+
     void ResetBlock()
     {
         player.anim.ResetTrigger("StopBlock");
         CanBlock = true;
+    }
+
+    public void InterruptCharging()
+    {
+        IsCharging = false;
+        CanAttack = true;
     }
 
 

@@ -79,11 +79,9 @@ namespace Content.Scripts.Player
         {
             if (!CanDash) return;
 
-            CanDash = false;
-            player.combat.IsCharging = false;
+            player.combat.InterruptCharging();
             player.anim.Play("Dash");
             StartCoroutine(Dash(dashDistance));
-            Invoke(nameof(ResetDashCd), dashCd);
         }
 
         public void ProcessJump()
@@ -91,7 +89,7 @@ namespace Content.Scripts.Player
             if (!IsGrounded || !CanJump) return;
 
             player.combat.Block(false);
-            player.combat.IsCharging = false;
+            player.combat.InterruptCharging();
             player.playerInput.ResetHold();
             player.anim.Play("Jump");
             _Velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
@@ -117,10 +115,12 @@ namespace Content.Scripts.Player
         {
             player.playerInput.ResetHold();
             player.combat.Block(false);
+            player.combat.CanAttack = false;
             transform.DOKill();
             float tmpGravity = gravity;
             if (!IsGrounded) gravity = 0;
             CanMove = false;
+            CanDash = false;
             var motion = (_Move.Equals(Vector3.zero)?transform.forward:_Move.normalized) * distance;
             transform.LookAt(transform.position+motion);
             var time = 0f;
@@ -135,6 +135,8 @@ namespace Content.Scripts.Player
 
             gravity = tmpGravity;
             CanMove = true;
+            player.combat.CanAttack = true;
+            Invoke(nameof(ResetDashCd), dashCd);
         }
 
 
