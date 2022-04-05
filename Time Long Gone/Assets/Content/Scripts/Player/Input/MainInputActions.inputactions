@@ -60,12 +60,21 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Pause",
+                    "name": "Finisher",
                     "type": "Button",
-                    "id": "cf639019-bd90-4e6d-b968-db229ad98c0d",
+                    "id": "bac2a9d3-2561-4ad5-b511-0fec0c75897c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "SlowTap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Stun",
+                    "type": "Button",
+                    "id": "baa68614-df94-43c2-8291-da6b17948711",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -150,7 +159,7 @@
                 {
                     "name": "",
                     "id": "74569cbc-f5e4-48a3-954c-634f21b8e37f",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
@@ -238,7 +247,7 @@
                 {
                     "name": "",
                     "id": "7912f5f8-9ebd-443e-8cd1-c68f0e14e1b9",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
@@ -248,23 +257,45 @@
                 },
                 {
                     "name": "",
-                    "id": "946f865c-2db1-4503-a23e-badb23b2f10d",
-                    "path": "<Keyboard>/escape",
+                    "id": "fcb92ca8-a3d6-459e-9e1f-3ae3992dc974",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "keyboard and mouse",
-                    "action": "Pause",
+                    "groups": "gamepad",
+                    "action": "Finisher",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "670c7468-415a-4224-ab97-184a82dbd4bb",
-                    "path": "<Gamepad>/start",
+                    "id": "b2dff394-c9e7-4eae-86ce-c5f503d3e963",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard and mouse",
+                    "action": "Finisher",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48b38350-c3ae-4708-a3cf-334c33cd4002",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
-                    "action": "Pause",
+                    "action": "Stun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "40ffe83f-c4f4-4ea9-8d63-34e2baab5eaf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard and mouse",
+                    "action": "Stun",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

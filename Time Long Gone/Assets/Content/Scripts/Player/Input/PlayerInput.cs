@@ -6,23 +6,57 @@ namespace Content.Scripts.Inputs
 {
     public class PlayerInput : MonoBehaviour
     {
+        #region Inspector Fields
         [SerializeField] [Range(-1, 0)] private float holdTreshhold = -0.25f;
+        [SerializeField] private float finisherCancelWindow = 1f;
+        #endregion
 
-        private PlayerScript playerScript;
+        #region Private Variables
+        private bool _isCharging = false;
+        private float _holdTime;
+        private bool _isBlocking = false;
+        private bool _finisherPerformed = false;
+        private bool _wantsFinisher = false;
+        private float _finisherHold = 0f;
+        private bool _doLoadFinisher = false;
+        #endregion
 
-        private bool isCharging = false;
-        private bool isOnPressCd = false;
-        float holdTime;
+        private PlayerScript player;
+        public bool CanStun = true;
 
         private void Start()
         {
-            playerScript = PlayerScript.Instance;
-            holdTime = holdTreshhold;
+            player = PlayerScript.Instance;
+            _holdTime = holdTreshhold;
         }
 
         void Update()
         {
-            if (isCharging) holdTime += Time.deltaTime;
+            if (_isCharging)
+            {
+                _holdTime += Time.deltaTime;
+                if(_holdTime>=0 && !player.combat.IsCharging) player.combat.StartCharging();
+            }
+
+            if(_isBlocking && !player.combat.IsBlocking) player.combat.Block(true);
+
+            if (_wantsFinisher && player.combat.CanAttack)
+            {
+                _doLoadFinisher = true;
+                player.combat.HeavyAttack();
+            }
+
+            if (_doLoadFinisher)
+            {
+                _finisherHold += Time.deltaTime;
+                if (_finisherHold > finisherCancelWindow)
+                {
+                    _wantsFinisher = false;
+                    _doLoadFinisher = false;
+                    _finisherHold = 0;
+                    _finisherPerformed = true;
+                }
+            }
         }
 
         public void WantMove(InputAction.CallbackContext context)
@@ -30,49 +64,75 @@ namespace Content.Scripts.Inputs
             if (context.performed)
             {
                 var x = context.ReadValue<Vector2>().x;
-                var z = context.ReadValue<Vector2>().y;
+                var y = context.ReadValue<Vector2>().y;
 
-                playerScript.movementScript.inputVector = new Vector3(x, 0, z);
+                player.movementScript.InputVector = new Vector2(x, y);
             }
             else if (context.canceled)
-                playerScript.movementScript.inputVector = new Vector3(0, 0, 0);
+                player.movementScript.InputVector = new Vector2(0, 0);
         }
 
         public void WantJump(InputAction.CallbackContext context)
         {
             if (context.performed)
-                playerScript.movementScript.ProcessJump();
+                player.movementScript.ProcessJump();
         }
 
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
-            if(isOnPressCd) return;
-            if (context.started) isCharging = true;
-            else if (context.performed)
+            if (context.started && !_isBlocking)
             {
-                if(holdTime>0)playerScript.combat.ChargedAttack(holdTime);
-                else playerScript.combat.Attack();
-                isOnPressCd = true;
-                Invoke(nameof(ResetHold), -holdTreshhold);
+                _isCharging = true;
             }
-            else if (context.canceled)
+            else if (context.performed && _isCharging)
             {
-                if(holdTime<0) playerScript.combat.Attack();
-                isOnPressCd = true;
-                Invoke(nameof(ResetHold), -holdTreshhold);
+                if(_holdTime>0)player.combat.ChargedAttack(_holdTime);
+                else player.combat.Attack();
+                ResetHold();
+            }
+            else if (context.canceled && _isCharging)
+            {
+                if (_holdTime<0) player.combat.Attack();
+                ResetHold();
             }
         }
         
         public void WantStunAttack(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            // todo
+            if (!context.performed || !CanStun) return;
+            CanStun = false;
+            player.combat.StunAttack();
         }
 
         public void WantBlock(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            // todo
+            if (context.started)
+            {
+                _isBlocking = true;
+                player.combat.Block(true);
+                if(_isCharging) ResetHold();
+            }
+            else if((context.performed || context.canceled) && _isBlocking)
+            {
+                _isBlocking = false;
+                player.combat.Block(false);
+            }
+        }
+
+        public void WantHeavy(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                _wantsFinisher = true;
+                _finisherPerformed = false;
+            }
+            else if (_finisherHold <= finisherCancelWindow && !_finisherPerformed)
+            {
+                player.combat.ResetHeavy();
+                _wantsFinisher = false;
+                _doLoadFinisher = false;
+                _finisherHold = 0;
+            }
         }
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
@@ -84,14 +144,13 @@ namespace Content.Scripts.Inputs
         public void WantDash(InputAction.CallbackContext context)
         {
             if (!context.performed)
-                playerScript.movementScript.ProcessDash();
+                player.movementScript.ProcessDash();
         }
 
-        void ResetHold()
+        public void ResetHold()
         {
-            isCharging = false;
-            holdTime = holdTreshhold;
-            isOnPressCd = false;
+            _isCharging = false;
+            _holdTime = holdTreshhold;
         }
 
     }
