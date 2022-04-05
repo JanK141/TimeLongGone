@@ -92,12 +92,19 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (rewinding)
         {
-            //doRewind(TickRate);
-            currMana -= rewindCost * tickRate;
-            UpdateMana();
+            if (currMana >= rewindCost * tickRate)
+            {
+                //doRewind(TickRate);
+                currMana -= rewindCost * tickRate;
+                UpdateMana();
+            }
+            else
+            {
+                rewinding = false;
+                generating = true;
+            }
         }
     }
-
 
     //method triggered by pressing the SlowTime button
     void StartSlowingTime()
@@ -111,21 +118,31 @@ public class ManaBarHUD : MonoBehaviour
         }
     }
 
-    //method slowing time continuously, while the SlowTime button is pressed
-    void SlowOneTick()
-    {
-        if (rewinding)
-        {
-            //doSlow(TickRate);
-            currMana -= slowMoCost * tickRate;
-            UpdateMana();
-        }
-    }
-
     //method triggered by releasing the SlowTime button
     void StopSlowingTime()
     {
         slowing = false;
         generating = true;
     }
+
+    //method slowing time continuously, while the SlowTime button is pressed
+    void SlowOneTick()
+    {
+        if (slowing)
+        {
+            if (currMana >= slowMoCost * tickRate)
+            {
+                //doSlow(TickRate);
+                currMana -= slowMoCost * tickRate;
+                UpdateMana();
+            }
+            else
+            {
+                slowing = false;
+                generating = true;
+            }
+        }
+    }
+
+    
 }
