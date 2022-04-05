@@ -14,7 +14,7 @@ namespace Content.Scripts.Inputs
         private bool isOnPressCd = false;
         float holdTime;
 
-        void Start()
+        private void Start()
         {
             playerScript = PlayerScript.Instance;
             holdTime = holdTreshhold;
@@ -32,10 +32,10 @@ namespace Content.Scripts.Inputs
                 var x = context.ReadValue<Vector2>().x;
                 var z = context.ReadValue<Vector2>().y;
 
-                playerScript.movementScript.InputVector = new Vector3(x, 0, z);
+                playerScript.movementScript.inputVector = new Vector3(x, 0, z);
             }
             else if (context.canceled)
-                playerScript.movementScript.InputVector = new Vector3(0, 0, 0);
+                playerScript.movementScript.inputVector = new Vector3(0, 0, 0);
         }
 
         public void WantJump(InputAction.CallbackContext context)
