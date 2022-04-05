@@ -33,11 +33,9 @@ public class ManaBarHUD : MonoBehaviour
     {
         get => currMana;
         set { currMana = value; UpdateMana(); }
+        //what is the purpose of the above line? this does NOT trigger every time currMana value is changed, as shown in current form of the script
+        //left the momented commented out wherever it will be needed, ready to be brought back
     }
-    public bool Generating { get => generating; set => generating = value; }
-    public float SlowMoCost { get => slowMoCost; }
-    public float FlatRewindCost { get => flatRewindCost; }
-    public float RewindCost { get => rewindCost; }
 
     void Awake() => Instance = this;
 
@@ -48,7 +46,7 @@ public class ManaBarHUD : MonoBehaviour
         generating = true;
         rewinding = false;
         slowing = false;
-        slider.value = currMana / maxMana;
+        UpdateMana();
     }
 
     void Update()
@@ -56,7 +54,7 @@ public class ManaBarHUD : MonoBehaviour
         if (currMana <= maxMana && generating)
         {
             currMana += genRate * Time.unscaledDeltaTime;
-            UpdateMana();
+            //UpdateMana();
         }
         Mathf.Clamp(currMana, 0, maxMana);
     }
@@ -74,7 +72,7 @@ public class ManaBarHUD : MonoBehaviour
             rewinding = true;
             generating = false;
             currMana -= flatRewindCost;
-            UpdateMana();
+            //UpdateMana();
             //doRewind(1s);
             InvokeRepeating("RewindOneTick", 0, tickRate);
         }
@@ -94,9 +92,9 @@ public class ManaBarHUD : MonoBehaviour
         {
             if (currMana >= rewindCost * tickRate)
             {
-                //doRewind(TickRate);
                 currMana -= rewindCost * tickRate;
-                UpdateMana();
+                //UpdateMana();
+                //doRewind(TickRate);
             }
             else
             {
@@ -132,9 +130,9 @@ public class ManaBarHUD : MonoBehaviour
         {
             if (currMana >= slowMoCost * tickRate)
             {
-                //doSlow(TickRate);
                 currMana -= slowMoCost * tickRate;
-                UpdateMana();
+                //UpdateMana();
+                //doSlow(TickRate);
             }
             else
             {
