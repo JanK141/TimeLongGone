@@ -323,7 +323,7 @@ Transform:
   - {fileID: 1164060534}
   - {fileID: 310245620}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &186596737
 CharacterController:
@@ -360,11 +360,11 @@ MonoBehaviour:
   damage: 10
   timeToChain: 0.8
   comboDamageMult: 0.1
-  comboTimeout: 3
-  ChargedAttackHitBox: {fileID: 1472406627}
+  comboTimeout: 4
+  chargedAttackHitBox: {fileID: 1472406627}
   minClampPower: 0.5
   maxClampPower: 3
-  maxDistance: 10.02
+  maxDistance: 8
   blockCD: 0.5
   StunAttackHitbox: {fileID: 1164060535}
   enemyMask:
@@ -384,6 +384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   holdTreshhold: -0.3
   finisherCancelWindow: 1
+  CanStun: 1
 --- !u!114 &186596743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,18 +511,6 @@ MonoBehaviour:
     m_ActionId: 07a0ec01-3166-4e9c-bab8-7183ef89842b
     m_ActionName: Menu/Pause[/Keyboard/p]
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 8b2b2b2e-f8f8-429e-afa2-9b3e496aff02
-    m_ActionName: Menu/accept[/Keyboard/enter]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 0e6874b4-fc1a-467e-ad4c-8583981feedb
-    m_ActionName: Menu/click[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 99c8fc86-002f-44c6-845a-b9a81a13ead4
-    m_ActionName: Menu/navigating
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 186596742}
         m_TargetAssemblyTypeName: Content.Scripts.Inputs.PlayerInput, Assembly-CSharp
@@ -553,6 +542,26 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: baa68614-df94-43c2-8291-da6b17948711
     m_ActionName: Player/Stun[/XInputControllerWindows/rightShoulder,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33b7ccd1-1757-4031-bbbf-0fa707ebd244
+    m_ActionName: Menu/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 04f435f2-cdde-4b66-a381-7d7bc9f81ef3
+    m_ActionName: Menu/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8809833d-b050-4750-af28-81fee2e65423
+    m_ActionName: Menu/Submit[/Keyboard/enter,/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a4aad28-47da-404a-9aad-fe7cb7be4f8d
+    m_ActionName: Menu/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af1f7422-4e81-4993-b11f-52adc72d182e
+    m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -575,7 +584,7 @@ MonoBehaviour:
   jumpHeight: 5
   dashCd: 0.5
   dashTime: 0.15
-  dashDistance: 5.5
+  dashDistance: 5
   iframesStart: 0
   iframesEnd: 0.3
   groundMask:
@@ -848,7 +857,7 @@ Transform:
   m_Children:
   - {fileID: 751897567}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &521149137
 GameObject:
@@ -879,7 +888,6 @@ RectTransform:
   m_LocalScale: {x: 0.009788216, y: 0.020698622, z: 1}
   m_Children:
   - {fileID: 468677550}
-  - {fileID: 1158322286}
   - {fileID: 1292169845}
   m_Father: {fileID: 1999892676}
   m_RootOrder: 1
@@ -969,7 +977,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1158322286}
+  m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1107,7 +1115,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 42.654, y: -46.646, z: -7.527}
 --- !u!114 &705507996
 MonoBehaviour:
@@ -1548,7 +1556,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 20.71, y: -4.146, z: 0}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -1792,7 +1800,7 @@ RectTransform:
   m_Children:
   - {fileID: 771245764}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1978,7 +1986,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 521149138}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2213,7 +2221,7 @@ Transform:
   m_Children:
   - {fileID: 1999892676}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &1546190334
 CapsuleCollider:
@@ -2319,6 +2327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53f57a864ba44c74843e745aae1a813a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 0}
 --- !u!114 &1546190340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2490,7 +2499,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1888605900
 GameObject:

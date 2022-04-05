@@ -38,7 +38,7 @@ namespace Content.Scripts.Enemy
 
         private void Update()
         {
-            WalkTo(PlayerMovement.Instance.transform.position);
+            WalkTo(PlayerScript.Instance.transform.position);
 
 
             /*
