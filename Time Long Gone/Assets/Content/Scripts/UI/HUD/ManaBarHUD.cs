@@ -42,36 +42,36 @@ public class ManaBarHUD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currMana = startingMana;
+        CurrMana = startingMana;
         generating = true;
         rewinding = false;
         slowing = false;
-        UpdateMana();
+        //UpdateMana();
     }
 
     void Update()
     {
-        if (currMana <= maxMana && generating)
+        if (CurrMana <= maxMana && generating)
         {
-            currMana += genRate * Time.unscaledDeltaTime;
+            CurrMana += genRate * Time.unscaledDeltaTime;
             //UpdateMana();
         }
-        Mathf.Clamp(currMana, 0, maxMana);
+        Mathf.Clamp(CurrMana, 0, maxMana);
     }
     
     void UpdateMana()
     {
-        slider.value = currMana / maxMana;
+        slider.value = CurrMana / maxMana;
     }
 
     //method triggered by pressing the RewindTime button
     void StartRewindingTime()
     {
-        if (currMana >= flatRewindCost)
+        if (CurrMana >= flatRewindCost)
         {
             rewinding = true;
             generating = false;
-            currMana -= flatRewindCost;
+            CurrMana -= flatRewindCost;
             //UpdateMana();
             //doRewind(1s);
             InvokeRepeating("RewindOneTick", 0, tickRate);
@@ -90,9 +90,9 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (rewinding)
         {
-            if (currMana >= rewindCost * tickRate)
+            if (CurrMana >= rewindCost * tickRate)
             {
-                currMana -= rewindCost * tickRate;
+                CurrMana -= rewindCost * tickRate;
                 //UpdateMana();
                 //doRewind(TickRate);
             }
@@ -107,7 +107,7 @@ public class ManaBarHUD : MonoBehaviour
     //method triggered by pressing the SlowTime button
     void StartSlowingTime()
     {
-        if (currMana >= slowMoCost)
+        if (CurrMana >= slowMoCost)
         {
             slowing = true;
             generating = false;
@@ -128,9 +128,9 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (slowing)
         {
-            if (currMana >= slowMoCost * tickRate)
+            if (CurrMana >= slowMoCost * tickRate)
             {
-                currMana -= slowMoCost * tickRate;
+                CurrMana -= slowMoCost * tickRate;
                 //UpdateMana();
                 //doSlow(TickRate);
             }
