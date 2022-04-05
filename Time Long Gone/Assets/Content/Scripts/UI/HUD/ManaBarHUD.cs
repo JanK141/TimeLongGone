@@ -33,8 +33,6 @@ public class ManaBarHUD : MonoBehaviour
     {
         get => currMana;
         set { currMana = value; UpdateMana(); }
-        //what is the purpose of the above line? this does NOT trigger every time currMana value is changed, as shown in current form of the script
-        //left the momented commented out wherever it will be needed, ready to be brought back
     }
 
     void Awake() => Instance = this;
@@ -46,7 +44,6 @@ public class ManaBarHUD : MonoBehaviour
         generating = true;
         rewinding = false;
         slowing = false;
-        //UpdateMana();
     }
 
     void Update()
@@ -54,7 +51,6 @@ public class ManaBarHUD : MonoBehaviour
         if (CurrMana <= maxMana && generating)
         {
             CurrMana += genRate * Time.unscaledDeltaTime;
-            //UpdateMana();
         }
         Mathf.Clamp(CurrMana, 0, maxMana);
     }
@@ -72,7 +68,6 @@ public class ManaBarHUD : MonoBehaviour
             rewinding = true;
             generating = false;
             CurrMana -= flatRewindCost;
-            //UpdateMana();
             //doRewind(1s);
             InvokeRepeating("RewindOneTick", 0, tickRate);
         }
@@ -93,7 +88,6 @@ public class ManaBarHUD : MonoBehaviour
             if (CurrMana >= rewindCost * tickRate)
             {
                 CurrMana -= rewindCost * tickRate;
-                //UpdateMana();
                 //doRewind(TickRate);
             }
             else
@@ -131,7 +125,6 @@ public class ManaBarHUD : MonoBehaviour
             if (CurrMana >= slowMoCost * tickRate)
             {
                 CurrMana -= slowMoCost * tickRate;
-                //UpdateMana();
                 //doSlow(TickRate);
             }
             else
