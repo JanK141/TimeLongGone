@@ -10,9 +10,12 @@ public class PlayerCombat : MonoBehaviour
 
     [SerializeField] float attackRadius = 1;
     [SerializeField] private float attackDistance = 0.5f;
-    [SerializeField] private float damage = 10f;
-    [SerializeField] private float lastHitDamage = 15f;
-    //[SerializeField] private float attackCooldown = 0.2f;
+    [SerializeField] private int damage = 10;
+
+    [Header("Combo")] 
+    [SerializeField] private float timeToChain = 0.8f;
+    [SerializeField] private float comboDamageMult = 0.1f;
+    [SerializeField] public float comboTimeout = 4f;
 
     [Header("Charged attack")]
 
@@ -23,21 +26,27 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Block")] [SerializeField] private float blockCD = 0.5f;
 
-    [Space] [SerializeField] private LayerMask enemyMask;
+    [Space] 
+    [SerializeField] Collider StunAttackHitbox;
+    [SerializeField] private LayerMask enemyMask;
     #endregion
 
     #region Cached dependencies
     private PlayerScript player;
     private ChargedAttackTrigger chargedHitBox;
     private CharacterController controller;
+    private float _timeout = 0f;
+    private float _lastAttack = 0f;
+    private int _attackInCombo = 0;
     #endregion
 
     #region Properties
     public bool CanAttack { get; set; } = true;
-    public float Damage { get; set; }
+    public int Damage { get; set; }
     public bool IsCharging { get; set; } = false;
     public bool IsBlocking { get; set; } = false;
     public bool CanBlock { get; set; } = true;
+    public int Combo { get; set; } = 0;
     #endregion
 
     void Start()
@@ -50,7 +59,15 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
-        
+        if (Combo > 0)
+        {
+            _timeout -= Time.deltaTime;
+            if (_timeout <= 0)
+            {
+                Combo = 0;
+                player.InvokeCombo(Combo);
+            }
+        }
     }
 
     public void Attack()
@@ -60,33 +77,41 @@ public class PlayerCombat : MonoBehaviour
         CanAttack = false;
         player.movementScript.CanRotate = false;
         player.movementScript.CanMove = false;
-        var state = player.anim.GetCurrentAnimatorStateInfo(0);
-        if (state.IsName("Attack2post"))
+        if (Time.time - _lastAttack > timeToChain) _attackInCombo = 0;
+        _attackInCombo++;
+        _lastAttack = Time.time;
+
+        if (_attackInCombo == 1)
         {
-            player.anim.Play("Attack3");
-        }
-        else if (state.IsName("Attack1post"))
-        {
-            player.anim.Play("Attack2");
-        }
-        else
-        {
+            Damage = (int)(damage + damage * comboDamageMult * Combo);
             player.anim.Play("Attack1");
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
+        }else if (_attackInCombo == 2)
+        {
+            Damage = (int)(damage + damage * comboDamageMult * Combo);
+            player.anim.Play("Attack2");
+            StopCoroutine(player.movementScript.StopInAir(1));
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
         }
+        else if (_attackInCombo == 3)
+        {
+            Damage = (int)(1.5f * damage + damage * comboDamageMult * Combo);
+            player.anim.Play("Attack3");
+            StopCoroutine(player.movementScript.StopInAir(1));
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.1f));
+            _attackInCombo = 0;
+        }
+
     }
 
-    public void Hit()
+    public void Hit(bool isFinisher)
     {
         if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
         {
+            if (isFinisher) ContinueCombo(-1);
+            else ContinueCombo(1);
+
             DummyTest.Instance.Damage(Damage);
-        }
-    }
-    public void LastHit()
-    {
-        if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
-        {
-            DummyTest.Instance.Damage(lastHitDamage);
         }
     }
 
@@ -96,12 +121,15 @@ public class PlayerCombat : MonoBehaviour
         
         player.anim.Play("HeavyAttack");
         StickToGround(false);
+        Damage = (int)(damage + damage * comboDamageMult* 2 * Combo);
     }
 
     public void StunAttack()
     {
-        player.anim.Play("StunAttack");
         StickToGround(false);
+        player.anim.Play("StunAttack");
+        StunAttackHitbox.gameObject.SetActive(true);
+        Invoke(nameof(ResetStunAttack), 0.4f);
     }
 
     public void Block(bool state)
@@ -142,7 +170,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator DashAttack(float strength)
     {
         chargedHitBox.gameObject.SetActive(true);
-        chargedHitBox.damage = Damage * strength;
+        chargedHitBox.damage = (int)((damage + damage* comboDamageMult*0.5f *Combo) * strength);
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
 
         yield return StartCoroutine(player.movementScript.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
@@ -182,12 +210,24 @@ public class PlayerCombat : MonoBehaviour
         CanBlock = true;
     }
 
+    void ResetStunAttack() => StunAttackHitbox.gameObject.SetActive(false);
+
     public void InterruptCharging()
     {
         IsCharging = false;
         CanAttack = true;
     }
 
+    public void ContinueCombo(int value)
+    {
+        if (value < 0) _timeout = 0;
+        else
+        {
+            _timeout = comboTimeout;
+            Combo += value;
+            player.InvokeCombo(Combo);
+        }
+    }
 
     private void OnDrawGizmosSelected()
     {

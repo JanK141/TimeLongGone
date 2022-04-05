@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Content.Scripts.Player;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -29,8 +30,15 @@ public class DummyTest : MonoBehaviour
 
     public void Damage(float value)
     {
-        transform.DOShakePosition(0.5f);
+        transform.DOPunchPosition(-(PlayerScript.Instance.transform.position - transform.position).normalized*0.3f, 0.15f);
         text.text = $"{value} DAMAGE!";
+        t.Restart();
+    }
+
+    public void Stun()
+    {
+        transform.DOShakePosition(0.5f, transform.right);
+        text.text = "STUNED!";
         t.Restart();
     }
 

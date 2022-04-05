@@ -46,6 +46,7 @@ namespace Content.Scripts.Player
         #region Private Variables
         private Vector3 _Velocity;
         private Vector3 _Move;
+        private float _Gravity;
         #endregion
 
         private void Start()
@@ -53,6 +54,7 @@ namespace Content.Scripts.Player
             _Controller = GetComponent<CharacterController>();
             player = PlayerScript.Instance;
             Speed = speed;
+            _Gravity = gravity;
         }
 
         private void FixedUpdate()
@@ -92,7 +94,7 @@ namespace Content.Scripts.Player
             player.combat.InterruptCharging();
             player.playerInput.ResetHold();
             player.anim.Play("Jump");
-            _Velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            _Velocity.y = Mathf.Sqrt(jumpHeight * -2f * _Gravity);
         }
 
         private void ProcessGravity()
@@ -107,7 +109,7 @@ namespace Content.Scripts.Player
             if (IsGrounded && _Velocity.y < 0)
                 _Velocity = new Vector3(0, -2f, 0);
 
-            _Velocity.y += gravity * Time.fixedDeltaTime;
+            _Velocity.y += _Gravity * Time.fixedDeltaTime;
             _Controller.Move(_Velocity * Time.fixedDeltaTime);
         }
 
@@ -117,8 +119,9 @@ namespace Content.Scripts.Player
             player.combat.Block(false);
             player.combat.CanAttack = false;
             transform.DOKill();
-            float tmpGravity = gravity;
-            if (!IsGrounded) gravity = 0;
+            if (!IsGrounded) {
+                _Gravity = 0;
+                _Velocity = Vector3.zero; }
             CanMove = false;
             CanDash = false;
             var motion = (_Move.Equals(Vector3.zero)?transform.forward:_Move.normalized) * distance;
@@ -133,7 +136,7 @@ namespace Content.Scripts.Player
                 yield return new WaitForEndOfFrame();
             }
 
-            gravity = tmpGravity;
+            _Gravity = gravity;
             CanMove = true;
             player.combat.CanAttack = true;
             Invoke(nameof(ResetDashCd), dashCd);
@@ -142,6 +145,14 @@ namespace Content.Scripts.Player
 
         private void ResetDashCd() => CanDash = true;
         public void ResetSpeed() => Speed = speed;
+
+        public IEnumerator StopInAir(float time)
+        {
+            _Velocity = Vector3.zero;
+            _Gravity /= 10;
+            yield return new WaitForSeconds(time);
+            _Gravity = gravity;
+        }
 
 
 

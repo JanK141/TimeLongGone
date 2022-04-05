@@ -22,6 +22,7 @@ namespace Content.Scripts.Inputs
         #endregion
 
         private PlayerScript player;
+        public bool CanStun = true;
 
         void Start()
         {
@@ -98,7 +99,8 @@ namespace Content.Scripts.Inputs
         
         public void WantStunAttack(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
+            if (!context.performed || !CanStun) return;
+            CanStun = false;
             player.combat.StunAttack();
         }
 

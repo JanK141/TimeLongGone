@@ -15,5 +15,6 @@ public class PlayerResetBehaviour : StateMachineBehaviour
         player.movementScript.CanMove = true;
         player.movementScript.CanRotate = true;
         player.combat.CanAttack = true;
+        player.playerInput.CanStun = true;
     }
 }

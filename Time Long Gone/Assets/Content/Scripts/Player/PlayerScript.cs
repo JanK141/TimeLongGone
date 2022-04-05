@@ -1,3 +1,4 @@
+using System;
 using Content.Scripts.Inputs;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Content.Scripts.Player
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public PlayerCombat combat;
 
+        public event Action<int> OnComboContinue;
+
         void Awake()
         {
             if (Instance == null) Instance = this;
@@ -20,5 +23,7 @@ namespace Content.Scripts.Player
             playerInput = GetComponent<PlayerInput>();
             combat = GetComponent<PlayerCombat>();
         }
+
+        public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
     }
 }

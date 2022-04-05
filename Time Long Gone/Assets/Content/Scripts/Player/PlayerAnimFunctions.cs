@@ -11,7 +11,7 @@ public class PlayerAnimFunctions : MonoBehaviour
         player = GetComponentInParent<PlayerScript>();
     }
 
-    public void Hit() => player.combat.Hit();
-    public void LastHit() => player.combat.LastHit();
+    public void Hit() => player.combat.Hit(false);
 
+    public void Finisher() => player.combat.Hit(true);
 }
