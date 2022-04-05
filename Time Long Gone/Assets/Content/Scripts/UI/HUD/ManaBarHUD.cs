@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ManaBarHUD : MonoBehaviour
 {
     public static ManaBarHUD Instance;
+    public static float TickRate;
 
     //SERIALIZED FIELDS
     [SerializeField] [Min(1)] private float maxMana = 100;
@@ -35,7 +36,11 @@ public class ManaBarHUD : MonoBehaviour
         set { currMana = value; UpdateMana(); }
     }
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        TickRate = tickRate;
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +83,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         rewinding = false;
         generating = true;
+        CancelInvoke("RewindOneTick");
     }
 
     //method rewinding time continuously, while the RewindTime button is pressed
@@ -88,7 +94,7 @@ public class ManaBarHUD : MonoBehaviour
             if (CurrMana >= rewindCost * tickRate)
             {
                 CurrMana -= rewindCost * tickRate;
-                //doRewind(TickRate);
+                //doRewind();
             }
             else
             {
@@ -115,6 +121,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         slowing = false;
         generating = true;
+        CancelInvoke("SlowOneTick");
     }
 
     //method slowing time continuously, while the SlowTime button is pressed
