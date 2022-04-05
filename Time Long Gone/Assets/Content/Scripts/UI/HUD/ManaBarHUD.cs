@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class ManaBarHUD : MonoBehaviour
 {
     public static ManaBarHUD Instance;
+    public static float TickRate;
 
     //SERIALIZED FIELDS
     [SerializeField] [Min(1)] private float maxMana = 100;
@@ -33,46 +34,45 @@ public class ManaBarHUD : MonoBehaviour
     {
         get => currMana;
         set { currMana = value; UpdateMana(); }
-        //what is the purpose of the above line? this does NOT trigger every time currMana value is changed, as shown in current form of the script
-        //left the momented commented out wherever it will be needed, ready to be brought back
     }
 
-    void Awake() => Instance = this;
+    void Awake()
+    {
+        TickRate = tickRate;
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        currMana = startingMana;
+        CurrMana = startingMana;
         generating = true;
         rewinding = false;
         slowing = false;
-        UpdateMana();
     }
 
     void Update()
     {
-        if (currMana <= maxMana && generating)
+        if (CurrMana <= maxMana && generating)
         {
-            currMana += genRate * Time.unscaledDeltaTime;
-            //UpdateMana();
+            CurrMana += genRate * Time.unscaledDeltaTime;
         }
-        Mathf.Clamp(currMana, 0, maxMana);
+        Mathf.Clamp(CurrMana, 0, maxMana);
     }
     
     void UpdateMana()
     {
-        slider.value = currMana / maxMana;
+        slider.value = CurrMana / maxMana;
     }
 
     //method triggered by pressing the RewindTime button
     void StartRewindingTime()
     {
-        if (currMana >= flatRewindCost)
+        if (CurrMana >= flatRewindCost)
         {
             rewinding = true;
             generating = false;
-            currMana -= flatRewindCost;
-            //UpdateMana();
+            CurrMana -= flatRewindCost;
             //doRewind(1s);
             InvokeRepeating("RewindOneTick", 0, tickRate);
         }
@@ -83,6 +83,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         rewinding = false;
         generating = true;
+        CancelInvoke("RewindOneTick");
     }
 
     //method rewinding time continuously, while the RewindTime button is pressed
@@ -90,11 +91,10 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (rewinding)
         {
-            if (currMana >= rewindCost * tickRate)
+            if (CurrMana >= rewindCost * tickRate)
             {
-                currMana -= rewindCost * tickRate;
-                //UpdateMana();
-                //doRewind(TickRate);
+                CurrMana -= rewindCost * tickRate;
+                //doRewind();
             }
             else
             {
@@ -107,7 +107,7 @@ public class ManaBarHUD : MonoBehaviour
     //method triggered by pressing the SlowTime button
     void StartSlowingTime()
     {
-        if (currMana >= slowMoCost)
+        if (CurrMana >= slowMoCost)
         {
             slowing = true;
             generating = false;
@@ -121,6 +121,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         slowing = false;
         generating = true;
+        CancelInvoke("SlowOneTick");
     }
 
     //method slowing time continuously, while the SlowTime button is pressed
@@ -128,10 +129,9 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (slowing)
         {
-            if (currMana >= slowMoCost * tickRate)
+            if (CurrMana >= slowMoCost * tickRate)
             {
-                currMana -= slowMoCost * tickRate;
-                //UpdateMana();
+                CurrMana -= slowMoCost * tickRate;
                 //doSlow(TickRate);
             }
             else
