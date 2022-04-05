@@ -49,6 +49,8 @@ namespace Content.Scripts.Player
         private float _Gravity;
         #endregion
 
+        private void Awake() => Instance = this;
+
         private void Start()
         {
             _Controller = GetComponent<CharacterController>();
@@ -129,8 +131,8 @@ namespace Content.Scripts.Player
             var time = 0f;
             while (time < dashTime)
             {
-                if (!IsInvincible && time >= iframesStart * dashTime) IsInvincible = true;
-                if (IsInvincible && time >= iframesEnd * dashTime) IsInvincible = false;
+                if (!isInvincible && time >= iframesStart * dashTime) isInvincible = true;
+                if (isInvincible && time >= iframesEnd * dashTime) isInvincible = false;
                 time += Time.deltaTime;
                 _Controller.Move(motion/ (dashTime / Time.deltaTime));
                 yield return new WaitForEndOfFrame();

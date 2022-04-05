@@ -24,7 +24,7 @@ namespace Content.Scripts.Inputs
         private PlayerScript player;
         public bool CanStun = true;
 
-        void Start()
+        private void Start()
         {
             player = PlayerScript.Instance;
             _holdTime = holdTreshhold;

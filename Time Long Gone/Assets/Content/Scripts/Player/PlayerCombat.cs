@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using Content.Scripts.Player;
 using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
     #region Inspector Fields
-    [Header("Normal attack")]
 
-    [SerializeField] float attackRadius = 1;
+    [Header("Normal attack")] [SerializeField]
+    float attackRadius = 1;
+
     [SerializeField] private float attackDistance = 0.5f;
     [SerializeField] private int damage = 10;
 
@@ -17,9 +17,9 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float comboDamageMult = 0.1f;
     [SerializeField] public float comboTimeout = 4f;
 
-    [Header("Charged attack")]
+    [Header("Charged attack")] [SerializeField]
+    private Collider chargedAttackHitBox;
 
-    [SerializeField] private Collider ChargedAttackHitBox;
     [SerializeField] private float minClampPower = 1.5f;
     [SerializeField] private float maxClampPower = 3f;
     [SerializeField] private float maxDistance = 8f;
@@ -32,6 +32,7 @@ public class PlayerCombat : MonoBehaviour
     #endregion
 
     #region Cached dependencies
+
     private PlayerScript player;
     private ChargedAttackTrigger chargedHitBox;
     private CharacterController controller;
@@ -49,11 +50,11 @@ public class PlayerCombat : MonoBehaviour
     public int Combo { get; set; } = 0;
     #endregion
 
-    void Start()
+    private void Start()
     {
         Damage = damage;
         player = PlayerScript.Instance;
-        chargedHitBox = ChargedAttackHitBox.GetComponent<ChargedAttackTrigger>();
+        chargedHitBox = chargedAttackHitBox.GetComponent<ChargedAttackTrigger>();
         controller = GetComponent<CharacterController>();
     }
 
