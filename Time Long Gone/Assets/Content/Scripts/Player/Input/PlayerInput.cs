@@ -46,23 +46,23 @@ namespace Content.Scripts.Inputs
 
         public void WantChargeAttack(InputAction.CallbackContext context)
         {
-            if(isOnPressCd) return;
+            if (isOnPressCd) return;
             if (context.started) isCharging = true;
             else if (context.performed)
             {
-                if(holdTime>0)playerScript.combat.ChargedAttack(holdTime);
+                if (holdTime > 0) playerScript.combat.ChargedAttack(holdTime);
                 else playerScript.combat.Attack();
                 isOnPressCd = true;
                 Invoke(nameof(ResetHold), -holdTreshhold);
             }
             else if (context.canceled)
             {
-                if(holdTime<0) playerScript.combat.Attack();
+                if (holdTime < 0) playerScript.combat.Attack();
                 isOnPressCd = true;
                 Invoke(nameof(ResetHold), -holdTreshhold);
             }
         }
-        
+
         public void WantStunAttack(InputAction.CallbackContext context)
         {
             if (!context.performed) return;
@@ -77,8 +77,9 @@ namespace Content.Scripts.Inputs
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            // todo
+            if (!context.started) return;
+            Debug.Log("player want time");
+            tim.Controller.Instance.PlayerPressTime = true;
         }
 
         public void WantDash(InputAction.CallbackContext context)
@@ -93,6 +94,5 @@ namespace Content.Scripts.Inputs
             holdTime = holdTreshhold;
             isOnPressCd = false;
         }
-
     }
 }
