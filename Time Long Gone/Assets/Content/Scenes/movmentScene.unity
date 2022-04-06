@@ -544,20 +544,24 @@ MonoBehaviour:
     m_ActionName: Player/Stun[/XInputControllerWindows/rightShoulder,/Keyboard/e]
   - m_PersistentCalls:
       m_Calls: []
+    m_ActionId: cf639019-bd90-4e6d-b968-db229ad98c0d
+    m_ActionName: Player/Pause[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
     m_ActionId: 33b7ccd1-1757-4031-bbbf-0fa707ebd244
     m_ActionName: Menu/Point[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 04f435f2-cdde-4b66-a381-7d7bc9f81ef3
-    m_ActionName: Menu/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: Menu/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8809833d-b050-4750-af28-81fee2e65423
-    m_ActionName: Menu/Submit[/Keyboard/enter,/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonWest]
+    m_ActionName: Menu/Submit[/Keyboard/enter,/Keyboard/space]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3a4aad28-47da-404a-9aad-fe7cb7be4f8d
-    m_ActionName: Menu/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonNorth]
+    m_ActionName: Menu/Cancel[/Keyboard/escape]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: af1f7422-4e81-4993-b11f-52adc72d182e
@@ -606,6 +610,53 @@ MonoBehaviour:
   movementScript: {fileID: 186596744}
   playerInput: {fileID: 0}
   combat: {fileID: 0}
+--- !u!1 &302774708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 302774710}
+  - component: {fileID: 302774709}
+  m_Layer: 0
+  m_Name: TimeMenager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &302774709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302774708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd4d0a05f2a8e644954d3be403c510e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSlowMo: 0.025
+  slowMoTime: 2
+  deathSlowMoMulti: 5
+  maxRewindTime: 5
+--- !u!4 &302774710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302774708}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.684891, y: -60.284943, z: -65.930984}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &310245619
 GameObject:
   m_ObjectHideFlags: 0

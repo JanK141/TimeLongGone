@@ -96,7 +96,7 @@ namespace Content.Scripts.Inputs
                 ResetHold();
             }
         }
-        
+
         public void WantStunAttack(InputAction.CallbackContext context)
         {
             if (!context.performed || !CanStun) return;
@@ -137,8 +137,9 @@ namespace Content.Scripts.Inputs
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
         {
-            if (!context.performed) return;
-            // todo
+            if (!context.started) return;
+            Debug.Log("player want time");
+            tim.Controller.Instance.PlayerPressTime = true;
         }
 
         public void WantDash(InputAction.CallbackContext context)
@@ -152,6 +153,5 @@ namespace Content.Scripts.Inputs
             _isCharging = false;
             _holdTime = holdTreshhold;
         }
-
     }
 }
