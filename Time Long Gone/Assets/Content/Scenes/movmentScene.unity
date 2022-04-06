@@ -361,6 +361,7 @@ MonoBehaviour:
   timeToChain: 0.8
   comboDamageMult: 0.1
   comboTimeout: 4
+  comboMultCap: 20
   chargedAttackHitBox: {fileID: 1472406627}
   minClampPower: 0.5
   maxClampPower: 3
@@ -926,7 +927,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &521149138
 RectTransform:
   m_ObjectHideFlags: 0

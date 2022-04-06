@@ -16,6 +16,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private float timeToChain = 0.8f;
     [SerializeField] private float comboDamageMult = 0.1f;
     [SerializeField] public float comboTimeout = 4f;
+    [SerializeField] private int comboMultCap = 20;
 
     [Header("Charged attack")] [SerializeField]
     private Collider chargedAttackHitBox;
@@ -84,19 +85,19 @@ public class PlayerCombat : MonoBehaviour
 
         if (_attackInCombo == 1)
         {
-            Damage = (int)(damage + damage * comboDamageMult * Combo);
+            Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
             player.anim.Play("Attack1");
             if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
         }else if (_attackInCombo == 2)
         {
-            Damage = (int)(damage + damage * comboDamageMult * Combo);
+            Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
             player.anim.Play("Attack2");
             StopCoroutine(player.movementScript.StopInAir(1));
             if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
         }
         else if (_attackInCombo == 3)
         {
-            Damage = (int)(1.5f * damage + damage * comboDamageMult * Combo);
+            Damage = (int)(1.5f * damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
             player.anim.Play("Attack3");
             StopCoroutine(player.movementScript.StopInAir(1));
             if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.1f));
@@ -171,7 +172,7 @@ public class PlayerCombat : MonoBehaviour
     IEnumerator DashAttack(float strength)
     {
         chargedHitBox.gameObject.SetActive(true);
-        chargedHitBox.damage = (int)((damage + damage* comboDamageMult*0.5f *Combo) * strength);
+        chargedHitBox.damage = (int)((damage + damage* comboDamageMult*0.5f * Mathf.Min(Combo, comboMultCap)) * strength);
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
 
         yield return StartCoroutine(player.movementScript.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
