@@ -1,7 +1,6 @@
 using System.Collections;
 using Content.Scripts.Player;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -11,19 +10,25 @@ public class PlayerCombat : MonoBehaviour
     float attackRadius = 1;
 
     [SerializeField] private float attackDistance = 0.5f;
+    [SerializeField] private int damage = 10;
 
-    [SerializeField] private float damage = 10f;
-    //[SerializeField] private float attackCooldown = 0.2f;
+    [Header("Combo")] 
+    [SerializeField] private float timeToChain = 0.8f;
+    [SerializeField] private float comboDamageMult = 0.1f;
+    [SerializeField] public float comboTimeout = 4f;
 
     [Header("Charged attack")] [SerializeField]
     private Collider chargedAttackHitBox;
 
     [SerializeField] private float minClampPower = 1.5f;
     [SerializeField] private float maxClampPower = 3f;
+    [SerializeField] private float maxDistance = 8f;
 
-    [Space] [SerializeField] private LayerMask enemyMask;
-    [SerializeField] private Animator anim;
+    [Header("Block")] [SerializeField] private float blockCD = 0.5f;
 
+    [Space] 
+    [SerializeField] Collider StunAttackHitbox;
+    [SerializeField] private LayerMask enemyMask;
     #endregion
 
     #region Cached dependencies
@@ -31,64 +36,203 @@ public class PlayerCombat : MonoBehaviour
     private PlayerScript player;
     private ChargedAttackTrigger chargedHitBox;
     private CharacterController controller;
-
+    private float _timeout = 0f;
+    private float _lastAttack = 0f;
+    private int _attackInCombo = 0;
     #endregion
 
-    #region private variables
-
-    private bool canAttack = true;
-
+    #region Properties
+    public bool CanAttack { get; set; } = true;
+    public int Damage { get; set; }
+    public bool IsCharging { get; set; } = false;
+    public bool IsBlocking { get; set; } = false;
+    public bool CanBlock { get; set; } = true;
+    public int Combo { get; set; } = 0;
     #endregion
 
-    void Start()
+    private void Start()
     {
+        Damage = damage;
         player = PlayerScript.Instance;
         chargedHitBox = chargedAttackHitBox.GetComponent<ChargedAttackTrigger>();
         controller = GetComponent<CharacterController>();
     }
 
-    public void Attack()
+    void Update()
     {
-        if (!canAttack) return;
-        anim.SetTrigger("Attack");
-        if (!Physics.CheckSphere
-            (transform.position + transform.forward * attackDistance, attackRadius,
-                enemyMask)
-           ) return;
-        DummyTest.Instance.Damage(damage);
-        EnemyHealth.Instance.CurrHealth -= damage;
+        if (Combo > 0)
+        {
+            _timeout -= Time.deltaTime;
+            if (_timeout <= 0)
+            {
+                Combo = 0;
+                player.InvokeCombo(Combo);
+            }
+        }
     }
 
+    public void Attack()
+    {
+        if(!CanAttack) return;
+
+        CanAttack = false;
+        player.movementScript.CanRotate = false;
+        player.movementScript.CanMove = false;
+        if (Time.time - _lastAttack > timeToChain) _attackInCombo = 0;
+        _attackInCombo++;
+        _lastAttack = Time.time;
+
+        if (_attackInCombo == 1)
+        {
+            Damage = (int)(damage + damage * comboDamageMult * Combo);
+            player.anim.Play("Attack1");
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
+        }else if (_attackInCombo == 2)
+        {
+            Damage = (int)(damage + damage * comboDamageMult * Combo);
+            player.anim.Play("Attack2");
+            StopCoroutine(player.movementScript.StopInAir(1));
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
+        }
+        else if (_attackInCombo == 3)
+        {
+            Damage = (int)(1.5f * damage + damage * comboDamageMult * Combo);
+            player.anim.Play("Attack3");
+            StopCoroutine(player.movementScript.StopInAir(1));
+            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.1f));
+            _attackInCombo = 0;
+        }
+
+    }
+
+    public void Hit(bool isFinisher)
+    {
+        if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
+        {
+            if (isFinisher) ContinueCombo(-1);
+            else ContinueCombo(1);
+
+            DummyTest.Instance.Damage(Damage);
+        }
+    }
+
+    public void HeavyAttack()
+    {
+        if(!CanAttack || !player.movementScript.IsGrounded) return;
+        
+        player.anim.Play("HeavyAttack");
+        StickToGround(false);
+        Damage = (int)(damage + damage * comboDamageMult* 2 * Combo);
+    }
+
+    public void StunAttack()
+    {
+        StickToGround(false);
+        player.anim.Play("StunAttack");
+        StunAttackHitbox.gameObject.SetActive(true);
+        Invoke(nameof(ResetStunAttack), 0.4f);
+    }
+
+    public void Block(bool state)
+    {
+        if(!CanBlock) return;
+
+        IsBlocking = state;
+        InterruptCharging();
+        if (state)
+        {
+            player.anim.Play("Block");
+            player.movementScript.Speed = 0.5f;
+        }
+        else
+        {
+            CanBlock = false;
+            player.anim.SetTrigger("StopBlock");
+            Invoke(nameof(ResetBlock), blockCD);
+        }
+    }
+
+    public void StartCharging()
+    {
+        if (!CanAttack || !player.movementScript.IsGrounded) return;
+        IsCharging = true;
+        CanAttack = false;
+        player.movementScript.Speed = 1.5f;
+        player.anim.Play("Charging");
+    }
     public void ChargedAttack(float power)
     {
-        if (!canAttack) return;
+        if(!IsCharging) return;
+        player.anim.Play("DashAttack");
+        InterruptCharging();
         StartCoroutine(DashAttack(Mathf.Clamp(power, minClampPower, maxClampPower)));
     }
 
     IEnumerator DashAttack(float strength)
     {
-        var pm = player.movementScript;
-
         chargedHitBox.gameObject.SetActive(true);
-        chargedHitBox.damage = damage * strength;
+        chargedHitBox.damage = (int)((damage + damage* comboDamageMult*0.5f *Combo) * strength);
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
-        pm.CanDash = false;
-        pm.CanMove = false;
-        Vector3 motion = transform.forward;
-        float time = 0f;
 
-        while (time < player.movementScript.DashTime)
-        {
-            if (!pm.IsInvincible && time >= pm.FramesStart * pm.DashTime) pm.IsInvincible = true;
-            if (pm.IsInvincible && time >= pm.FramesEnd * pm.DashTime) pm.IsInvincible = false;
-            time += Time.deltaTime;
-            controller.Move(motion * (pm.Speed * strength * Time.deltaTime));
-            yield return null;
-        }
+        yield return StartCoroutine(player.movementScript.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
 
-        pm.CanDash = true;
-        pm.CanMove = true;
         Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
+        player.movementScript.ResetSpeed();
+    }
+
+    public void InvokeAttackReset(float time) => Invoke(nameof(AttackReset), time);
+    public void AttackReset()
+    {
+        CanAttack = true;
+        player.movementScript.CanRotate = true;
+        player.movementScript.CanMove = true;
+    }
+
+    public void ResetHeavy()
+    {
+        if (player.anim.GetCurrentAnimatorStateInfo(0).IsName("HeavyAttack")) player.anim.Play("Idle");
+        StickToGround(true);
+    }
+
+    public void StickToGround(bool a) //Allow or disallow every functionality
+    {
+        CanAttack = a;
+        player.movementScript.CanMove = a;
+        player.movementScript.RotateSlow = !a;
+        player.movementScript.CanDash = a;
+        player.movementScript.CanJump = a;
+        CanBlock = a;
+    }
+
+    void ResetBlock()
+    {
+        player.anim.ResetTrigger("StopBlock");
+        CanBlock = true;
+    }
+
+    void ResetStunAttack() => StunAttackHitbox.gameObject.SetActive(false);
+
+    public void InterruptCharging()
+    {
+        IsCharging = false;
+        CanAttack = true;
+    }
+
+    public void ContinueCombo(int value)
+    {
+        if (value < 0) _timeout = 0;
+        else
+        {
+            _timeout = comboTimeout;
+            Combo += value;
+            player.InvokeCombo(Combo);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        UnityEditor.Handles.color = new Color32(255, 0, 0, 200);
+        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, maxDistance);
     }
 }
