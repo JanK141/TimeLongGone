@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using Content.Scripts.Player;
+using DG.Tweening;
+using UnityEngine;
 
 namespace Content.Scripts.Enemy
 {
@@ -6,17 +9,21 @@ namespace Content.Scripts.Enemy
     {
         public static EnemyScript Instance;
 
-        // Store a reference to all the sub enemy scripts
-        // [HideInInspector] public EnemyMovement movement;
-        // [HideInInspector] public EnemyCombat combat;
         [HideInInspector] public EnemyHealth health;
+
+        public static event Action<int, int> OnEnemyHeatlhChange; // sends max and current health
 
         private void Awake()
         {
             if (Instance == null) Instance = this;
             health = GetComponent<EnemyHealth>();
-            //  movement = GetComponent<EnemyMovement>();
-            //  combat = GetComponent<PlayerCombat>();
+        }
+
+        public void ReceiveHit(int damage)
+        {
+            health.CurrHealth -= damage;
+            transform.DOPunchPosition(-(PlayerScript.Instance.transform.position - transform.position).normalized * 0.2f, 0.1f);
+            OnEnemyHeatlhChange?.Invoke(health.MaxHealth, health.CurrHealth);
         }
     }
 }

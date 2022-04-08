@@ -142,5 +142,10 @@ public class ManaBarHUD : MonoBehaviour
         }
     }
 
-    
+    //TODO Slow- mo nie dzia³a per-tick ani nic w tym stylu. Czas zostaje raz spowolniony i taki zostaje, albo raz zresetowany i taki zostaje.  Jest to single action process
+    //TODO w zwi¹zku z czym mamy tu sporo totalnie zbêdnego kodu. Mana mo¿e siê regenerowaæ per-frame w Update(), nie ma ¿adnych przeciwstawieñ ku temu.
+    //TODO Tak samo to za³o¿enie "per-tick" jest zbyt przekombinowane i zdecydowanie nie optymalne zwa¿aj¹c na iloœæ yieldów. Równie dorbze mo¿na to zast¹piæ pojedynczym eventem przekazuj¹cym boola (start/finish)
+
+    //TODO Po za tym za du¿o odwo³añ wszêdzie siê robi. ManaBarHUD powinien odpowiadaæ jak nazwa mówi jednak tylko za ManaBarHUD a nie manê sam¹ w sobie te¿
+    //TODO przepakowaæ czêœæ zwi¹zan¹ z man¹ do skrpytu odpowiedzialnego za sam¹ manê i niech informuje HUD jedynie o zmianach wartoœci eventem. Read more at PlayerScipt.cs oraz PlayerInput.cs
 }

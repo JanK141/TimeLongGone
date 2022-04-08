@@ -1,4 +1,5 @@
 using System.Collections;
+using Content.Scripts.Enemy;
 using Content.Scripts.Player;
 using UnityEngine;
 
@@ -113,7 +114,7 @@ public class PlayerCombat : MonoBehaviour
             if (isFinisher) ContinueCombo(-1);
             else ContinueCombo(1);
 
-            DummyTest.Instance.Damage(Damage);
+            EnemyScript.Instance.ReceiveHit(Damage);
         }
     }
 
@@ -173,11 +174,11 @@ public class PlayerCombat : MonoBehaviour
     {
         chargedHitBox.gameObject.SetActive(true);
         chargedHitBox.damage = (int)((damage + damage* comboDamageMult*0.5f * Mathf.Min(Combo, comboMultCap)) * strength);
-        Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), true);
+        Physics.IgnoreCollision(controller, EnemyScript.Instance.GetComponent<Collider>(), true);
 
         yield return StartCoroutine(player.movementScript.Dash(Mathf.Clamp((strength-minClampPower) / (maxClampPower - minClampPower),0.5f, 1f) * maxDistance));
 
-        Physics.IgnoreCollision(controller, DummyTest.Instance.GetComponent<Collider>(), false);
+        Physics.IgnoreCollision(controller, EnemyScript.Instance.GetComponent<Collider>(), false);
         chargedHitBox.gameObject.SetActive(false);
         player.movementScript.ResetSpeed();
     }

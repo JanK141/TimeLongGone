@@ -137,9 +137,8 @@ namespace Content.Scripts.Inputs
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
         {
-            if (!context.started) return;
-            Debug.Log("player want time");
-            tim.Controller.Instance.PlayerPressTime = true;
+            if(context.started){} //TODO Wyślij prośbę o zaczęcie manipulowania czasem
+            else{} //TODO Wyślij prośbę o zakończenie manipulowania czasem (Skrypt z maną dopiero sprawdza czy czas jest wgl w tej chwili manipulowany)
         }
 
         public void WantDash(InputAction.CallbackContext context)

@@ -17,7 +17,7 @@ public class ComboTestUI : MonoBehaviour
     {
         _timeout = PlayerScript.Instance.combat.comboTimeout;
         text.text = "";
-        PlayerScript.Instance.OnComboContinue += UpdateCombo;
+        PlayerScript.OnComboContinue += UpdateCombo;
     }
 
     void Update()
@@ -41,5 +41,5 @@ public class ComboTestUI : MonoBehaviour
         }
     }
 
-    void OnDestroy() => PlayerScript.Instance.OnComboContinue -= UpdateCombo;
+    void OnDestroy() => PlayerScript.OnComboContinue -= UpdateCombo;
 }

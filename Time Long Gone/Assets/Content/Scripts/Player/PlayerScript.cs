@@ -13,8 +13,12 @@ namespace Content.Scripts.Player
         [HideInInspector] public PlayerMovement movementScript;
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public PlayerCombat combat;
+        //TODO dodaæ skrypt z man¹
 
-        public event Action<int> OnComboContinue;
+        public bool IsAlive { get; set; } = true;
+
+
+        public static event Action<int> OnComboContinue;
 
         void Awake()
         {

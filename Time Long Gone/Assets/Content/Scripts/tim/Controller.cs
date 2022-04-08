@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -17,105 +18,56 @@ namespace Content.Scripts.tim
         private float deathSlowMoMulti = 3;
 
         [SerializeField] private float maxRewindTime;
-        //[SerializeField] private CinemachineVirtualCamera cam;
 
-        private bool _isRewinding;
-        private bool _isPlayerDead;
         private bool _isSlowMo;
 
-        public bool PlayerPressTime
-        {
-            set
-            {
-                if (value) ProcessSlowMo();
-            }
-        }
 
-        public bool IsPlayerDead
-        {
-            get => _isPlayerDead;
-            set
-            {
-                _isPlayerDead = value;
-                DeadOrAlive(value);
-            }
-        }
-
-        public float RewindTime => maxRewindTime;
-
-        public bool IsRewinding => _isRewinding;
+        public static event Action<bool> OnRewind; //Tak jak zaproponowa³em.
+                                                   //TODO Invoke it somewhere ofc
 
         private void Awake() => Instance = this;
 
-        private void DeadOrAlive(bool dead)
-        {
-            if (dead)
-            {
-                //       Mana.Instance.Generating = false;
-                StartCoroutine(PlayerDead());
-            }
-            else
-            {
-                //      Mana.Instance.Generating = true;
-                Time.timeScale = minSlowMo;
-                StartCoroutine(StopSlowMo());
-            }
-        }
 
-        private void ProcessSlowMo()
+        public void ProcessSlowMo(bool state) //TODO ze skryptu z man¹ wywo³ujesz t¹ funkcjê i œmiga
         {
-            if (!_isSlowMo)
-            {
-                _isSlowMo = true;
+            _isSlowMo = state;
+
+            if (_isSlowMo)
                 StartCoroutine(StartSlowMo());
-            }
             else
-            {
-                _isSlowMo = false;
                 StartCoroutine(StopSlowMo());
-            }
-
-            Debug.Log(_isSlowMo);
-            PlayerPressTime = false;
         }
 
         private IEnumerator StartSlowMo()
         {
-            //    var composer = cam.GetCinemachineComponent<CinemachineGroupComposer>();
             var time = (1 - Time.timeScale) / (1 - minSlowMo) * slowMoTime;
             while (_isSlowMo && Time.timeScale > minSlowMo)
             {
                 time += Time.unscaledDeltaTime;
-                //       composer.m_MinimumFOV = Mathf.Lerp(88f, 60f, time / SlowMoTime);
                 Time.timeScale = Mathf.Lerp(1f, minSlowMo, time / slowMoTime);
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
                 yield return null;
             }
         }
 
-        //TODO change loop conditions in coroutines for safety
-        private IEnumerator StopSlowMo()
+        private IEnumerator StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
         {
-            //  var composer = cam.GetCinemachineComponent<CinemachineGroupComposer>();
             var time = (Time.timeScale - minSlowMo) / (1 - minSlowMo) * slowMoTime;
             while (!_isSlowMo && Time.timeScale < 1f)
             {
                 time += Time.unscaledDeltaTime;
-                //    composer.m_MinimumFOV = Mathf.Lerp(60f, 88f, time / SlowMoTime);
                 Time.timeScale = Mathf.Lerp(minSlowMo, 1f, time / slowMoTime);
                 Time.fixedDeltaTime = Time.timeScale * 0.02f;
                 yield return null;
             }
         }
 
-        private IEnumerator PlayerDead()
+        private IEnumerator PlayerDead() //TODO invoke it through some event like OnPlayerDeath (todo later)
         {
-            //  var composer = cam.GetCinemachineComponent<CinemachineGroupComposer>();
             var time = (1 - Time.timeScale) * (slowMoTime / deathSlowMoMulti);
             while (Time.timeScale > 0.01f)
             {
                 time += Time.unscaledDeltaTime;
-                //     composer.m_MinimumFOV = Mathf.Lerp(88f, 40f, time / (SlowMoTime / DeathSlowMoMulti));
                 Time.timeScale = Mathf.Lerp(1f, 0.01f, time / (slowMoTime / deathSlowMoMulti));
                 //Time.fixedDeltaTime = Time.timeScale * 0.02f;
                 yield return null;

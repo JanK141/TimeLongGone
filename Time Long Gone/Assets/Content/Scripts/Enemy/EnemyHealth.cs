@@ -1,65 +1,57 @@
 ﻿using System;
+using Content.Scripts.Enemy;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public static EnemyHealth Instance;
+    #region Inspector fields
+    [SerializeField] [Min(1)] private int maxHealth = 100;
+    [SerializeField] [Min(1)] [Tooltip("How many combat stages boss has (divided by % of hp) ")] private int stages = 1;
+    #endregion
 
-    //SERIALIZED FIELDS
-    [SerializeField] [Min(1)] private float maxHealth = 100;
-    [SerializeField] private Slider slider;
+    #region Private variables
+    private int _currHealth;
+    private int _currStage;
+    private float[] _stageChangers;
+    private EnemyScript _enemy;
+    #endregion
 
-    [SerializeField] [Min(1)] [Tooltip("How many combat stages boss has (divided by % of hp) ")]
-    private int stages = 1;
-
-    [SerializeField] private float barShakeStrength = 2f;
-
-    //PRIVATE VARIABLES
-    private float currHealth;
-    private int currStage;
-    private float[] stageChangers;
-    private static readonly int NextStage = Animator.StringToHash("NextStage");
-
-    //PROPERTIES
-    public float CurrHealth
+    #region Properties
+    public int CurrHealth
     {
-        get => currHealth;
+        get => _currHealth;
         set
         {
-            currHealth = value;
+            _currHealth = value;
             UpdateHealth();
         }
     }
 
-    public int CurrStage => currStage;
+    public int MaxHealth => maxHealth;
+    public int CurrStage => _currStage;
+    #endregion
 
-    private void Awake() => Instance = this;
 
     private void Start()
     {
-        currHealth = maxHealth;
-        slider.value = 100;
-        currStage = 1;
-        stageChangers = new float[stages];
+        _enemy = EnemyScript.Instance;
+        _currHealth = maxHealth;
+        _currStage = 1;
+        _stageChangers = new float[stages];
         for (var i = 0; i < stages; i++)
         {
-            stageChangers[i] = i + 1 == stages ? 
-                0 :
-                maxHealth - (maxHealth / stages) * (i + 1);
+            _stageChangers[i] = i + 1 == stages ? 0 : maxHealth - (maxHealth / stages) * (i + 1);
         }
     }
 
     private void UpdateHealth()
     {
-        slider.DOValue(currHealth, 0.5f);
-        slider.transform.DOShakePosition(0.5f, barShakeStrength);
-        if (currHealth <= 0) Death();
-        else if (currHealth <= stageChangers[currStage - 1])
+        if (_currHealth <= 0) Death();
+        else if (_currHealth <= _stageChangers[_currStage - 1])
         {
-            currStage++;
-            GetComponent<Animator>().SetTrigger(NextStage);
+            _currStage++;
             //TODO next combat stage sequence
         }
     }
