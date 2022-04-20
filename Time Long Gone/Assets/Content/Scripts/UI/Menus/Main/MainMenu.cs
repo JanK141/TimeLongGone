@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,6 +12,14 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     public GameObject FirstButtonInMain;
 
+    //private PlayerInput playerInput;
+
+    void Awake()
+    {
+        //playerInput = GetComponent<PlayerInput>();
+        //playerInput.SwitchCurrentActionMap("Menu");
+    }
+
     public void Continue()
     {
 
@@ -17,7 +27,18 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
+        SceneManager.UnloadScene(1);
+        SceneManager.LoadScene(3);
 
+        //hud
+        SceneManager.LoadScene(4, LoadSceneMode.Additive);
+
+        //pause
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+
+        //MainInputActions mainInputActions = new MainInputActions();
+        //mainInputActions.Menu.Disable();
+        //mainInputActions.Player.Enable();
     }
 
     public void GoToSettings()

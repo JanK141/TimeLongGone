@@ -28,7 +28,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
             ""id"": ""e1a130b5-6aed-4cd8-85ff-d31ccb0a4307"",
             ""actions"": [
                 {
-                    ""name"": ""movement"",
+                    ""name"": ""Movement"",
                     ""type"": ""Value"",
                     ""id"": ""8c2c1ff0-160c-4a2b-9ac7-5b19bf5c31ed"",
                     ""expectedControlType"": ""Vector2"",
@@ -46,7 +46,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""dash"",
+                    ""name"": ""Dash"",
                     ""type"": ""Button"",
                     ""id"": ""468e862d-2f9c-494d-8b2b-629dced4a1c7"",
                     ""expectedControlType"": ""Button"",
@@ -94,6 +94,15 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Stun"",
                     ""type"": ""Button"",
                     ""id"": ""baa68614-df94-43c2-8291-da6b17948711"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""febeb2d5-f541-4a23-87f3-8a3b11cef7e1"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -174,7 +183,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""dash"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -185,7 +194,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""gamepad"",
-                    ""action"": ""dash"",
+                    ""action"": ""Dash"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -196,7 +205,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -207,7 +216,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -218,7 +227,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -229,7 +238,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -240,7 +249,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -251,7 +260,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""gamepad"",
-                    ""action"": ""movement"",
+                    ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -320,6 +329,28 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Stun"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea88b75e-aba1-4fc7-8ce6-d8b08e3b9b65"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""keyboard and mouse"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""30e7b819-d62b-4046-85c0-830f4dc1c16f"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""gamepad"",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -328,7 +359,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
             ""id"": ""b429acbf-ef47-4df0-8586-c1655bdef22d"",
             ""actions"": [
                 {
-                    ""name"": ""Pause"",
+                    ""name"": ""Unpause"",
                     ""type"": ""Button"",
                     ""id"": ""07a0ec01-3166-4e9c-bab8-7183ef89842b"",
                     ""expectedControlType"": ""Button"",
@@ -390,7 +421,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""keyboard and mouse"",
-                    ""action"": ""Pause"",
+                    ""action"": ""Unpause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -401,7 +432,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""gamepad"",
-                    ""action"": ""Pause"",
+                    ""action"": ""Unpause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -748,17 +779,18 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_movement = m_Player.FindAction("movement", throwIfNotFound: true);
+        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_dash = m_Player.FindAction("dash", throwIfNotFound: true);
+        m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
         m_Player_Block = m_Player.FindAction("Block", throwIfNotFound: true);
         m_Player_Time = m_Player.FindAction("Time", throwIfNotFound: true);
         m_Player_Finisher = m_Player.FindAction("Finisher", throwIfNotFound: true);
         m_Player_Stun = m_Player.FindAction("Stun", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Pause = m_Menu.FindAction("Pause", throwIfNotFound: true);
+        m_Menu_Unpause = m_Menu.FindAction("Unpause", throwIfNotFound: true);
         m_Menu_Point = m_Menu.FindAction("Point", throwIfNotFound: true);
         m_Menu_Navigate = m_Menu.FindAction("Navigate", throwIfNotFound: true);
         m_Menu_Submit = m_Menu.FindAction("Submit", throwIfNotFound: true);
@@ -823,26 +855,28 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_movement;
+    private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_dash;
+    private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Attack;
     private readonly InputAction m_Player_Block;
     private readonly InputAction m_Player_Time;
     private readonly InputAction m_Player_Finisher;
     private readonly InputAction m_Player_Stun;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @MainInputActions m_Wrapper;
         public PlayerActions(@MainInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @movement => m_Wrapper.m_Player_movement;
+        public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
-        public InputAction @dash => m_Wrapper.m_Player_dash;
+        public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
         public InputAction @Block => m_Wrapper.m_Player_Block;
         public InputAction @Time => m_Wrapper.m_Player_Time;
         public InputAction @Finisher => m_Wrapper.m_Player_Finisher;
         public InputAction @Stun => m_Wrapper.m_Player_Stun;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -852,15 +886,15 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Jump.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnJump;
-                @dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
-                @dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
+                @Dash.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDash;
                 @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
@@ -876,19 +910,22 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 @Stun.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
                 @Stun.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
                 @Stun.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStun;
+                @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @movement.started += instance.OnMovement;
-                @movement.performed += instance.OnMovement;
-                @movement.canceled += instance.OnMovement;
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @dash.started += instance.OnDash;
-                @dash.performed += instance.OnDash;
-                @dash.canceled += instance.OnDash;
+                @Dash.started += instance.OnDash;
+                @Dash.performed += instance.OnDash;
+                @Dash.canceled += instance.OnDash;
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
@@ -904,6 +941,9 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
                 @Stun.started += instance.OnStun;
                 @Stun.performed += instance.OnStun;
                 @Stun.canceled += instance.OnStun;
+                @Pause.started += instance.OnPause;
+                @Pause.performed += instance.OnPause;
+                @Pause.canceled += instance.OnPause;
             }
         }
     }
@@ -912,7 +952,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private IMenuActions m_MenuActionsCallbackInterface;
-    private readonly InputAction m_Menu_Pause;
+    private readonly InputAction m_Menu_Unpause;
     private readonly InputAction m_Menu_Point;
     private readonly InputAction m_Menu_Navigate;
     private readonly InputAction m_Menu_Submit;
@@ -922,7 +962,7 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
     {
         private @MainInputActions m_Wrapper;
         public MenuActions(@MainInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Pause => m_Wrapper.m_Menu_Pause;
+        public InputAction @Unpause => m_Wrapper.m_Menu_Unpause;
         public InputAction @Point => m_Wrapper.m_Menu_Point;
         public InputAction @Navigate => m_Wrapper.m_Menu_Navigate;
         public InputAction @Submit => m_Wrapper.m_Menu_Submit;
@@ -937,9 +977,9 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MenuActionsCallbackInterface != null)
             {
-                @Pause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
-                @Pause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
-                @Pause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPause;
+                @Unpause.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
+                @Unpause.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnUnpause;
                 @Point.started -= m_Wrapper.m_MenuActionsCallbackInterface.OnPoint;
                 @Point.performed -= m_Wrapper.m_MenuActionsCallbackInterface.OnPoint;
                 @Point.canceled -= m_Wrapper.m_MenuActionsCallbackInterface.OnPoint;
@@ -959,9 +999,9 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
             m_Wrapper.m_MenuActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Pause.started += instance.OnPause;
-                @Pause.performed += instance.OnPause;
-                @Pause.canceled += instance.OnPause;
+                @Unpause.started += instance.OnUnpause;
+                @Unpause.performed += instance.OnUnpause;
+                @Unpause.canceled += instance.OnUnpause;
                 @Point.started += instance.OnPoint;
                 @Point.performed += instance.OnPoint;
                 @Point.canceled += instance.OnPoint;
@@ -1009,10 +1049,11 @@ public partial class @MainInputActions : IInputActionCollection2, IDisposable
         void OnTime(InputAction.CallbackContext context);
         void OnFinisher(InputAction.CallbackContext context);
         void OnStun(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {
-        void OnPause(InputAction.CallbackContext context);
+        void OnUnpause(InputAction.CallbackContext context);
         void OnPoint(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);

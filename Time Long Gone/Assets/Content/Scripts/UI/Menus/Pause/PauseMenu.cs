@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -9,10 +10,12 @@ public class PauseMenu : MonoBehaviour
     public MenuGameEventSystem EventManager;
     [SerializeField]
     public GameObject FirstButtonInPause;
+    [SerializeField]
+    public PausingScript pausingScript;
 
     public void Resume()
     {
-
+        pausingScript.Unpausing();
     }
 
     public void GoToSettings()

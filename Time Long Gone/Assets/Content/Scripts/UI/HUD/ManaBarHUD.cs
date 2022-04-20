@@ -55,7 +55,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (CurrMana <= maxMana && generating)
         {
-            CurrMana += genRate * Time.unscaledDeltaTime;
+            CurrMana += genRate * Time.deltaTime;
         }
         Mathf.Clamp(CurrMana, 0, maxMana);
     }
@@ -148,4 +148,5 @@ public class ManaBarHUD : MonoBehaviour
 
     //TODO Po za tym za du¿o odwo³añ wszêdzie siê robi. ManaBarHUD powinien odpowiadaæ jak nazwa mówi jednak tylko za ManaBarHUD a nie manê sam¹ w sobie te¿
     //TODO przepakowaæ czêœæ zwi¹zan¹ z man¹ do skrpytu odpowiedzialnego za sam¹ manê i niech informuje HUD jedynie o zmianach wartoœci eventem. Read more at PlayerScipt.cs oraz PlayerInput.cs
+    //??????
 }

@@ -1,6 +1,7 @@
 ﻿using Content.Scripts.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace Content.Scripts.Inputs
 {
@@ -28,6 +29,11 @@ namespace Content.Scripts.Inputs
         {
             player = PlayerScript.Instance;
             _holdTime = holdTreshhold;
+
+
+            //MainInputActions mainInputActions = new MainInputActions();
+            //mainInputActions.Menu.Disable();
+            //mainInputActions.Player.Enable();
         }
 
         void Update()
@@ -151,6 +157,14 @@ namespace Content.Scripts.Inputs
         {
             _isCharging = false;
             _holdTime = holdTreshhold;
+        }
+
+        public void PauseGame(InputAction.CallbackContext context)
+        {
+            if (context.started)
+            {
+                PausingScript.Instance.Pausing();
+            }
         }
     }
 }
