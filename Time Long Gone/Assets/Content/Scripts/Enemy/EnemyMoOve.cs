@@ -7,7 +7,7 @@ namespace Content.Scripts.Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyMoOve : MonoBehaviour
     {
-        [SerializeField] private Camera cam; //for testing
+        [SerializeField] private UnityEngine.Camera cam; //for testing
         [SerializeField] private LayerMask groundMask; //for testing
 
         private NavMeshAgent _agent;
