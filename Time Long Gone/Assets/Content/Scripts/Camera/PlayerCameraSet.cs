@@ -3,15 +3,18 @@ using UnityEngine;
 
 namespace Content.Scripts.Camera
 {
-    public class CameraPositioning : MonoBehaviour
+    public class PlayerCameraSet : MonoBehaviour
     {
         private CinemachineVirtualCamera _cvm;
         private CinemachineComposer _composer;
         private GameObject _player;
+
         private GameObject _enemy;
 
-        [SerializeField] private float distanceFromPlayer;
-        [SerializeField] private float cameraHeight;
+        // this variables change also camera aim :(
+
+        [SerializeField] private float distanceFromPlayer = 6;
+        [SerializeField] private float height = 4;
 
         private void Start()
         {
@@ -19,6 +22,7 @@ namespace Content.Scripts.Camera
             _player = GameObject.FindGameObjectWithTag("Player");
             _enemy = GameObject.FindGameObjectWithTag("Enemy");
             _composer = _cvm.AddCinemachineComponent<CinemachineComposer>();
+            _cvm.LookAt = _enemy.transform;
         }
 
         private void Update() => SetupCamera();
@@ -31,16 +35,18 @@ namespace Content.Scripts.Camera
 
         private void PositioningCamera()
         {
-            var direction = (_player.transform.position - _enemy.transform.position).normalized;
+            var playerPosition = _player.transform.position;
+            var enemyPosition = _enemy.transform.position;
+            var direction = (playerPosition - enemyPosition).normalized;
+            
             _cvm.transform.position =
-                _player.transform.position + (distanceFromPlayer * direction + Vector3.up * cameraHeight);
-            _cvm.LookAt = _enemy.transform;
+                playerPosition + (distanceFromPlayer * direction + Vector3.up * height);
         }
 
         private void AimingCamera()
         {
             var x = Vector3.Distance(_enemy.transform.position, _cvm.transform.position);
-            const float a = -0.36f, b = 2.77f;
+            const float a = (float)-0.36, b = (float)2.77;
             _composer.m_TrackedObjectOffset.y = a * x + b;
         }
     }

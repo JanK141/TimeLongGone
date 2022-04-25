@@ -22,13 +22,13 @@ namespace Content.Scripts.tim
         private bool _isSlowMo;
 
 
-        public static event Action<bool> OnRewind; //Tak jak zaproponowa³em.
-                                                   //TODO Invoke it somewhere ofc
+        //public static event Action<bool> OnRewind; //Tak jak zaproponowaï¿½em.
+        //TODO Invoke it somewhere ofc
 
         private void Awake() => Instance = this;
 
 
-        public void ProcessSlowMo(bool state) //TODO ze skryptu z man¹ wywo³ujesz t¹ funkcjê i œmiga
+        public void ProcessSlowMo(bool state) //TODO ze skryptu z manï¿½ wywoï¿½ujesz tï¿½ funkcjï¿½ i ï¿½miga
         {
             _isSlowMo = state;
 
@@ -50,7 +50,8 @@ namespace Content.Scripts.tim
             }
         }
 
-        private IEnumerator StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
+        private IEnumerator
+            StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
         {
             var time = (Time.timeScale - minSlowMo) / (1 - minSlowMo) * slowMoTime;
             while (!_isSlowMo && Time.timeScale < 1f)
