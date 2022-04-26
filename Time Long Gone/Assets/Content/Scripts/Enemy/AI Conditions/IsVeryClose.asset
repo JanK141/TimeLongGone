@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b176173634238d45b8b3e684d65932e, type: 3}
   m_Name: IsVeryClose
   m_EditorClassIdentifier: 
-  distance: 0.7
+  distance: 1.7
   higherThan: 0

@@ -7,21 +7,15 @@ namespace Content.Scripts.Enemy
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyMoOve : MonoBehaviour
     {
-        [SerializeField] private Camera cam; //for testing
-        [SerializeField] private LayerMask groundMask; //for testing
-
         private NavMeshAgent _agent;
-        private Animator _anim;
-
-        private bool _isTesting; //for testing
+        private EnemyScript _enemy;
 
 
-        private bool _isWalking;
+        //private bool _isWalking;
 
-        public bool isWalking => _isWalking;
+        //public bool isWalking => _isWalking;
 
         private Vector3 currDestination;
-        private static readonly int StopWalking = Animator.StringToHash("StopWalking");
 
         public Vector3 CurrDestination
         {
@@ -34,39 +28,27 @@ namespace Content.Scripts.Enemy
         }
 
         private void Awake() => _agent = GetComponent<NavMeshAgent>();
-        private void Start() => _anim = GetComponent<Animator>();
+        private void Start() => _enemy = GetComponent<EnemyScript>();
 
         private void Update()
         {
-            WalkTo(PlayerScript.Instance.transform.position);
-
-
-            /*
-            // -----------FOR TESTING ONLY --------------
-            if (Input.GetKeyDown(KeyCode.T)) _isTesting = !_isTesting;
-            if (_isTesting && Input.GetMouseButtonDown(0))
+            //WalkTo(PlayerScript.Instance.transform.position);
+            if (!_agent.isStopped && (Vector3.Distance(transform.position, currDestination) <= _agent.stoppingDistance + 0.25f))
             {
-                var ray = cam.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hit, 1000, groundMask))
-                    WalkTo(hit.point);
+                _agent.isStopped = true;
+                _agent.velocity = Vector3.zero;
+                _enemy.anim.SetTrigger("StopWalking");
             }
-            // -----------------------------------------------
-            */
 
-            if (!_isWalking ||
-                !(Vector3.Distance(transform.position, currDestination) <= _agent.stoppingDistance + 0.5f))
-                return;
-
-            _isWalking = false;
-            _agent.isStopped = true;
-            _agent.velocity /= 2;
-            _anim.SetTrigger(StopWalking);
+                // _isWalking = false;
+            //_agent.isStopped = true;
+           // _agent.velocity /= 2;
         }
 
         public void WalkTo(Vector3 destination)
         {
             _agent.isStopped = false;
-            _isWalking = true;
+            //_isWalking = true;
             currDestination = destination;
             _agent.SetDestination(destination);
         }

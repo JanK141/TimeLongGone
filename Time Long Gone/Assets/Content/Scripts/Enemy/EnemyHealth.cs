@@ -39,6 +39,7 @@ public class EnemyHealth : MonoBehaviour
         _enemy = EnemyScript.Instance;
         _currHealth = maxHealth;
         _currStage = 1;
+        _enemy.anim.SetInteger("Stage", _currStage);
         _stageChangers = new float[stages];
         for (var i = 0; i < stages; i++)
         {

@@ -11,7 +11,10 @@ public class ChainBehavior : StateMachineBehaviour
         int test = 0;
         foreach (var condition in contidiotsToChain)
             if (condition.Check(animator.gameObject, PlayerScript.Instance.gameObject)) test++;
-        if(test>=contidiotsToChain.Count) animator.Play("Idle", layerIndex);
+        if (test >= contidiotsToChain.Count)
+        {
+            animator.Play("AttackIdle", layerIndex);
+        }
     }
 
 }

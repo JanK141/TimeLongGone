@@ -14,6 +14,12 @@ public class MainBehavior : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        foreach (AnimatorControllerParameter param in animator.parameters)
+        {
+            if(param.type.Equals(AnimatorControllerParameterType.Trigger))
+                animator.ResetTrigger(param.name);
+        }
+
         timeToTrigger = Time.time + (Random.Range(MinWaitTime, MaxWaitTime));
     }
 
