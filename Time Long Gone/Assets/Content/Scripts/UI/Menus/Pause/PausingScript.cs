@@ -1,3 +1,4 @@
+using Content.Scripts.Player;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class PausingScript : MonoBehaviour
     public GameObject canvas;
     public PauseMenu menu;
 
+
+    private PlayerScript playerScript;
     private PlayerInput playerInput;
 
     void Awake()
@@ -22,33 +25,25 @@ public class PausingScript : MonoBehaviour
         {
             Instance = this;
         }
+    }
 
-        playerInput = GetComponent<PlayerInput>();
+    private void Start()
+    {
+        playerScript = PlayerScript.Instance;
     }
 
     public void Pausing()
     {
         Time.timeScale = 0;
-        //MainInputActions mainInputActions = new MainInputActions();
-        //mainInputActions.Player.Disable();
-        //mainInputActions.Menu.Enable();
-
-        playerInput.SwitchCurrentActionMap("Menu");
-
+        playerScript.GetComponent<PlayerInput>().enabled = false;
         canvas.SetActive(true);
         menu.MakeActive();
     }
 
     public void Unpausing()
     {
-        //MainInputActions mainInputActions = new MainInputActions();
-        //mainInputActions.Player.Enable();
-        //mainInputActions.Menu.Disable();
-
-        playerInput.SwitchCurrentActionMap("Player");
-
+        playerScript.GetComponent<PlayerInput>().enabled = true;
         canvas.SetActive(false);
-        menu.MakeInactive();
         Time.timeScale = 1;
     }
 }

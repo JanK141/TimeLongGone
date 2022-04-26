@@ -2565,7 +2565,7 @@ MonoBehaviour:
     m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: b429acbf-ef47-4df0-8586-c1655bdef22d
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1406764962
@@ -2995,7 +2995,7 @@ MonoBehaviour:
     m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: b429acbf-ef47-4df0-8586-c1655bdef22d
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1533570963
@@ -3451,7 +3451,7 @@ MonoBehaviour:
     m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: b429acbf-ef47-4df0-8586-c1655bdef22d
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &1749746330
@@ -3928,7 +3928,7 @@ MonoBehaviour:
     m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Menu
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1798308585
@@ -4245,7 +4245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 30060c387f2302941a2a478cd312140b, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 7da4dc98ec56be14d8e8511c19d351a8, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -4259,32 +4259,68 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: cb0fea5b-98cc-4b1b-89b4-1a539a4e6c50
-    m_ActionName: MenuActionMap/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth]
+      m_Calls: []
+    m_ActionId: 8c2c1ff0-160c-4a2b-9ac7-5b19bf5c31ed
+    m_ActionName: Player/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 8cff565a-7465-4fc4-ae29-2db79bed8e2e
-    m_ActionName: MenuActionMap/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast]
+    m_ActionId: bc656f68-f262-4159-a690-e4682147c3f5
+    m_ActionName: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: c07a8dbc-cad5-4026-bc9d-64299541a064
-    m_ActionName: MenuActionMap/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/XInputControllerWindows/leftStick,/XInputControllerWindows/dpad]
+    m_ActionId: 468e862d-2f9c-494d-8b2b-629dced4a1c7
+    m_ActionName: Player/Dash[/Keyboard/ctrl,/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9f4d3bca-2feb-4cd3-bdf8-c4953fc249e0
+    m_ActionName: Player/Attack[/Mouse/leftButton,/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d8911c25-6d92-4447-affe-3b66a85d4e8a
+    m_ActionName: Player/Block[/Mouse/rightButton,/XInputControllerWindows/leftTrigger]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 9989d96e-b501-47a6-a464-fd7c714f721b
+    m_ActionName: Player/Time[/Keyboard/r,/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bac2a9d3-2561-4ad5-b511-0fec0c75897c
+    m_ActionName: Player/Finisher[/XInputControllerWindows/buttonNorth,/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: baa68614-df94-43c2-8291-da6b17948711
+    m_ActionName: Player/Stun[/XInputControllerWindows/rightShoulder,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: febeb2d5-f541-4a23-87f3-8a3b11cef7e1
+    m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 07a0ec01-3166-4e9c-bab8-7183ef89842b
+    m_ActionName: Menu/Unpause[/Keyboard/escape,/XInputControllerWindows/start]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 33b7ccd1-1757-4031-bbbf-0fa707ebd244
+    m_ActionName: Menu/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 04f435f2-cdde-4b66-a381-7d7bc9f81ef3
+    m_ActionName: Menu/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8809833d-b050-4750-af28-81fee2e65423
+    m_ActionName: Menu/Submit[/Keyboard/enter,/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonWest]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3a4aad28-47da-404a-9aad-fe7cb7be4f8d
+    m_ActionName: Menu/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: af1f7422-4e81-4993-b11f-52adc72d182e
+    m_ActionName: Menu/Click[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: MenuActionMap
+  m_DefaultActionMap: Menu
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &1971639014

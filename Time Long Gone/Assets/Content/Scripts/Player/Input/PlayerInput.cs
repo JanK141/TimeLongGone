@@ -22,6 +22,7 @@ namespace Content.Scripts.Inputs
         private bool _doLoadFinisher = false;
         #endregion
 
+        private PlayerInput playerInput;
         private PlayerScript player;
         public bool CanStun = true;
 
@@ -34,6 +35,9 @@ namespace Content.Scripts.Inputs
             //MainInputActions mainInputActions = new MainInputActions();
             //mainInputActions.Menu.Disable();
             //mainInputActions.Player.Enable();
+
+            //playerInput = GetComponent<PlayerInput>();
+            //playerInput.SwitchCurrentActionMap("Player");
         }
 
         void Update()

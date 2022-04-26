@@ -12,12 +12,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     public GameObject FirstButtonInMain;
 
-    //private PlayerInput playerInput;
+    private PlayerInput playerInput;
 
-    void Awake()
+    void OnEnable()
     {
-        //playerInput = GetComponent<PlayerInput>();
-        //playerInput.SwitchCurrentActionMap("Menu");
+        gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
     }
 
     public void Continue()
@@ -27,6 +26,8 @@ public class MainMenu : MonoBehaviour
 
     public void NewGame()
     {
+        //playerInput.SwitchCurrentActionMap("Player");
+
         SceneManager.UnloadScene(1);
         SceneManager.LoadScene(3);
 
@@ -55,7 +56,9 @@ public class MainMenu : MonoBehaviour
 
     public void MakeActive()
     {
+
         gameObject.SetActive(true);
+        gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
         EventSystem.current.SetSelectedGameObject(null);    //validation
         EventSystem.current.SetSelectedGameObject(FirstButtonInMain);
     }

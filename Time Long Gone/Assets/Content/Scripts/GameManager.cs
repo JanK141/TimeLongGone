@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager Instance { get; private set; }
+
+    private PlayerInput playerInput;
+
 
     Scene mainMenuScene;
     Scene pauseScene;
@@ -31,13 +35,17 @@ public class GameManager : MonoBehaviour
         lvlScene1 = SceneManager.GetSceneByBuildIndex(3);
 
 
-        MainInputActions mainInputActions = new MainInputActions();
-        mainInputActions.Player.Disable();
-        mainInputActions.Menu.Enable();
+        //MainInputActions mainInputActions = new MainInputActions();
+        //mainInputActions.Player.Disable();
+        //mainInputActions.Menu.Enable();
+
+        
     }
 
     private void Start()
     {
+        //playerInput = GetComponent<PlayerInput>();
+        //playerInput.SwitchCurrentActionMap("Menu");
         SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
