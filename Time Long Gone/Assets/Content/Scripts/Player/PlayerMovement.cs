@@ -1,8 +1,9 @@
 using System.Collections;
 using Content.Scripts.Camera;
+using Content.Scripts.Enemy;
 using DG.Tweening;
+using UnityEditor;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 namespace Content.Scripts.Player
 {
@@ -54,16 +55,15 @@ namespace Content.Scripts.Player
         private CharacterController _controller;
         private CameraScript _camera;
         private PlayerScript _player;
+        private EnemyScript _enemy;
 
         #endregion
 
         #region Private Variables
 
         private Vector3 _Velocity;
-        private Vector3 _Move;
+        private Vector3 _moveDirection;
         private float _Gravity;
-        private float turnSmoothTime = 0.1f;
-        private float turnSmoothVelocity;
 
         #endregion
 
@@ -73,6 +73,7 @@ namespace Content.Scripts.Player
             _controller = GetComponent<CharacterController>();
             _camera = CameraScript.Instance;
             _player = PlayerScript.Instance;
+            _enemy = EnemyScript.Instance;
             Speed = speed;
             _Gravity = gravity;
         }
@@ -87,25 +88,28 @@ namespace Content.Scripts.Player
         {
             var vertical = InputVector.x;
             var horizontal = InputVector.y;
-            _Move = new Vector3(
+
+            _moveDirection = new Vector3(
                 vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f),
                 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f)
             );
-
+            
             if (_camera.ActiveView == CameraScript.View.Player)
             {
-                var direction = new Vector3(vertical, 0f, horizontal);
-                direction.Normalize();
-                transform.InverseTransformVector(_Move);
+                var desiredDirection = _enemy.transform.position - transform.position;
+                var newVelocity = desiredDirection.normalized * _moveDirection.z;
+                // Debug.Log("Input " + _moveDirection + " kierunek " + desiredDirection + "  velocity  " + newVelocity);
+                _moveDirection = newVelocity;
             }
 
-
             if (CanMove)
-                _controller.Move(_Move * (Speed * Time.fixedDeltaTime));
-            if (RotateSlow && !_Move.Equals(Vector3.zero)) transform.DOLookAt(transform.position + _Move, 1f);
-            else if (CanRotate) transform.LookAt(transform.position + _Move);
+                _controller.Move(_moveDirection * (Speed * Time.fixedDeltaTime));
+            if (RotateSlow && !_moveDirection.Equals(Vector3.zero))
+                transform.DOLookAt(transform.position + _moveDirection, 1f);
+            else if (CanRotate) transform.LookAt(transform.position + _moveDirection);
         }
+
 
         public void ProcessDash()
         {
@@ -157,7 +161,8 @@ namespace Content.Scripts.Player
 
             CanMove = false;
             CanDash = false;
-            var motion = (_Move.Equals(Vector3.zero) ? transform.forward : _Move.normalized) * distance;
+            var motion = (_moveDirection.Equals(Vector3.zero) ? transform.forward : _moveDirection.normalized) *
+                         distance;
             transform.LookAt(transform.position + motion);
             var time = 0f;
             while (time < dashTime)
@@ -192,8 +197,8 @@ namespace Content.Scripts.Player
 
         private void OnDrawGizmosSelected()
         {
-            UnityEditor.Handles.color = new Color32(10, 200, 100, 200);
-            UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.up, dashDistance);
+            Handles.color = new Color32(10, 200, 100, 200);
+            Handles.DrawWireDisc(transform.position, Vector3.up, dashDistance);
         }
 
         #endregion

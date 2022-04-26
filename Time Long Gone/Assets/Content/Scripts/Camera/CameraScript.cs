@@ -13,7 +13,7 @@ namespace Content.Scripts.Camera
         }
 
         public View ActiveView { get; set; }
-        public new Transform mainCameraTransform;
+        public Transform mainCameraTransform;
 
         public static CameraScript Instance;
 
