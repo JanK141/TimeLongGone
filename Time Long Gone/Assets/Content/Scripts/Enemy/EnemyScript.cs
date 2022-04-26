@@ -10,6 +10,9 @@ namespace Content.Scripts.Enemy
         public static EnemyScript Instance;
 
         [HideInInspector] public EnemyHealth health;
+        [HideInInspector] public EnemyMoOve move;
+        [HideInInspector] public Animator anim;
+        [HideInInspector] public EnemyStatusScript status;
 
         public static event Action<int, int> OnEnemyHeatlhChange; // sends max and current health
 
@@ -17,6 +20,9 @@ namespace Content.Scripts.Enemy
         {
             if (Instance == null) Instance = this;
             health = GetComponent<EnemyHealth>();
+            move = GetComponent<EnemyMoOve>();
+            anim = GetComponentInChildren<Animator>();
+            status = GetComponentInChildren<EnemyStatusScript>();
         }
 
         public void ReceiveHit(int damage)
