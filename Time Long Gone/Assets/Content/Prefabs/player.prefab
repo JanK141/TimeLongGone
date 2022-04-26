@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7025810154748130271}
   - component: {fileID: 7025810154748130270}
   - component: {fileID: 7025810154748130257}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Stun Attack Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 7025810154849225619}
   - component: {fileID: 7025810154849225621}
   - component: {fileID: 7025810154849225618}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: sword
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 7025810155060670667}
   - component: {fileID: 7025810155060670666}
   - component: {fileID: 7025810155060670669}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChargedAttackTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 7025810155226962740}
   - component: {fileID: 7025810155226962697}
   - component: {fileID: 7025810155226962742}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: R_forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 7025810155483415140}
   - component: {fileID: 7025810155483415161}
   - component: {fileID: 7025810155483415142}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: R_arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 7025810155756280329}
   - component: {fileID: 7025810155756280331}
   - component: {fileID: 7025810155756280328}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: L_arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,7 +453,7 @@ GameObject:
   - component: {fileID: 7025810155863201189}
   - component: {fileID: 7025810155863201191}
   - component: {fileID: 7025810155863201188}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: L_forearm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -538,7 +538,7 @@ GameObject:
   - component: {fileID: 7025810155927578925}
   - component: {fileID: 7025810155927578927}
   - component: {fileID: 7025810155927578926}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -552,7 +552,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7025810155927579094}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 4, z: -5.195455}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -855,7 +855,7 @@ GameObject:
   - component: {fileID: 7025810156038909021}
   - component: {fileID: 7025810156038909020}
   - component: {fileID: 7025810156038909023}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -919,7 +919,7 @@ GameObject:
   - component: {fileID: 7025810156193247478}
   - component: {fileID: 7025810156193247435}
   - component: {fileID: 7025810156193247432}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
