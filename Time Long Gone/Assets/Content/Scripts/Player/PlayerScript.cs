@@ -25,6 +25,7 @@ namespace Content.Scripts.Player
             if (Instance == null) Instance = this;
             movementScript = GetComponent<PlayerMovement>();
             playerInput = GetComponent<PlayerInput>();
+            //playerInput.SwitchCurrentActionMap("Player");
             combat = GetComponent<PlayerCombat>();
         }
 

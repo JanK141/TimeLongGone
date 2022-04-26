@@ -6,7 +6,7 @@
             "id": "e1a130b5-6aed-4cd8-85ff-d31ccb0a4307",
             "actions": [
                 {
-                    "name": "movement",
+                    "name": "Movement",
                     "type": "Value",
                     "id": "8c2c1ff0-160c-4a2b-9ac7-5b19bf5c31ed",
                     "expectedControlType": "Vector2",
@@ -24,7 +24,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "dash",
+                    "name": "Dash",
                     "type": "Button",
                     "id": "468e862d-2f9c-494d-8b2b-629dced4a1c7",
                     "expectedControlType": "Button",
@@ -72,6 +72,15 @@
                     "name": "Stun",
                     "type": "Button",
                     "id": "baa68614-df94-43c2-8291-da6b17948711",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "febeb2d5-f541-4a23-87f3-8a3b11cef7e1",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
@@ -152,7 +161,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "dash",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -163,7 +172,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
-                    "action": "dash",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -174,7 +183,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -185,7 +194,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -196,7 +205,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -207,7 +216,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -218,7 +227,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -229,7 +238,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
-                    "action": "movement",
+                    "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -298,6 +307,28 @@
                     "action": "Stun",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea88b75e-aba1-4fc7-8ce6-d8b08e3b9b65",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "keyboard and mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "30e7b819-d62b-4046-85c0-830f4dc1c16f",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "gamepad",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -306,7 +337,7 @@
             "id": "b429acbf-ef47-4df0-8586-c1655bdef22d",
             "actions": [
                 {
-                    "name": "Pause",
+                    "name": "Unpause",
                     "type": "Button",
                     "id": "07a0ec01-3166-4e9c-bab8-7183ef89842b",
                     "expectedControlType": "Button",
@@ -368,7 +399,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "keyboard and mouse",
-                    "action": "Pause",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -379,7 +410,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "gamepad",
-                    "action": "Pause",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

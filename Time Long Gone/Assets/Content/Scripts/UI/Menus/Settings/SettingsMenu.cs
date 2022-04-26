@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 public class SettingsMenu : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class SettingsMenu : MonoBehaviour
     {
         MakeInactive();
         EventManager.MainMenu.MakeActive();
+        
     }
 
     public void GoToGameplay()
@@ -43,6 +45,7 @@ public class SettingsMenu : MonoBehaviour
     public void MakeActive()
     {
         gameObject.SetActive(true);
+        gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
         EventSystem.current.SetSelectedGameObject(null);    //validation
         EventSystem.current.SetSelectedGameObject(FirstButtonInSettings);
     }
