@@ -13,6 +13,7 @@ namespace Content.Scripts.Player
         [HideInInspector] public PlayerMovement movementScript;
         [HideInInspector] public PlayerInput playerInput;
         [HideInInspector] public PlayerCombat combat;
+        [HideInInspector] public HitHandler hit;
         //TODO dodaæ skrypt z man¹
 
         public bool IsAlive { get; set; } = true;
@@ -27,6 +28,7 @@ namespace Content.Scripts.Player
             playerInput = GetComponent<PlayerInput>();
             //playerInput.SwitchCurrentActionMap("Player");
             combat = GetComponent<PlayerCombat>();
+            hit = GetComponent<HitHandler>();
         }
 
         public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);

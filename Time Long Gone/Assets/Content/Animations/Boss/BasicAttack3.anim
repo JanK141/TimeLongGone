@@ -168,7 +168,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_IsTrigger
+    attribute: m_Enabled
     path: Body/Cylinder
     classID: 136
     script: {fileID: 0}
@@ -203,7 +203,7 @@ AnimationClip:
       isPPtrCurve: 0
     - serializedVersion: 2
       path: 942305620
-      attribute: 2693561734
+      attribute: 3305885265
       script: {fileID: 0}
       typeID: 136
       customType: 0
@@ -678,7 +678,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_IsTrigger
+    attribute: m_Enabled
     path: Body/Cylinder
     classID: 136
     script: {fileID: 0}
@@ -748,6 +748,13 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: MakeEnemyRegular
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.033333335
+    functionName: WalkForward
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

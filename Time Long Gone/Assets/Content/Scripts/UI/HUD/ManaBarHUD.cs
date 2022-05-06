@@ -1,8 +1,11 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Content.Scripts.Player;
+using Content.Scripts.tim;
 using UnityEngine;
 using UnityEngine.UI;
+using Time = UnityEngine.Time;
 
 public class ManaBarHUD : MonoBehaviour
 {
@@ -58,6 +61,8 @@ public class ManaBarHUD : MonoBehaviour
             CurrMana += genRate * Time.deltaTime;
         }
         Mathf.Clamp(CurrMana, 0, maxMana);
+
+        if (slowing) CurrMana -= slowMoCost * Time.unscaledDeltaTime;
     }
     
     void UpdateMana()
@@ -105,23 +110,33 @@ public class ManaBarHUD : MonoBehaviour
     }
 
     //method triggered by pressing the SlowTime button
-    void StartSlowingTime()
+    public void StartSlowingTime()
     {
+        if (!PlayerScript.Instance.IsAlive)
+        {
+            PlayerScript.Instance.IsAlive = true;
+            StartRewindingTime();
+            return;
+        }
         if (CurrMana >= slowMoCost)
         {
             slowing = true;
             generating = false;
-            //doSlow(1s);
-            InvokeRepeating("SlowOneTick", 0, tickRate);
+            Controller.Instance.ProcessSlowMo(true);
         }
     }
 
     //method triggered by releasing the SlowTime button
-    void StopSlowingTime()
+    public void StopSlowingTime()
     {
+        if (!PlayerScript.Instance.IsAlive)
+        {
+            StopRewindingTime();
+            return;
+        }
         slowing = false;
         generating = true;
-        CancelInvoke("SlowOneTick");
+        Controller.Instance.ProcessSlowMo(false);
     }
 
     //method slowing time continuously, while the SlowTime button is pressed

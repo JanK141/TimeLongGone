@@ -4,25 +4,27 @@ namespace Content.Scripts.Camera
 {
     public class CinemachineSwitcher : MonoBehaviour
     {
+        public static CinemachineSwitcher Instance;
+
         private Animator _animator;
         private CameraScript _camera;
 
         private void Awake()
         {
+            Instance = this;
             _animator = GetComponent<Animator>();
             _camera = CameraScript.Instance;
         }
 
 
-        private void Update()
+        public void Switch(bool x)
         {
-            if (Input.GetKey("1"))
+            if (!x)
             {
                 _animator.Play("ArenaCamera");
                 _camera.ActiveView = CameraScript.View.Arena;
             }
-
-            else if (Input.GetKey("2"))
+            else
             {
                 _animator.Play("PlayerCamera");
                 _camera.ActiveView = CameraScript.View.Player;

@@ -53,7 +53,7 @@ namespace Content.Scripts.Player
         #region Cached Dependencies
 
         private CharacterController _controller;
-        private CameraScript _camera;
+        //private CameraScript _camera;
         private PlayerScript _player;
         private EnemyScript _enemy;
 
@@ -64,6 +64,7 @@ namespace Content.Scripts.Player
         private Vector3 _Velocity;
         private Vector3 _moveDirection;
         private float _Gravity;
+        private UnityEngine.Camera _cam;
 
         #endregion
 
@@ -71,11 +72,12 @@ namespace Content.Scripts.Player
         private void Start()
         {
             _controller = GetComponent<CharacterController>();
-            _camera = CameraScript.Instance;
+            //_camera = CameraScript.Instance;
             _player = PlayerScript.Instance;
             _enemy = EnemyScript.Instance;
             Speed = speed;
             _Gravity = gravity;
+            _cam = UnityEngine.Camera.main;
         }
 
         private void FixedUpdate()
@@ -94,15 +96,15 @@ namespace Content.Scripts.Player
                 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f)
             );
-            
-            if (_camera.ActiveView == CameraScript.View.Player)
-            {
-                var desiredDirection = _enemy.transform.position - transform.position;
-                var newVelocity = desiredDirection.normalized * _moveDirection.z;
-                // Debug.Log("Input " + _moveDirection + " kierunek " + desiredDirection + "  velocity  " + newVelocity);
-                _moveDirection = newVelocity;
-            }
 
+            var camPos = _cam.transform.forward;
+
+            _moveDirection =
+                Quaternion.AngleAxis(
+                    Vector3.SignedAngle(Vector3.forward, 
+                        camPos,
+                        Vector3.up), Vector3.up) * _moveDirection;
+       
             if (CanMove)
                 _controller.Move(_moveDirection * (Speed * Time.fixedDeltaTime));
             if (RotateSlow && !_moveDirection.Equals(Vector3.zero))

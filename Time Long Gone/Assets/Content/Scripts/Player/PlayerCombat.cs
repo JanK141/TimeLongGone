@@ -50,6 +50,7 @@ public class PlayerCombat : MonoBehaviour
     public bool IsBlocking { get; set; } = false;
     public bool CanBlock { get; set; } = true;
     public int Combo { get; set; } = 0;
+    public float BlockPressTime { get; set; } = 0;
     #endregion
 
     private void Start()
@@ -145,6 +146,7 @@ public class PlayerCombat : MonoBehaviour
         {
             player.anim.Play("Block");
             player.movementScript.Speed = 0.5f;
+            BlockPressTime = Time.time;
         }
         else
         {

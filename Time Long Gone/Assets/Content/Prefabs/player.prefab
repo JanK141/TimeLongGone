@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: 7025810155927578925}
   - component: {fileID: 7025810155927578927}
   - component: {fileID: 7025810155927578926}
+  - component: {fileID: 318743903}
   m_Layer: 8
   m_Name: player
   m_TagString: Untagged
@@ -596,6 +597,7 @@ MonoBehaviour:
   movementScript: {fileID: 7025810155927578913}
   playerInput: {fileID: 0}
   combat: {fileID: 0}
+  hit: {fileID: 0}
 --- !u!114 &7025810155927578913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,11 +841,28 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: af1f7422-4e81-4993-b11f-52adc72d182e
     m_ActionName: Menu/Click[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: febeb2d5-f541-4a23-87f3-8a3b11cef7e1
+    m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &318743903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155927579094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27617631d879c564a82a436c181e028f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parryWindow: 0.5
 --- !u!1 &7025810156038909018
 GameObject:
   m_ObjectHideFlags: 0

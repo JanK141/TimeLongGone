@@ -12,10 +12,9 @@ public class ChargedAttackTrigger : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            //if(!Enemy invincable)
-                EnemyScript.Instance.ReceiveHit(damage);
-                gameObject.SetActive(false);
-                PlayerScript.Instance.combat.ContinueCombo(1);
+            EnemyScript.Instance.ReceiveHit(damage);
+            gameObject.SetActive(false);
+            PlayerScript.Instance.combat.ContinueCombo(1);
         }
     }
 }

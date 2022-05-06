@@ -1,19 +1,28 @@
+using Content.Scripts.Enemy;
+using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Content.Scripts.UI.HUD
 {
     public class BossHealthbarHUD : MonoBehaviour
     {
-        // Start is called before the first frame update
+        [SerializeField] private Slider slider;
+
         void Start()
         {
-        
+            EnemyScript.OnEnemyHeatlhChange += UpdateHealth;
         }
 
-        // Update is called once per frame
-        void Update()
+        void UpdateHealth(int max, int curr)
         {
-        
+            slider.DOValue((max / curr), 0.5f);
+            slider.transform.DOShakePosition(0.2f);
+        }
+
+        void OnDestroy()
+        {
+            EnemyScript.OnEnemyHeatlhChange -= UpdateHealth;
         }
     }
 }

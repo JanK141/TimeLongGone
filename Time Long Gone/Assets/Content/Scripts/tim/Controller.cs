@@ -63,7 +63,7 @@ namespace Content.Scripts.tim
             }
         }
 
-        private IEnumerator PlayerDead() //TODO invoke it through some event like OnPlayerDeath (todo later)
+        public IEnumerator PlayerDead() //TODO invoke it through some event like OnPlayerDeath (todo later)
         {
             var time = (1 - Time.timeScale) * (slowMoTime / deathSlowMoMulti);
             while (Time.timeScale > 0.01f)
