@@ -7,7 +7,7 @@ using UnityEngine;
 public class IntVariable : ScriptableObject
 {
     [SerializeField] private int variable;
-
+    public int origin = 0;
     public event Action OnValueChange;
 
     public int Value
@@ -20,4 +20,7 @@ public class IntVariable : ScriptableObject
         }
     }
 
+    public int OriginalValue { get => origin;}
+
+    public void Reset() => origin = variable;
 }

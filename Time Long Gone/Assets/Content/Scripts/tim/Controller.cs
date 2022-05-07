@@ -50,8 +50,7 @@ namespace Content.Scripts.tim
             }
         }
 
-        private IEnumerator
-            StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
+        private IEnumerator StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
         {
             var time = (Time.timeScale - minSlowMo) / (1 - minSlowMo) * slowMoTime;
             while (!_isSlowMo && Time.timeScale < 1f)

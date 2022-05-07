@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ public class ManaBarHUD : MonoBehaviour
 {
     public static ManaBarHUD Instance;
     public static float TickRate;
+
+    public static event Action<bool> OnRewindChange; 
 
     //SERIALIZED FIELDS
     [SerializeField] [Min(1)] private float maxMana = 100;
@@ -62,7 +65,25 @@ public class ManaBarHUD : MonoBehaviour
         }
         Mathf.Clamp(CurrMana, 0, maxMana);
 
-        if (slowing) CurrMana -= slowMoCost * Time.unscaledDeltaTime;
+        if (slowing)
+        {
+            CurrMana -= slowMoCost * Time.unscaledDeltaTime;
+            if (CurrMana <= 0)
+            {
+                CurrMana = 0;
+                StopSlowingTime();
+            }
+        }
+
+        if (rewinding)
+        {
+            CurrMana -= rewindCost * Time.unscaledDeltaTime;
+            if (CurrMana <= 0)
+            {
+                CurrMana = 0;
+                StopRewindingTime();
+            }
+        }
     }
     
     void UpdateMana()
@@ -78,8 +99,7 @@ public class ManaBarHUD : MonoBehaviour
             rewinding = true;
             generating = false;
             CurrMana -= flatRewindCost;
-            //doRewind(1s);
-            InvokeRepeating("RewindOneTick", 0, tickRate);
+            OnRewindChange?.Invoke(true);
         }
     }
 
@@ -88,37 +108,19 @@ public class ManaBarHUD : MonoBehaviour
     {
         rewinding = false;
         generating = true;
-        CancelInvoke("RewindOneTick");
-    }
-
-    //method rewinding time continuously, while the RewindTime button is pressed
-    void RewindOneTick()
-    {
-        if (rewinding)
-        {
-            if (CurrMana >= rewindCost * tickRate)
-            {
-                CurrMana -= rewindCost * tickRate;
-                //doRewind();
-            }
-            else
-            {
-                rewinding = false;
-                generating = true;
-            }
-        }
+        OnRewindChange?.Invoke(false);
     }
 
     //method triggered by pressing the SlowTime button
     public void StartSlowingTime()
     {
-        if (!PlayerScript.Instance.IsAlive)
+        if (!PlayerScript.Instance.IsAlive && !rewinding)
         {
             PlayerScript.Instance.IsAlive = true;
             StartRewindingTime();
             return;
         }
-        if (CurrMana >= slowMoCost)
+        if (CurrMana >= slowMoCost && !slowing)
         {
             slowing = true;
             generating = false;
@@ -129,39 +131,15 @@ public class ManaBarHUD : MonoBehaviour
     //method triggered by releasing the SlowTime button
     public void StopSlowingTime()
     {
-        if (!PlayerScript.Instance.IsAlive)
+        if (rewinding)
         {
             StopRewindingTime();
             return;
         }
+        if(!slowing) return;
         slowing = false;
         generating = true;
         Controller.Instance.ProcessSlowMo(false);
     }
 
-    //method slowing time continuously, while the SlowTime button is pressed
-    void SlowOneTick()
-    {
-        if (slowing)
-        {
-            if (CurrMana >= slowMoCost * tickRate)
-            {
-                CurrMana -= slowMoCost * tickRate;
-                //doSlow(TickRate);
-            }
-            else
-            {
-                slowing = false;
-                generating = true;
-            }
-        }
-    }
-
-    //TODO Slow- mo nie dzia³a per-tick ani nic w tym stylu. Czas zostaje raz spowolniony i taki zostaje, albo raz zresetowany i taki zostaje.  Jest to single action process
-    //TODO w zwi¹zku z czym mamy tu sporo totalnie zbêdnego kodu. Mana mo¿e siê regenerowaæ per-frame w Update(), nie ma ¿adnych przeciwstawieñ ku temu.
-    //TODO Tak samo to za³o¿enie "per-tick" jest zbyt przekombinowane i zdecydowanie nie optymalne zwa¿aj¹c na iloœæ yieldów. Równie dorbze mo¿na to zast¹piæ pojedynczym eventem przekazuj¹cym boola (start/finish)
-
-    //TODO Po za tym za du¿o odwo³añ wszêdzie siê robi. ManaBarHUD powinien odpowiadaæ jak nazwa mówi jednak tylko za ManaBarHUD a nie manê sam¹ w sobie te¿
-    //TODO przepakowaæ czêœæ zwi¹zan¹ z man¹ do skrpytu odpowiedzialnego za sam¹ manê i niech informuje HUD jedynie o zmianach wartoœci eventem. Read more at PlayerScipt.cs oraz PlayerInput.cs
-    //??????
 }

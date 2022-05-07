@@ -8,21 +8,22 @@ namespace Content.Scripts.UI.HUD
     public class BossHealthbarHUD : MonoBehaviour
     {
         [SerializeField] private Slider slider;
+        [SerializeField] private IntVariable hp;
 
         void Start()
         {
-            EnemyScript.OnEnemyHeatlhChange += UpdateHealth;
+            hp.OnValueChange += UpdateHealth;
         }
 
-        void UpdateHealth(int max, int curr)
+        void UpdateHealth()
         {
-            slider.DOValue((max / curr), 0.5f);
+            slider.DOValue((float)hp.Value/ hp.OriginalValue, 0.5f);
             slider.transform.DOShakePosition(0.2f);
         }
 
         void OnDestroy()
         {
-            EnemyScript.OnEnemyHeatlhChange -= UpdateHealth;
+            hp.OnValueChange -= UpdateHealth;
         }
     }
 }

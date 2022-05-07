@@ -15,7 +15,6 @@ namespace Content.Scripts.Enemy
         [HideInInspector] public Animator anim;
         [HideInInspector] public EnemyStatusScript status;
 
-        public static event Action<int, int> OnEnemyHeatlhChange; // sends max and current health
 
         private void Awake()
         {
@@ -33,7 +32,6 @@ namespace Content.Scripts.Enemy
                 health.CurrHealth -= damage;
                 transform.DOPunchPosition(
                     -(PlayerScript.Instance.transform.position - transform.position).normalized * 0.2f, 0.1f);
-                OnEnemyHeatlhChange?.Invoke(health.MaxHealth, health.CurrHealth);
             }
         }
 

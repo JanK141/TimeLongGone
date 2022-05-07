@@ -7,7 +7,7 @@ using UnityEngine;
 public class FloatVariable : ScriptableObject
 {
     [SerializeField] private float variable;
-
+    private float origin = 0f;
     public event Action OnValueChange;
 
     public float Value
@@ -19,4 +19,7 @@ public class FloatVariable : ScriptableObject
             OnValueChange?.Invoke();
         }
     }
+    public float OriginalValue {get => origin;}
+
+    public void Reset() => origin = variable;
 }

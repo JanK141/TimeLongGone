@@ -1315,7 +1315,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
-  m_Value: 0.947
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1332,6 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 1720458929}
+  hp: {fileID: 11400000, guid: 041eba3343da50241bf1e64e12f357fd, type: 2}
 --- !u!1 &2058297150
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,11 +8,11 @@ public class EnemyHealth : MonoBehaviour
 {
     #region Inspector fields
     [SerializeField] [Min(1)] private int maxHealth = 100;
+    [SerializeField] private IntVariable hp;
     [SerializeField] [Min(1)] [Tooltip("How many combat stages boss has (divided by % of hp) ")] private int stages = 1;
     #endregion
 
     #region Private variables
-    private int _currHealth;
     private int _currStage;
     private float[] _stageChangers;
     private EnemyScript _enemy;
@@ -21,10 +21,10 @@ public class EnemyHealth : MonoBehaviour
     #region Properties
     public int CurrHealth
     {
-        get => _currHealth;
+        get => hp.Value;
         set
         {
-            _currHealth = value;
+            hp.Value = value;
             UpdateHealth();
         }
     }
@@ -37,7 +37,8 @@ public class EnemyHealth : MonoBehaviour
     private void Start()
     {
         _enemy = EnemyScript.Instance;
-        _currHealth = maxHealth;
+        hp.Value = maxHealth;
+        hp.Reset();
         _currStage = 1;
         _enemy.anim.SetInteger("Stage", _currStage);
         _stageChangers = new float[stages];
@@ -49,8 +50,8 @@ public class EnemyHealth : MonoBehaviour
 
     private void UpdateHealth()
     {
-        if (_currHealth <= 0) Death();
-        else if (_currHealth <= _stageChangers[_currStage - 1])
+        if (hp.Value <= 0) Death();
+        else if (hp.Value <= _stageChangers[_currStage - 1])
         {
             _currStage++;
             //TODO next combat stage sequence
