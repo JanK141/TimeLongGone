@@ -20,6 +20,7 @@ namespace Content.Scripts.Player
 
 
         public static event Action<int> OnComboContinue;
+        public static event Action OnDeath;
 
         void Awake()
         {
@@ -28,16 +29,19 @@ namespace Content.Scripts.Player
             playerInput = GetComponent<PlayerInput>();
             combat = GetComponent<PlayerCombat>();
             hit = GetComponent<HitHandler>();
+            ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
+        void OnDestroy() => ManaBarHUD.OnRewindChange -= DisableOnRewind;
 
         public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
+        public void InvokeDeath() => OnDeath?.Invoke();
 
         void DisableOnRewind(bool rewinding)
         {
             movementScript.enabled = !rewinding;
             combat.enabled = !rewinding;
             hit.enabled = !rewinding;
-            //anim.enabled = !rewinding;
+            anim.enabled = !rewinding;
         }
     }
 }

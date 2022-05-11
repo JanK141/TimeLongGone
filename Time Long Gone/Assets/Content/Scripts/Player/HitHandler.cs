@@ -19,7 +19,7 @@ public class HitHandler : MonoBehaviour
 
     public void ReceiveHit()
     {
-        print("HIT " + EnemyStatusScript.currStatus);
+        //print("HIT " + EnemyStatusScript.currStatus);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), true);
         Invoke(nameof(ResetCollision), noCollisionTime);
         switch (EnemyStatusScript.currStatus)
@@ -48,9 +48,9 @@ public class HitHandler : MonoBehaviour
         }
         //Death
 
-        StartCoroutine(Controller.Instance.PlayerDead());
+        player.InvokeDeath();
         player.IsAlive = false;
-        print("Player alive is "+player.IsAlive);
+        //print("Player alive is "+player.IsAlive);
     }
 
     void ResetCollision() => Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), false);

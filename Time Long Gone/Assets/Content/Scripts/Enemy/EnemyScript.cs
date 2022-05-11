@@ -62,7 +62,7 @@ namespace Content.Scripts.Enemy
         private void DisableForRewind(bool rewinding)
         {
             move.enabled = !rewinding;
-            anim.SetFloat("Speed", (rewinding)?-1:1);
+            anim.SetFloat("Speed", (rewinding)?-1f:1f);
         }
     }
 }

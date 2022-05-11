@@ -28,7 +28,16 @@ public class Rewinder : MonoBehaviour
         ManaBarHUD.OnRewindChange += Switch;
     }
 
-    void Switch(bool rewind) => _rewinding = rewind;
+    void Switch(bool rewind)
+    {
+        _rewinding = rewind;
+        if (savedTime.Count > 0)
+        {
+            _animator.Play(savedTime.Last.Value.anim.fullPathHash, -1,
+                1 - savedTime.Last.Value.anim.normalizedTime);
+        }
+    }
+
     void OnDestroy() => ManaBarHUD.OnRewindChange -= Switch;
 
     IEnumerator Start()
@@ -47,8 +56,11 @@ public class Rewinder : MonoBehaviour
                 {
                     savedTime.Last?.Value.Apply(gameObject);
 
-                    _animator.Play(savedTime.Last.Value.anim.fullPathHash, -1,
-                        1 - savedTime.Last.Value.anim.normalizedTime);
+                    if (!_animator.GetCurrentAnimatorStateInfo(0).fullPathHash
+                            .Equals(savedTime.Last.Value.anim.fullPathHash))
+                    {
+                        _animator.Play(savedTime.Last.Value.anim.fullPathHash, -1);
+                    }
 
                     savedTime.Last?.List.RemoveLast();
                 }

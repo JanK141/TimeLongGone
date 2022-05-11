@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Content.Scripts.Player;
 using UnityEngine;
 
 namespace Content.Scripts.tim
@@ -27,7 +28,12 @@ namespace Content.Scripts.tim
 
         private void Awake() => Instance = this;
 
+        void Start()
+        {
+            PlayerScript.OnDeath += DeathSlowMo;
+        }
 
+        void DeathSlowMo() => StartCoroutine(PlayerDead());
         public void ProcessSlowMo(bool state) //TODO ze skryptu z man� wywo�ujesz t� funkcj� i �miga
         {
             _isSlowMo = state;
@@ -72,6 +78,11 @@ namespace Content.Scripts.tim
                 //Time.fixedDeltaTime = Time.timeScale * 0.02f;
                 yield return null;
             }
+        }
+
+        void OnDestroy()
+        {
+            PlayerScript.OnDeath -= DeathSlowMo;
         }
     }
 }
