@@ -50,6 +50,7 @@ public class HitHandler : MonoBehaviour
 
         StartCoroutine(Controller.Instance.PlayerDead());
         player.IsAlive = false;
+        print("Player alive is "+player.IsAlive);
     }
 
     void ResetCollision() => Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), false);

@@ -8,6 +8,7 @@ public class ChainBehavior : StateMachineBehaviour
     [SerializeField] private List<AICondition> contidiotsToChain;
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.GetFloat("Speed") <= 0) return;
         int test = 0;
         foreach (var condition in contidiotsToChain)
             if (condition.Check(animator.gameObject, PlayerScript.Instance.gameObject)) test++;

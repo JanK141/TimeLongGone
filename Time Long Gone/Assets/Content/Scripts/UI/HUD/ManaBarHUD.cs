@@ -96,6 +96,7 @@ public class ManaBarHUD : MonoBehaviour
     {
         if (CurrMana >= flatRewindCost)
         {
+            Time.timeScale = 1;
             rewinding = true;
             generating = false;
             CurrMana -= flatRewindCost;

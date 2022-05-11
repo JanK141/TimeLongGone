@@ -9,7 +9,7 @@ public class AttackBehavior : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
+        if(animator.GetFloat("Speed")<=0) return;
         foreach (var t in transitions)
         {
             int test = 0;
@@ -21,7 +21,6 @@ public class AttackBehavior : StateMachineBehaviour
                 return;
             }
         }
-
     }
 
 

@@ -26,11 +26,18 @@ namespace Content.Scripts.Player
             if (Instance == null) Instance = this;
             movementScript = GetComponent<PlayerMovement>();
             playerInput = GetComponent<PlayerInput>();
-            //playerInput.SwitchCurrentActionMap("Player");
             combat = GetComponent<PlayerCombat>();
             hit = GetComponent<HitHandler>();
         }
 
         public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
+
+        void DisableOnRewind(bool rewinding)
+        {
+            movementScript.enabled = !rewinding;
+            combat.enabled = !rewinding;
+            hit.enabled = !rewinding;
+            //anim.enabled = !rewinding;
+        }
     }
 }

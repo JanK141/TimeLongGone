@@ -15,6 +15,7 @@ public class ChargeBehavior : StateMachineBehaviour
     private float chargeTime = 0f;
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.GetFloat("Speed") <= 0) return;
 
         if (!isLocked && (PlayerScript.Instance.transform.position - animator.transform.position).magnitude <= distanceToLockDirection)
             isLocked=true;

@@ -23,7 +23,9 @@ namespace Content.Scripts.Enemy
             move = GetComponent<EnemyMoOve>();
             anim = GetComponentInChildren<Animator>();
             status = GetComponentInChildren<EnemyStatusScript>();
+            ManaBarHUD.OnRewindChange += DisableForRewind;
         }
+        void OnDestroy() => ManaBarHUD.OnRewindChange -= DisableForRewind;
 
         public void ReceiveHit(int damage)
         {
@@ -55,6 +57,12 @@ namespace Content.Scripts.Enemy
         {
             anim.Play("Parried");
             status.MakeEnemyRegular();
+        }
+
+        private void DisableForRewind(bool rewinding)
+        {
+            move.enabled = !rewinding;
+            anim.SetFloat("Speed", (rewinding)?-1:1);
         }
     }
 }

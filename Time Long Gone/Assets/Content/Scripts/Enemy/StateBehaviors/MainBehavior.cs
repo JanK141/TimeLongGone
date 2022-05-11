@@ -14,6 +14,7 @@ public class MainBehavior : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.GetFloat("Speed") <= 0) return;
         foreach (AnimatorControllerParameter param in animator.parameters)
         {
             if(param.type.Equals(AnimatorControllerParameterType.Trigger))
@@ -25,6 +26,7 @@ public class MainBehavior : StateMachineBehaviour
 
     public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (animator.GetFloat("Speed") <= 0) return;
         chaseTest = 0;
         foreach (AICondition condition in chasePlayerConditions)
             if (condition.Check(animator.gameObject, PlayerScript.Instance.gameObject)) chaseTest++;
