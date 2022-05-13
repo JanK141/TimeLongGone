@@ -27,7 +27,7 @@ namespace Content.Scripts.Enemy
 
         public void ReceiveHit(int damage)
         {
-            if (EnemyStatusScript.currStatus != Statuses.Invulnerable)
+            if (EnemyStatusScript.CurrStatus != Statuses.Invulnerable)
             {
                 health.CurrHealth -= damage;
                 transform.DOPunchPosition(
@@ -37,7 +37,7 @@ namespace Content.Scripts.Enemy
 
         public void ReceiveStun()
         {
-            if (EnemyStatusScript.currStatus == Statuses.Vulnerable)
+            if (EnemyStatusScript.CurrStatus == Statuses.Vulnerable)
             {
                 status.MakeEnemyRegular();
                 anim.Play("StunStart");

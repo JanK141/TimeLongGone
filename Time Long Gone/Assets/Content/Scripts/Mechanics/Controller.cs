@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Content.Scripts.tim
+namespace Content.Scripts.Mechanics
 {
     public class Controller : MonoBehaviour
     {
@@ -20,22 +20,35 @@ namespace Content.Scripts.tim
         [SerializeField] private float maxRewindTime;
 
         private bool _isSlowMo;
+        
+        #region Event rewind
 
+        public static event Action<bool> OnRewind;
+        private static void RewindInvoker(bool value) => OnRewind?.Invoke(value);
 
-        //public static event Action<bool> OnRewind; //Tak jak zaproponowa�em.
-        //TODO Invoke it somewhere ofc
+        #endregion
 
         private void Awake() => Instance = this;
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                RewindInvoker(true);
+                print(" START REWIND");
+            }
+            else if (Input.GetKeyDown(KeyCode.CapsLock))
+            {
+                RewindInvoker(false);
+                print("STOP REWIND");
+            }
+        } // FOR TESTING
 
         public void ProcessSlowMo(bool state) //TODO ze skryptu z man� wywo�ujesz t� funkcj� i �miga
         {
             _isSlowMo = state;
 
-            if (_isSlowMo)
-                StartCoroutine(StartSlowMo());
-            else
-                StartCoroutine(StopSlowMo());
+            StartCoroutine(_isSlowMo ? StartSlowMo() : StopSlowMo());
         }
 
         private IEnumerator StartSlowMo()
@@ -50,7 +63,8 @@ namespace Content.Scripts.tim
             }
         }
 
-        private IEnumerator StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
+        private IEnumerator
+            StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
         {
             var time = (Time.timeScale - minSlowMo) / (1 - minSlowMo) * slowMoTime;
             while (!_isSlowMo && Time.timeScale < 1f)
