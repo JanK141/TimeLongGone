@@ -44,7 +44,7 @@ namespace Content.Scripts.Mechanics
             }
         } // FOR TESTING
 
-        public void ProcessSlowMo(bool state) //TODO ze skryptu z man� wywo�ujesz t� funkcj� i �miga
+        public void ProcessSlowMo(bool state) 
         {
             _isSlowMo = state;
 
@@ -64,7 +64,7 @@ namespace Content.Scripts.Mechanics
         }
 
         private IEnumerator
-            StopSlowMo() //TODO after rewinding time it needs to be invoked as well, as it generally smoothly sets time scale to normal (todo later)
+            StopSlowMo() 
         {
             var time = (Time.timeScale - minSlowMo) / (1 - minSlowMo) * slowMoTime;
             while (!_isSlowMo && Time.timeScale < 1f)
@@ -76,7 +76,7 @@ namespace Content.Scripts.Mechanics
             }
         }
 
-        public IEnumerator PlayerDead() //TODO invoke it through some event like OnPlayerDeath (todo later)
+        public IEnumerator PlayerDead() 
         {
             var time = (1 - Time.timeScale) * (slowMoTime / deathSlowMoMulti);
             while (Time.timeScale > 0.01f)

@@ -634,6 +634,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1713819420379888060, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.23523998
+      objectReference: {fileID: 0}
+    - target: {fileID: 1713819420379888060, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.8864081
+      objectReference: {fileID: 0}
+    - target: {fileID: 1713819420379888060, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.925545
+      objectReference: {fileID: 0}
     - target: {fileID: 5551450323378488022, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
       propertyPath: m_Name
       value: Boss

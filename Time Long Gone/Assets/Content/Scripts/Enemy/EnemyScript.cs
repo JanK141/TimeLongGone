@@ -23,6 +23,7 @@ namespace Content.Scripts.Enemy
             move = GetComponent<EnemyMoOve>();
             anim = GetComponentInChildren<Animator>();
             status = GetComponentInChildren<EnemyStatusScript>();
+            ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
 
         public void ReceiveHit(int damage)
@@ -55,6 +56,20 @@ namespace Content.Scripts.Enemy
         {
             anim.Play("Parried");
             status.MakeEnemyRegular();
+        }
+
+        private void DisableOnRewind(bool rewind)
+        {
+            anim.enabled = !rewind;
+            move.enabled = !rewind;
+            status.enabled = !rewind;
+            //anim.Update(0f);
+            //anim.Update(0f);
+        }
+
+        void OnDestroy()
+        {
+            ManaBarHUD.OnRewindChange -= DisableOnRewind;
         }
     }
 }

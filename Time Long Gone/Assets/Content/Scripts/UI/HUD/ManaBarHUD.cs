@@ -99,6 +99,7 @@ public class ManaBarHUD : MonoBehaviour
             rewinding = true;
             generating = false;
             CurrMana -= flatRewindCost;
+            Time.timeScale = 1f;
             OnRewindChange?.Invoke(true);
         }
     }

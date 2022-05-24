@@ -90,6 +90,7 @@ GameObject:
   - component: {fileID: 4601490303918779411}
   - component: {fileID: 5785133169032096007}
   - component: {fileID: 4611314842387777202}
+  - component: {fileID: 968037786}
   m_Layer: 7
   m_Name: Body
   m_TagString: Enemy
@@ -191,6 +192,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &968037786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3054727839725646234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &5551450323378488022
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,6 +220,7 @@ GameObject:
   - component: {fileID: 1869126459}
   - component: {fileID: 1869126460}
   - component: {fileID: 1869126461}
+  - component: {fileID: 968037787}
   m_Layer: 7
   m_Name: FatBoss
   m_TagString: Enemy
@@ -254,7 +271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed7f68e466b84de7b758a1b3eb8e4d68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 200
+  hp: {fileID: 11400000, guid: 041eba3343da50241bf1e64e12f357fd, type: 2}
   stages: 1
 --- !u!114 &1869126460
 MonoBehaviour:
@@ -290,6 +308,21 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &968037787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5551450323378488022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 2
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &6070210668773344900
 GameObject:
   m_ObjectHideFlags: 0
@@ -303,6 +336,7 @@ GameObject:
   - component: {fileID: 7674858277917046651}
   - component: {fileID: 7863231434847479025}
   - component: {fileID: 4427975}
+  - component: {fileID: 968037785}
   m_Layer: 9
   m_Name: Cylinder
   m_TagString: Untagged
@@ -382,7 +416,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 6070210668773344900}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1
@@ -399,3 +433,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865b3f41d54b1a64989faa8a0206139d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &968037785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6070210668773344900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}

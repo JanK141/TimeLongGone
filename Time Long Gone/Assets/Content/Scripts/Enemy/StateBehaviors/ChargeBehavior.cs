@@ -32,14 +32,19 @@ public class ChargeBehavior : StateMachineBehaviour
         {
             Transform parent = animator.gameObject.GetComponentInParent<Transform>();
             EnemyScript.Instance.move.WalkTo(parent.position + parent.forward);
-            animator.CrossFade("Idle", 0.5f);
+            //animator.CrossFade("Idle", 0.5f);
+            animator.Play("Idle");
         }
-
+        Debug.Log("Charging");
 
         if (Physics.CheckSphere(animator.transform.position, hitRadius, hitMask))
         {
-            if((PlayerScript.Instance.transform.position - animator.transform.position).magnitude <= hitRadius+1.5f)
+            if ((PlayerScript.Instance.transform.position - animator.transform.position).magnitude <= hitRadius + 1.5f)
+            {
                 PlayerScript.Instance.hit.ReceiveHit();
+                Debug.Log("Charge hit");
+            }
+
             animator.Play("ChargeHit", layerIndex);
         }
     }
