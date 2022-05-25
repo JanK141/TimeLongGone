@@ -2,8 +2,8 @@ using System;
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Content.Scripts.Mechanics;
 using Content.Scripts.Player;
-using Content.Scripts.tim;
 using UnityEngine;
 using UnityEngine.UI;
 using Time = UnityEngine.Time;
@@ -99,6 +99,7 @@ public class ManaBarHUD : MonoBehaviour
             rewinding = true;
             generating = false;
             CurrMana -= flatRewindCost;
+            Time.timeScale = 1f;
             OnRewindChange?.Invoke(true);
         }
     }

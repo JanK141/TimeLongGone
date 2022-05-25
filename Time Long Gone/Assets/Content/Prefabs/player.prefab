@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 7025810154849225619}
   - component: {fileID: 7025810154849225621}
   - component: {fileID: 7025810154849225618}
+  - component: {fileID: 471570541}
   m_Layer: 8
   m_Name: sword
   m_TagString: Untagged
@@ -138,6 +139,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810154849225616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810155060670664
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,6 +223,7 @@ GameObject:
   - component: {fileID: 7025810155226962740}
   - component: {fileID: 7025810155226962697}
   - component: {fileID: 7025810155226962742}
+  - component: {fileID: 471570542}
   m_Layer: 8
   m_Name: R_forearm
   m_TagString: Untagged
@@ -278,6 +295,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155226962741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810155483415141
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +321,7 @@ GameObject:
   - component: {fileID: 7025810155483415140}
   - component: {fileID: 7025810155483415161}
   - component: {fileID: 7025810155483415142}
+  - component: {fileID: 471570543}
   m_Layer: 8
   m_Name: R_arm
   m_TagString: Untagged
@@ -360,6 +393,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155483415141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810155756280374
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,6 +419,7 @@ GameObject:
   - component: {fileID: 7025810155756280329}
   - component: {fileID: 7025810155756280331}
   - component: {fileID: 7025810155756280328}
+  - component: {fileID: 471570540}
   m_Layer: 8
   m_Name: L_arm
   m_TagString: Untagged
@@ -442,6 +491,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155756280374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810155863201186
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +517,7 @@ GameObject:
   - component: {fileID: 7025810155863201189}
   - component: {fileID: 7025810155863201191}
   - component: {fileID: 7025810155863201188}
+  - component: {fileID: 471570539}
   m_Layer: 8
   m_Name: L_forearm
   m_TagString: Untagged
@@ -523,6 +588,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155863201186}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810155927579094
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,9 +619,10 @@ GameObject:
   - component: {fileID: 7025810155927578927}
   - component: {fileID: 7025810155927578926}
   - component: {fileID: 318743903}
+  - component: {fileID: 471570546}
   m_Layer: 8
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -842,7 +923,19 @@ MonoBehaviour:
     m_ActionId: af1f7422-4e81-4993-b11f-52adc72d182e
     m_ActionName: Menu/Click[/Mouse/leftButton]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7025810155927578927}
+        m_TargetAssemblyTypeName: Content.Scripts.Inputs.PlayerInput, Assembly-CSharp
+        m_MethodName: PauseGame
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: febeb2d5-f541-4a23-87f3-8a3b11cef7e1
     m_ActionName: Player/Pause[/Keyboard/escape,/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
@@ -863,6 +956,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parryWindow: 0.5
+  noCollisionTime: 0.2
+--- !u!114 &471570546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810155927579094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 1
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810156038909018
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,6 +983,7 @@ GameObject:
   - component: {fileID: 7025810156038909021}
   - component: {fileID: 7025810156038909020}
   - component: {fileID: 7025810156038909023}
+  - component: {fileID: 471570545}
   m_Layer: 8
   m_Name: model
   m_TagString: Untagged
@@ -927,6 +1037,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0fcc703602ce043b7b9db824c53057, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &471570545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810156038909018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &7025810156193247479
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +1063,7 @@ GameObject:
   - component: {fileID: 7025810156193247478}
   - component: {fileID: 7025810156193247435}
   - component: {fileID: 7025810156193247432}
+  - component: {fileID: 471570544}
   m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
@@ -1010,3 +1136,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &471570544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7025810156193247479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
