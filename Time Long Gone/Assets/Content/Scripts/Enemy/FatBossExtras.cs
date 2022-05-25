@@ -24,4 +24,16 @@ public class FatBossExtras : MonoBehaviour
         var enemy = EnemyScript.Instance;
         enemy.move.WalkTo(enemy.transform.position + enemy.transform.forward*2);
     }
+
+    public void StartWalkigForward()
+    {
+        var enemy = EnemyScript.Instance;
+        enemy.move.WalkTo(enemy.transform.position + enemy.transform.forward * 100);
+    }
+
+    public void StopWalkigForward()
+    {
+        var enemy = EnemyScript.Instance;
+        enemy.move.WalkTo(enemy.transform.position);
+    }
 }
