@@ -23,11 +23,12 @@ namespace Content.Scripts.Enemy
             move = GetComponent<EnemyMoOve>();
             anim = GetComponentInChildren<Animator>();
             status = GetComponentInChildren<EnemyStatusScript>();
+            ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
 
         public void ReceiveHit(int damage)
         {
-            if (EnemyStatusScript.currStatus != Statuses.Invulnerable)
+            if (EnemyStatusScript.CurrStatus != Statuses.Invulnerable)
             {
                 health.CurrHealth -= damage;
                 transform.DOPunchPosition(
@@ -37,7 +38,7 @@ namespace Content.Scripts.Enemy
 
         public void ReceiveStun()
         {
-            if (EnemyStatusScript.currStatus == Statuses.Vulnerable)
+            if (EnemyStatusScript.CurrStatus == Statuses.Vulnerable)
             {
                 status.MakeEnemyRegular();
                 anim.Play("StunStart");
@@ -55,6 +56,20 @@ namespace Content.Scripts.Enemy
         {
             anim.Play("Parried");
             status.MakeEnemyRegular();
+        }
+
+        private void DisableOnRewind(bool rewind)
+        {
+            anim.enabled = !rewind;
+            move.enabled = !rewind;
+            status.enabled = !rewind;
+            //anim.Update(0f);
+            //anim.Update(0f);
+        }
+
+        void OnDestroy()
+        {
+            ManaBarHUD.OnRewindChange -= DisableOnRewind;
         }
     }
 }
