@@ -387,6 +387,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
   maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &751897563
@@ -987,6 +988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Type: 0
   saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
   maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &1838742931
@@ -1083,6 +1085,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 5551450323378488022, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5551450323378488023, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -1142,7 +1148,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7025810155927578913, guid: cf3786fd6b2672b498caf545785a6a7d, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7025810155927578921, guid: cf3786fd6b2672b498caf545785a6a7d, type: 3}
       propertyPath: m_RootOrder

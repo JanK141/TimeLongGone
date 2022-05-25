@@ -1,4 +1,5 @@
 ﻿using System;
+using Content.Scripts.Camera;
 using Content.Scripts.Enemy;
 using DG.Tweening;
 using UnityEngine;
@@ -54,14 +55,16 @@ public class EnemyHealth : MonoBehaviour
         else if (hp.Value <= _stageChangers[_currStage - 1])
         {
             _currStage++;
-            //TODO next combat stage sequence
+            _enemy.anim.Play("SwitchStage");
+            _enemy.anim.SetInteger("Stage", _currStage);
+            CinemachineSwitcher.Instance.Switch(false);
         }
     }
 
     private void Death()
     {
         print("You won the level!");
-        //TODO start level end sequence
-        Destroy(gameObject);
+        _enemy.anim.Play("Death");
+        CinemachineSwitcher.Instance.Switch(true);
     }
 }

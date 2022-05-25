@@ -45,6 +45,8 @@ public class HitHandler : MonoBehaviour
                 break;
             case Statuses.Unavoidable:
                 break;
+            default:
+                break;
         }
         //Death
 
