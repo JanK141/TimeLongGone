@@ -1,65 +1,58 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using Content.Scripts.Enemy;
 using Content.Scripts.Mechanics;
+using Content.Scripts.Player;
 using UnityEngine;
 
-namespace Content.Scripts.Player
+public class HitHandler : MonoBehaviour
 {
-    public class HitHandler : MonoBehaviour
+    [SerializeField] private float parryWindow = 0.5f;
+    [SerializeField] private float noCollisionTime = 0.2f;
+
+    private PlayerScript player;
+
+    void Start()
     {
-        [SerializeField] private float parryWindow = 0.5f;
-        [SerializeField] private float noCollisionTime = 0.2f;
+        player = PlayerScript.Instance;
+    }
 
-        private PlayerScript _player;
-
-        private void Start() => _player = PlayerScript.Instance;
-
-        public void ReceiveHit()
+    public void ReceiveHit()
+    {
+        print("HIT " + EnemyStatusScript.CurrStatus);
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), true);
+        Invoke(nameof(ResetCollision), noCollisionTime);
+        switch (EnemyStatusScript.CurrStatus)
         {
-            print("HIT " + EnemyStatusScript.CurrStatus);
-            Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), true);
-            Invoke(nameof(ResetCollision), noCollisionTime);
-            switch (EnemyStatusScript.CurrStatus)
-            {
-                case Statuses.Regular:
-                    if (_player.movementScript.IsInvincible) return;
-                    if (_player.combat.IsBlocking)
-                        if (Time.time - _player.combat.BlockPressTime <= parryWindow)
-                        {
-                            EnemyScript.Instance.ReceiveParry();
-                            return;
-                        }
-
-                    break;
-                case Statuses.Unblockable:
-                    if (_player.movementScript.IsInvincible) return;
-                    if (_player.combat.IsBlocking && (Time.time - _player.combat.BlockPressTime <= parryWindow))
+            case Statuses.Regular:
+                if(player.movementScript.IsInvincible) return;
+                if (player.combat.IsBlocking)
+                {
+                    if (Time.time - player.combat.BlockPressTime <= parryWindow)
                     {
                         EnemyScript.Instance.ReceiveParry();
                         return;
                     }
-
-                    break;
-                case Statuses.Unavoidable:
-                    break;
-                case Statuses.Stunned:
-                    break;
-                case Statuses.Vulnerable:
-                    break;
-                case Statuses.Invulnerable:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            //Death
-
-            StartCoroutine(Controller.Instance.PlayerDead());
-            _player.IsAlive = false;
+                }
+                break;
+            case Statuses.Unblockable:
+                if (player.movementScript.IsInvincible) return;
+                if (player.combat.IsBlocking && (Time.time - player.combat.BlockPressTime <= parryWindow))
+                {
+                    EnemyScript.Instance.ReceiveParry();
+                    return;
+                }
+                break;
+            case Statuses.Unavoidable:
+                break;
+            default:
+                break;
         }
+        //Death
 
-        private void ResetCollision() => Physics.IgnoreLayerCollision(
-            LayerMask.NameToLayer("Player"),
-            LayerMask.NameToLayer("EnemyWeapon"), false
-        );
+        StartCoroutine(Controller.Instance.PlayerDead());
+        player.IsAlive = false;
     }
+
+    void ResetCollision() => Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), false);
 }

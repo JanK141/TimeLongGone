@@ -1,4 +1,5 @@
-﻿using Content.Scripts.Camera;
+﻿using System;
+using Content.Scripts.Camera;
 using Content.Scripts.Player;
 using DG.Tweening;
 using UnityEngine;
@@ -28,29 +29,32 @@ namespace Content.Scripts.Enemy
 
         public void ReceiveHit(int damage)
         {
-            if (EnemyStatusScript.CurrStatus == Statuses.Invulnerable) return;
-            
-            health.CurrHealth -= damage;
-            transform.DOPunchPosition(
-                -(PlayerScript.Instance.transform.position - transform.position).normalized * 0.2f, 0.1f);
+            if (EnemyStatusScript.CurrStatus != Statuses.Invulnerable)
+            {
+                health.CurrHealth -= damage;
+                transform.DOPunchPosition(
+                    -(PlayerScript.Instance.transform.position - transform.position).normalized * 0.2f, 0.1f);
+            }
         }
 
         public void ReceiveStun()
         {
-            if (EnemyStatusScript.CurrStatus != Statuses.Vulnerable) return;
-            
-            status.MakeEnemyStunned();
-            anim.Play("StunStart");
-            CinemachineSwitcher.Instance.Switch(true);
-            Invoke(nameof(EndStun), 4f);
+            if (EnemyStatusScript.CurrStatus == Statuses.Vulnerable)
+            {
+                status.MakeEnemyStunned();
+                anim.Play("StunStart");
+                CinemachineSwitcher.Instance.Switch(true);
+                Invoke(nameof(EndStun), 4f);
+            }
         }
 
-        private void EndStun()
+        void EndStun()
         {
-            if (EnemyStatusScript.CurrStatus != Statuses.Stunned) return;
-            
-            anim.Play("StunEnd");
-            CinemachineSwitcher.Instance.Switch(false);
+            if (EnemyStatusScript.CurrStatus == Statuses.Stunned)
+            {
+                anim.Play("StunEnd");
+                CinemachineSwitcher.Instance.Switch(false);
+            }
         }
 
         public void ReceiveParry()
@@ -72,6 +76,9 @@ namespace Content.Scripts.Enemy
             status.enabled = !rewind;
         }
 
-        private void OnDestroy() => ManaBarHUD.OnRewindChange -= DisableOnRewind;
+        void OnDestroy()
+        {
+            ManaBarHUD.OnRewindChange -= DisableOnRewind;
+        }
     }
 }

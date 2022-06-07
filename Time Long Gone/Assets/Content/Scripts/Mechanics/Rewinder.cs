@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Content.Scripts.Enemy;
 using Content.Scripts.Player;
 using Content.Scripts.Variables;
 using DG.Tweening;
