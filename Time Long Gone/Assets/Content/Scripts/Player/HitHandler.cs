@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Content.Scripts.Enemy;
+using Content.Scripts.Mechanics;
 using Content.Scripts.Player;
-using Content.Scripts.tim;
 using UnityEngine;
 
 public class HitHandler : MonoBehaviour
@@ -19,10 +19,10 @@ public class HitHandler : MonoBehaviour
 
     public void ReceiveHit()
     {
-        print("HIT " + EnemyStatusScript.currStatus);
+        print("HIT " + EnemyStatusScript.CurrStatus);
         Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("EnemyWeapon"), true);
         Invoke(nameof(ResetCollision), noCollisionTime);
-        switch (EnemyStatusScript.currStatus)
+        switch (EnemyStatusScript.CurrStatus)
         {
             case Statuses.Regular:
                 if(player.movementScript.IsInvincible) return;
@@ -44,6 +44,8 @@ public class HitHandler : MonoBehaviour
                 }
                 break;
             case Statuses.Unavoidable:
+                break;
+            default:
                 break;
         }
         //Death

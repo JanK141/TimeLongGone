@@ -15,6 +15,7 @@ namespace Content.Scripts.Enemy
         [HideInInspector] public Animator anim;
         [HideInInspector] public EnemyStatusScript status;
 
+        private bool _isStunned = false;
 
         private void Awake()
         {
@@ -23,11 +24,12 @@ namespace Content.Scripts.Enemy
             move = GetComponent<EnemyMoOve>();
             anim = GetComponentInChildren<Animator>();
             status = GetComponentInChildren<EnemyStatusScript>();
+            ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
 
         public void ReceiveHit(int damage)
         {
-            if (EnemyStatusScript.currStatus != Statuses.Invulnerable)
+            if (EnemyStatusScript.CurrStatus != Statuses.Invulnerable)
             {
                 health.CurrHealth -= damage;
                 transform.DOPunchPosition(
@@ -37,24 +39,46 @@ namespace Content.Scripts.Enemy
 
         public void ReceiveStun()
         {
-            if (EnemyStatusScript.currStatus == Statuses.Vulnerable)
+            if (EnemyStatusScript.CurrStatus == Statuses.Vulnerable)
             {
-                status.MakeEnemyRegular();
+                status.MakeEnemyStunned();
                 anim.Play("StunStart");
                 CinemachineSwitcher.Instance.Switch(true);
+                Invoke(nameof(EndStun), 4f);
             }
         }
 
         void EndStun()
         {
-            anim.Play("StunEnd");
-            CinemachineSwitcher.Instance.Switch(false);
+            if (EnemyStatusScript.CurrStatus == Statuses.Stunned)
+            {
+                anim.Play("StunEnd");
+                CinemachineSwitcher.Instance.Switch(false);
+            }
         }
 
         public void ReceiveParry()
         {
             anim.Play("Parried");
-            status.MakeEnemyRegular();
+            status.MakeEnemyVulnerable();
+            Invoke(nameof(EndParry), 1f);
+        }
+
+        public void EndParry()
+        {
+            if (EnemyStatusScript.CurrStatus >0 && EnemyStatusScript.CurrStatus < (Statuses) 10) anim.Play("ParryEnd");
+        }
+
+        private void DisableOnRewind(bool rewind)
+        {
+            anim.enabled = !rewind;
+            move.enabled = !rewind;
+            status.enabled = !rewind;
+        }
+
+        void OnDestroy()
+        {
+            ManaBarHUD.OnRewindChange -= DisableOnRewind;
         }
     }
 }

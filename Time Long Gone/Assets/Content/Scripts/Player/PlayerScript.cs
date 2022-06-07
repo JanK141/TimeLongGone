@@ -29,8 +29,22 @@ namespace Content.Scripts.Player
             //playerInput.SwitchCurrentActionMap("Player");
             combat = GetComponent<PlayerCombat>();
             hit = GetComponent<HitHandler>();
+            ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
 
         public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
+
+        private void DisableOnRewind(bool rewind)
+        {
+            anim.enabled = !rewind;
+            movementScript.enabled = !rewind;
+            combat.enabled = !rewind;
+            hit.enabled = !rewind;
+        }
+
+        void OnDestroy()
+        {
+            ManaBarHUD.OnRewindChange -= DisableOnRewind;
+        }
     }
 }

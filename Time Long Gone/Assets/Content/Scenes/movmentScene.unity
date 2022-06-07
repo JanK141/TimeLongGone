@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 1ded1b869982c7e45a09f18a42a8a591, type: 2}
 --- !u!1 &510560236
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +370,26 @@ MonoBehaviour:
   m_AreaLightEmissiveMeshShadowCastingMode: 0
   m_AreaLightEmissiveMeshMotionVectorGenerationMode: 0
   m_AreaLightEmissiveMeshLayer: -1
+--- !u!1 &707315018 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5551450323378488022, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+  m_PrefabInstance: {fileID: 5551450324920385322}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &707315024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707315018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &751897563
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,7 +407,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!65 &751897564
 BoxCollider:
@@ -951,6 +971,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 771245765}
+--- !u!1 &1760259168 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7025810155927579094, guid: cf3786fd6b2672b498caf545785a6a7d, type: 3}
+  m_PrefabInstance: {fileID: 7025810155744400553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1760259177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760259168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd479a33117868a469ef3aba2c122a59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Type: 0
+  saveInterval: {fileID: 11400000, guid: 23a0084864e660d41b733ec57b6a213b, type: 2}
+  maxRememberedTime: {fileID: 11400000, guid: b7f2cf33bd69608499c3f5fdd5fbb5b4, type: 2}
 --- !u!1 &1838742931
 GameObject:
   m_ObjectHideFlags: 0
@@ -1033,9 +1073,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1869126459, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: hp
+      value: 
+      objectReference: {fileID: 11400000, guid: 041eba3343da50241bf1e64e12f357fd, type: 2}
+    - target: {fileID: 1255235211352108401, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: 8837f192a88abd84da9f1907d0b6bdb4, type: 3}
     - target: {fileID: 5551450323378488022, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
       propertyPath: m_Name
       value: Boss
+      objectReference: {fileID: 0}
+    - target: {fileID: 5551450323378488022, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5551450323378488023, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
       propertyPath: m_RootOrder
@@ -1081,6 +1133,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6766072300420669134, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5fdc95705a4734840b5d67c263bf1d63, type: 3}
 --- !u!1001 &7025810155744400553
@@ -1090,6 +1146,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7025810155927578913, guid: cf3786fd6b2672b498caf545785a6a7d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7025810155927578921, guid: cf3786fd6b2672b498caf545785a6a7d, type: 3}
       propertyPath: m_RootOrder
       value: 5
