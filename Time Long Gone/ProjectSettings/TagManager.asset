@@ -6,6 +6,12 @@ TagManager:
   tags:
   - Enemy
   - Target
+  - Projectile
+  - Floor
+  - weapon
+  - bamboo
+  - Arena
+  - Enemy Weapon
   layers:
   - Default
   - TransparentFX
