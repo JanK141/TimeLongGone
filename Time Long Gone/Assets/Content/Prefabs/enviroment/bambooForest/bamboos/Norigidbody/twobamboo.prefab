@@ -95,7 +95,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: straight bamboo
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -7219036383451880694, guid: 360f34973fed5bf468e890798299e50c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 360f34973fed5bf468e890798299e50c, type: 3}
 --- !u!4 &8358090149205516293 stripped
 Transform:
@@ -165,7 +166,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: leaning bamboo
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -5877865853326973807, guid: 1f50f0a421b684e4b9d79800b2c43fe7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1f50f0a421b684e4b9d79800b2c43fe7, type: 3}
 --- !u!4 &8358090150677649910 stripped
 Transform:

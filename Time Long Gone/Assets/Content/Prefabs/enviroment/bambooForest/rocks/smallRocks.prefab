@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8051591479123129024}
   - component: {fileID: 8051591479123129027}
   - component: {fileID: 8051591479123129026}
+  - component: {fileID: 1064892415}
   m_Layer: 0
   m_Name: rock (16)
   m_TagString: Untagged
@@ -95,6 +96,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892415
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479123129036}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479156241766
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +124,7 @@ GameObject:
   - component: {fileID: 8051591479156241786}
   - component: {fileID: 8051591479156241765}
   - component: {fileID: 8051591479156241764}
+  - component: {fileID: 1064892418}
   m_Layer: 0
   m_Name: rock (13)
   m_TagString: Untagged
@@ -190,6 +208,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892418
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479156241766}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479179090720
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +236,7 @@ GameObject:
   - component: {fileID: 8051591479179090724}
   - component: {fileID: 8051591479179090727}
   - component: {fileID: 8051591479179090726}
+  - component: {fileID: 1064892430}
   m_Layer: 0
   m_Name: rock (1)
   m_TagString: Untagged
@@ -285,6 +320,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892430
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479179090720}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479231675080
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +348,7 @@ GameObject:
   - component: {fileID: 8051591479231675084}
   - component: {fileID: 8051591479231675087}
   - component: {fileID: 8051591479231675086}
+  - component: {fileID: 1064892421}
   m_Layer: 0
   m_Name: rock (10)
   m_TagString: Untagged
@@ -380,6 +432,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892421
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479231675080}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479280045383
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,6 +460,7 @@ GameObject:
   - component: {fileID: 8051591479280045403}
   - component: {fileID: 8051591479280045402}
   - component: {fileID: 8051591479280045381}
+  - component: {fileID: 1064892417}
   m_Layer: 0
   m_Name: rock (14)
   m_TagString: Untagged
@@ -475,6 +544,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892417
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479280045383}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479768769218
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +572,7 @@ GameObject:
   - component: {fileID: 8051591479768769222}
   - component: {fileID: 8051591479768769217}
   - component: {fileID: 8051591479768769216}
+  - component: {fileID: 1064892419}
   m_Layer: 0
   m_Name: rock (12)
   m_TagString: Untagged
@@ -570,6 +656,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892419
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479768769218}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479777778710
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,6 +684,7 @@ GameObject:
   - component: {fileID: 8051591479777779690}
   - component: {fileID: 8051591479777778709}
   - component: {fileID: 8051591479777778708}
+  - component: {fileID: 1064892427}
   m_Layer: 0
   m_Name: rock (4)
   m_TagString: Untagged
@@ -665,6 +768,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892427
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479777778710}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479951266876
 GameObject:
   m_ObjectHideFlags: 0
@@ -677,6 +796,7 @@ GameObject:
   - component: {fileID: 8051591479951266864}
   - component: {fileID: 8051591479951266867}
   - component: {fileID: 8051591479951266866}
+  - component: {fileID: 1064892416}
   m_Layer: 0
   m_Name: rock (15)
   m_TagString: Untagged
@@ -760,6 +880,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892416
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479951266876}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591479953968218
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +908,7 @@ GameObject:
   - component: {fileID: 8051591479953968222}
   - component: {fileID: 8051591479953968217}
   - component: {fileID: 8051591479953968216}
+  - component: {fileID: 1064892423}
   m_Layer: 0
   m_Name: rock (8)
   m_TagString: Untagged
@@ -855,6 +992,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892423
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591479953968218}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480101133667
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +1020,7 @@ GameObject:
   - component: {fileID: 8051591480101133671}
   - component: {fileID: 8051591480101133670}
   - component: {fileID: 8051591480101133665}
+  - component: {fileID: 1064892426}
   m_Layer: 0
   m_Name: rock (5)
   m_TagString: Untagged
@@ -950,6 +1104,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892426
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480101133667}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480215774028
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,6 +1132,7 @@ GameObject:
   - component: {fileID: 8051591480215774016}
   - component: {fileID: 8051591480215774019}
   - component: {fileID: 8051591480215774018}
+  - component: {fileID: 1064892425}
   m_Layer: 0
   m_Name: rock (6)
   m_TagString: Untagged
@@ -1045,6 +1216,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892425
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480215774028}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480280915684
 GameObject:
   m_ObjectHideFlags: 0
@@ -1057,6 +1244,7 @@ GameObject:
   - component: {fileID: 8051591480280915704}
   - component: {fileID: 8051591480280915707}
   - component: {fileID: 8051591480280915706}
+  - component: {fileID: 1064892422}
   m_Layer: 0
   m_Name: rock (9)
   m_TagString: Untagged
@@ -1140,6 +1328,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892422
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480280915684}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480719685306
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1402,7 @@ GameObject:
   - component: {fileID: 8051591480821119456}
   - component: {fileID: 8051591480821119459}
   - component: {fileID: 8051591480821119458}
+  - component: {fileID: 1064892428}
   m_Layer: 0
   m_Name: rock (3)
   m_TagString: Untagged
@@ -1281,6 +1486,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892428
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480821119468}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480912325867
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,6 +1514,7 @@ GameObject:
   - component: {fileID: 8051591480912325871}
   - component: {fileID: 8051591480912325870}
   - component: {fileID: 8051591480912325865}
+  - component: {fileID: 1064892429}
   m_Layer: 0
   m_Name: rock (2)
   m_TagString: Untagged
@@ -1376,6 +1598,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892429
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480912325867}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591480931970015
 GameObject:
   m_ObjectHideFlags: 0
@@ -1388,6 +1626,7 @@ GameObject:
   - component: {fileID: 8051591480931970003}
   - component: {fileID: 8051591480931970002}
   - component: {fileID: 8051591480931970013}
+  - component: {fileID: 1064892420}
   m_Layer: 0
   m_Name: rock (11)
   m_TagString: Untagged
@@ -1471,6 +1710,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892420
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591480931970015}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8051591481168177860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1483,6 +1738,7 @@ GameObject:
   - component: {fileID: 8051591481168177880}
   - component: {fileID: 8051591481168177883}
   - component: {fileID: 8051591481168177882}
+  - component: {fileID: 1064892424}
   m_Layer: 0
   m_Name: rock (7)
   m_TagString: Untagged
@@ -1566,3 +1822,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1064892424
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8051591481168177860}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
