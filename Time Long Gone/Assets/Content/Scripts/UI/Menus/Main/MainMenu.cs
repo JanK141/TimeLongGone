@@ -17,10 +17,7 @@ public class MainMenu : MonoBehaviour
 
     private void OnEnable() => gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
 
-    public void Continue()
-    {
-
-    }
+    public void Continue(){}
 
     [Obsolete("Obsolete")]
     public void NewGame()
@@ -52,7 +49,6 @@ public class MainMenu : MonoBehaviour
 
     public void MakeActive()
     {
-
         gameObject.SetActive(true);
         gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
         EventSystem.current.SetSelectedGameObject(null);    //validation
