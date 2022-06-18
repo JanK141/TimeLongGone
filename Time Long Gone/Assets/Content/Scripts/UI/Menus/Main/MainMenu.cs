@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,16 +15,11 @@ public class MainMenu : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    void OnEnable()
-    {
-        gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
-    }
+    private void OnEnable() => gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
 
-    public void Continue()
-    {
+    public void Continue(){}
 
-    }
-
+    [Obsolete("Obsolete")]
     public void NewGame()
     {
         //playerInput.SwitchCurrentActionMap("Player");
@@ -48,23 +44,16 @@ public class MainMenu : MonoBehaviour
         EventManager.SettingsMenu.MakeActive();
     }
 
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
+    public void ExitGame() => Application.Quit();
 
 
     public void MakeActive()
     {
-
         gameObject.SetActive(true);
         gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
         EventSystem.current.SetSelectedGameObject(null);    //validation
         EventSystem.current.SetSelectedGameObject(FirstButtonInMain);
     }
 
-    public void MakeInactive()
-    {
-        gameObject.SetActive(false);
-    }
+    public void MakeInactive() => gameObject.SetActive(false);
 }

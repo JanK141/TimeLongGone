@@ -1,70 +1,69 @@
-﻿using System;
-using Content.Scripts.Camera;
-using Content.Scripts.Enemy;
-using DG.Tweening;
+﻿using Content.Scripts.Camera;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class EnemyHealth : MonoBehaviour
+namespace Content.Scripts.Enemy
 {
-    #region Inspector fields
-    [SerializeField] [Min(1)] private int maxHealth = 100;
-    [SerializeField] private IntVariable hp;
-    [SerializeField] [Min(1)] [Tooltip("How many combat stages boss has (divided by % of hp) ")] private int stages = 1;
-    #endregion
-
-    #region Private variables
-    private int _currStage;
-    private float[] _stageChangers;
-    private EnemyScript _enemy;
-    #endregion
-
-    #region Properties
-    public int CurrHealth
+    public class EnemyHealth : MonoBehaviour
     {
-        get => hp.Value;
-        set
+        #region Inspector fields
+        [SerializeField] [Min(1)] private int maxHealth = 100;
+        [SerializeField] private IntVariable hp;
+        [SerializeField] [Min(1)] [Tooltip("How many combat stages boss has (divided by % of hp) ")] private int stages = 1;
+        #endregion
+
+        #region Private variables
+        private int _currStage;
+        private float[] _stageChangers;
+        private EnemyScript _enemy;
+        private static readonly int Stage = Animator.StringToHash("Stage");
+
+        #endregion
+
+        #region Properties
+        public int CurrHealth
         {
-            hp.Value = value;
-            UpdateHealth();
+            get => hp.Value;
+            set
+            {
+                hp.Value = value;
+                UpdateHealth();
+            }
         }
-    }
 
-    public int MaxHealth => maxHealth;
-    public int CurrStage => _currStage;
-    #endregion
+        public int MaxHealth => maxHealth;
+        public int CurrStage => _currStage;
+        #endregion
 
 
-    private void Start()
-    {
-        _enemy = EnemyScript.Instance;
-        hp.Value = maxHealth;
-        hp.Reset();
-        _currStage = 1;
-        _enemy.anim.SetInteger("Stage", _currStage);
-        _stageChangers = new float[stages];
-        for (var i = 0; i < stages; i++)
+        private void Start()
         {
-            _stageChangers[i] = i + 1 == stages ? 0 : maxHealth - (maxHealth / stages) * (i + 1);
+            _enemy = EnemyScript.Instance;
+            hp.Value = maxHealth;
+            hp.Reset();
+            _currStage = 1;
+            _enemy.anim.SetInteger(Stage, _currStage);
+            _stageChangers = new float[stages];
+            for (var i = 0; i < stages; i++)
+                _stageChangers[i] = i + 1 == stages ? 0 : maxHealth - (maxHealth / stages) * (i + 1);
         }
-    }
 
-    private void UpdateHealth()
-    {
-        if (hp.Value <= 0) Death();
-        else if (hp.Value <= _stageChangers[_currStage - 1])
+        private void UpdateHealth()
         {
-            _currStage++;
-            _enemy.anim.Play("SwitchStage");
-            _enemy.anim.SetInteger("Stage", _currStage);
-            CinemachineSwitcher.Instance.Switch(false);
+            if (hp.Value <= 0) Death();
+            else if (hp.Value <= _stageChangers[_currStage - 1])
+            {
+                _currStage++;
+                _enemy.anim.Play("SwitchStage");
+                _enemy.anim.SetInteger(Stage, _currStage);
+                CinemachineSwitcher.Instance.Switch(false);
+            }
         }
-    }
 
-    private void Death()
-    {
-        print("You won the level!");
-        _enemy.anim.Play("Death");
-        CinemachineSwitcher.Instance.Switch(true);
+        private void Death()
+        {
+            print("You won the level!");
+            _enemy.anim.Play("Death");
+            CinemachineSwitcher.Instance.Switch(true);
+        }
     }
 }
