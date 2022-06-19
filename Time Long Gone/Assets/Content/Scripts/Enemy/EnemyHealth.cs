@@ -1,4 +1,5 @@
-﻿using Content.Scripts.Camera;
+﻿using System;
+using Content.Scripts.Camera;
 using UnityEngine;
 
 namespace Content.Scripts.Enemy
@@ -34,6 +35,7 @@ namespace Content.Scripts.Enemy
         public int CurrStage => _currStage;
         #endregion
 
+        public static event Action enemyDeath;
 
         private void Start()
         {
@@ -64,6 +66,7 @@ namespace Content.Scripts.Enemy
             print("You won the level!");
             _enemy.anim.Play("Death");
             CinemachineSwitcher.Instance.Switch(true);
+            enemyDeath?.Invoke();
         }
     }
 }

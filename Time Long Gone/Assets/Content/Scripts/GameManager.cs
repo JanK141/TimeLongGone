@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
+
 public class GameManager : MonoBehaviour
 {
 
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        DontDestroyOnLoad(this.gameObject);
         if (Instance != null && Instance != this)
         {
             Destroy(this);

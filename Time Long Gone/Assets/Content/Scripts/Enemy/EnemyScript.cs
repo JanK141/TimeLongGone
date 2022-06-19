@@ -21,7 +21,7 @@ namespace Content.Scripts.Enemy
             if (Instance == null) Instance = this;
             health = GetComponent<EnemyHealth>();
             move = GetComponent<EnemyMoOve>();
-            anim = GetComponentInChildren<Animator>();
+            anim = GetComponentsInChildren<Animator>()[1];
             status = GetComponentInChildren<EnemyStatusScript>();
             ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
@@ -70,6 +70,13 @@ namespace Content.Scripts.Enemy
             anim.enabled = !rewind;
             move.enabled = !rewind;
             status.enabled = !rewind;
+        }
+
+        public void MechanicsOnOff(bool state)
+        {
+            health.enabled = state;
+            anim.enabled = state;
+            move.enabled = state;
         }
 
         private void OnDestroy() => ManaBarHUD.OnRewindChange -= DisableOnRewind;
