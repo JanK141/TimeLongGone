@@ -56,14 +56,14 @@ namespace Content.Scripts.Mechanics
                     ApplyEntry = delegate { _savedTimeLinkedList.Last.Value.Apply(gameObject, _interval); };
                     break;
                 case RewindObjType.Enemy:
-                    _animator = GetComponentInChildren<Animator>();
+                    _animator = GetComponentsInChildren<Animator>()[1];
                     hp = GetComponent<EnemyHealth>();
                     AddEntry = AddEnemy;
                     ApplyEntry = ApplyEnemy;
                     RewindEnd = RestoreEnemy;
                     break;
                 case RewindObjType.Player:
-                    _animator = GetComponentInChildren<Animator>();
+                    _animator = GetComponentsInChildren<Animator>()[1];
                     player = GetComponent<PlayerScript>();
                     AddEntry = AddPlayer;
                     RewindEnd = RestorePlayer;

@@ -42,6 +42,14 @@ namespace Content.Scripts.Player
             hit.enabled = !rewind;
         }
 
+        public void MechanicsOnOff(bool state)
+        {
+            anim.enabled = state;
+            hit.enabled = state;
+            combat.enabled = state;
+            movementScript.enabled = state;
+        }
+
         void OnDestroy()
         {
             ManaBarHUD.OnRewindChange -= DisableOnRewind;
