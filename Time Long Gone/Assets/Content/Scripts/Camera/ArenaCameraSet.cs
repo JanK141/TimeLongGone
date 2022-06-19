@@ -14,7 +14,7 @@ namespace Content.Scripts.Camera
         private Transform _targetGroup;
         private Vector3 _lineDir;
 
-        void Start()
+        private void Start()
         {
             _cvm = GetComponent<CinemachineVirtualCamera>();
             _targetGroup = _cvm.LookAt;
@@ -23,13 +23,14 @@ namespace Content.Scripts.Camera
 
         private void Update()
         {
-            var distanceVector = _targetGroup.position - pointA.position;
+            var positionA = pointA.position;
+            var distanceVector = _targetGroup.position - positionA;
             var dot = Vector3.Dot(distanceVector, _lineDir) - offset;
-            transform.position = pointA.position + _lineDir * dot;
+            transform.position = positionA + _lineDir * dot;
         }
 
 
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             Gizmos.color = Color.green;
             Gizmos.DrawLine(pointA.position, pointB.position);
