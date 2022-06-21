@@ -20,5 +20,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Content/Scenes/menu/HUD Scene.unity
     guid: c6bf3b004d08a6741b6e41b0e608fc36
+  - enabled: 1
+    path: Assets/Content/Scenes/LoadingScreen.unity
+    guid: 86e3f186a0a07e0409207df0ca3d1760
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 27bece49835fc61449da3d164f858086, type: 2}
