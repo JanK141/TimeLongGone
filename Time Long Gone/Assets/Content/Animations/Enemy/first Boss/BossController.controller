@@ -655,7 +655,7 @@ AnimatorStateMachine:
     m_Position: {x: 250, y: 110, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1618750712636749554}
-    m_Position: {x: 520, y: 220, z: 0}
+    m_Position: {x: 530, y: 220, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8511109506685680096}
     m_Position: {x: 530, y: -20, z: 0}
@@ -665,7 +665,7 @@ AnimatorStateMachine:
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
-  m_EntryPosition: {x: 50, y: 120, z: 0}
+  m_EntryPosition: {x: 20, y: 110, z: 0}
   m_ExitPosition: {x: 950, y: 260, z: 0}
   m_ParentStateMachinePosition: {x: 880, y: 110, z: 0}
   m_DefaultState: {fileID: 2288446882947887971}
@@ -914,7 +914,7 @@ AnimatorStateMachine:
     m_Position: {x: 360, y: 110, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 5262981444638889476}
-    m_Position: {x: 630, y: 30, z: 0}
+    m_Position: {x: 630, y: 40, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
@@ -3665,36 +3665,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitions:
-  - Trigger: BumAttack
-    Conditions:
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-    - {fileID: 11400000, guid: 6c09ed90e5ddc34459991f4d7c6d4c32, type: 2}
-  - Trigger: BackAttack
-    Conditions:
-    - {fileID: 11400000, guid: 53a7c256e38eb9a42afb16048b8735e4, type: 2}
-  - Trigger: StrongAttack
-    Conditions:
-    - {fileID: 11400000, guid: 00d37c24489f3a84f8d00f05faa43175, type: 2}
-  - Trigger: ChainedDestructionAttack
-    Conditions:
-    - {fileID: 11400000, guid: 7ce1267a194c6a34faf91e3e20f69394, type: 2}
-    - {fileID: 11400000, guid: 229a9bf083b387e47a7587a2e49ebef4, type: 2}
-  - Trigger: WalkingSweep
-    Conditions:
-    - {fileID: 11400000, guid: 6c09ed90e5ddc34459991f4d7c6d4c32, type: 2}
-    - {fileID: 11400000, guid: 7ce1267a194c6a34faf91e3e20f69394, type: 2}
-    - {fileID: 11400000, guid: de434157c94cbda4b928962653c0e17f, type: 2}
-  - Trigger: TurnAndHit
-    Conditions:
-    - {fileID: 11400000, guid: 229a9bf083b387e47a7587a2e49ebef4, type: 2}
-    - {fileID: 11400000, guid: 53a7c256e38eb9a42afb16048b8735e4, type: 2}
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-  - Trigger: DodgeAndReturn
-    Conditions:
-    - {fileID: 11400000, guid: 3de9dc05103c7b846bb235d336ecf39a, type: 2}
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-  - Trigger: BasicAttack
-    Conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
 --- !u!1102 &3517538782830735430
 AnimatorState:
   serializedVersion: 6
@@ -3906,7 +3892,7 @@ AnimatorStateMachine:
     m_Position: {x: 300, y: -70, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1346784996728731582}
-    m_Position: {x: 570, y: -70, z: 0}
+    m_Position: {x: 580, y: -70, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -3915,7 +3901,7 @@ AnimatorStateMachine:
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
+  m_ParentStateMachinePosition: {x: 810, y: -10, z: 0}
   m_DefaultState: {fileID: -5430189064881692650}
 --- !u!1102 &4118206177804675601
 AnimatorState:
@@ -4278,10 +4264,10 @@ AnimatorStateMachine:
   m_ChildStateMachines:
   - serializedVersion: 1
     m_StateMachine: {fileID: -1262132527450792714}
-    m_Position: {x: 500, y: -70, z: 0}
+    m_Position: {x: 460, y: -130, z: 0}
   - serializedVersion: 1
     m_StateMachine: {fileID: 5321085982515684678}
-    m_Position: {x: 500, y: 550, z: 0}
+    m_Position: {x: 500, y: 480, z: 0}
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
@@ -4289,7 +4275,7 @@ AnimatorStateMachine:
   m_AnyStatePosition: {x: -40, y: -10, z: 0}
   m_EntryPosition: {x: -80, y: 170, z: 0}
   m_ExitPosition: {x: 800, y: 170, z: 0}
-  m_ParentStateMachinePosition: {x: 1070, y: 110, z: 0}
+  m_ParentStateMachinePosition: {x: 1080, y: 110, z: 0}
   m_DefaultState: {fileID: -8726919696420093012}
 --- !u!1107 &5321085982515684678
 AnimatorStateMachine:
@@ -4412,22 +4398,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitions:
-  - Trigger: BumAttack
-    Conditions:
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-    - {fileID: 11400000, guid: 6c09ed90e5ddc34459991f4d7c6d4c32, type: 2}
-  - Trigger: BackAttack
-    Conditions:
-    - {fileID: 11400000, guid: 53a7c256e38eb9a42afb16048b8735e4, type: 2}
-  - Trigger: StrongAttack
-    Conditions:
-    - {fileID: 11400000, guid: 00d37c24489f3a84f8d00f05faa43175, type: 2}
-  - Trigger: ChainedDestructionAttack
-    Conditions:
-    - {fileID: 11400000, guid: 7ce1267a194c6a34faf91e3e20f69394, type: 2}
-    - {fileID: 11400000, guid: 229a9bf083b387e47a7587a2e49ebef4, type: 2}
-  - Trigger: BasicAttack
-    Conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
 --- !u!1101 &5615887785313807326
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -4645,22 +4625,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitions:
-  - Trigger: BumAttack
-    Conditions:
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-    - {fileID: 11400000, guid: 6c09ed90e5ddc34459991f4d7c6d4c32, type: 2}
-  - Trigger: BackAttack
-    Conditions:
-    - {fileID: 11400000, guid: 53a7c256e38eb9a42afb16048b8735e4, type: 2}
-  - Trigger: StrongAttack
-    Conditions:
-    - {fileID: 11400000, guid: 00d37c24489f3a84f8d00f05faa43175, type: 2}
-  - Trigger: ChainedDestructionAttack
-    Conditions:
-    - {fileID: 11400000, guid: 7ce1267a194c6a34faf91e3e20f69394, type: 2}
-    - {fileID: 11400000, guid: 229a9bf083b387e47a7587a2e49ebef4, type: 2}
-  - Trigger: BasicAttack
-    Conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
 --- !u!1102 &6830555720226694416
 AnimatorState:
   serializedVersion: 6
@@ -4868,22 +4842,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transitions:
-  - Trigger: BumAttack
-    Conditions:
-    - {fileID: 11400000, guid: 14fc1a60ad87db14b9399a15bddd534d, type: 2}
-    - {fileID: 11400000, guid: 6c09ed90e5ddc34459991f4d7c6d4c32, type: 2}
-  - Trigger: BackAttack
-    Conditions:
-    - {fileID: 11400000, guid: 53a7c256e38eb9a42afb16048b8735e4, type: 2}
-  - Trigger: StrongAttack
-    Conditions:
-    - {fileID: 11400000, guid: 00d37c24489f3a84f8d00f05faa43175, type: 2}
-  - Trigger: ChainedDestructionAttack
-    Conditions:
-    - {fileID: 11400000, guid: 7ce1267a194c6a34faf91e3e20f69394, type: 2}
-    - {fileID: 11400000, guid: 229a9bf083b387e47a7587a2e49ebef4, type: 2}
-  - Trigger: BasicAttack
-    Conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
+  - trigger: 
+    conditions: []
 --- !u!1101 &7480111529629491676
 AnimatorStateTransition:
   m_ObjectHideFlags: 1

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Content.Scripts.Enemy.AI_Conditions.Templates;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "AI Conditions/Angle Check")]
