@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
     {
         AsyncOperation tmp = SceneManager.LoadSceneAsync("LoadingScreen", LoadSceneMode.Single);
         while (!tmp.isDone) yield return null;
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
         scenesToLoad.Add(SceneManager.LoadSceneAsync(levelName));
         scenesToLoad.Add(SceneManager.LoadSceneAsync("Pause Menu Scene", LoadSceneMode.Additive));
         scenesToLoad.Add(SceneManager.LoadSceneAsync("HUD Scene", LoadSceneMode.Additive));
@@ -100,11 +100,20 @@ public class GameManager : MonoBehaviour
         Slider progressBar = GameObject.Find("LoadingBar").GetComponent<Slider>();
         float totalProgress = 0;
         
-            while (scenesToLoad[0].progress <= 0.85)
+            /*while (scenesToLoad[0].progress <= 0.85)
             {
                 totalProgress = scenesToLoad[0].progress;
                 progressBar.value = totalProgress;
                 yield return null;
+            }*/
+
+            while (totalProgress<1)
+            {
+                float randWait = Random.value;
+                float randProg = Random.Range(0.01f, 0.1f);
+                yield return new WaitForSeconds(randWait);
+                totalProgress += randProg;
+                progressBar.value = totalProgress;
             }
         
 
@@ -112,10 +121,10 @@ public class GameManager : MonoBehaviour
         pressToContinue.IsLoaded = true;
     }
 
-    private YieldInstruction displayWait = new WaitForSeconds(0.25f);
     IEnumerator DisplayLoading(string levelName)
     {
-        yield return new WaitForSeconds(1f);
+        YieldInstruction displayWait = new WaitForSeconds(0.25f);
+        //yield return new WaitForSeconds(1f);
         TextMeshProUGUI levelDisplay = GameObject.Find("LevelDisplay").GetComponent<TextMeshProUGUI>();
         while (true)
         {
