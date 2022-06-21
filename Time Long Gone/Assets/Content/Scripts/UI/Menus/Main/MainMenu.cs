@@ -22,16 +22,17 @@ public class MainMenu : MonoBehaviour
     [Obsolete("Obsolete")]
     public void NewGame()
     {
+        GameManager.Instance.LoadLevel("Prototype Scene");
         //playerInput.SwitchCurrentActionMap("Player");
 
-        SceneManager.UnloadScene(1);
-        SceneManager.LoadScene(3);
+        //SceneManager.UnloadScene(1);
+        //SceneManager.LoadScene(3);
 
         //hud
-        SceneManager.LoadScene(4, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(4, LoadSceneMode.Additive);
 
         //pause
-        SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
         //MainInputActions mainInputActions = new MainInputActions();
         //mainInputActions.Menu.Disable();
