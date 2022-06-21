@@ -10,7 +10,7 @@ public class DistanceCheck : AICondition
     public override bool Check(GameObject source, GameObject target)
     {
         if (source == null || target == null) return false;
-        bool res = Vector3.Distance(source.transform.position, target.transform.position) < distance;
+        var res = Vector3.Distance(source.transform.position, target.transform.position) < distance;
         return (higherThan) ? !res : res;
     }
 }

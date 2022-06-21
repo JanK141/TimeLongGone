@@ -1,5 +1,4 @@
 using System.Collections;
-using Content.Scripts.Camera;
 using Content.Scripts.Enemy;
 using DG.Tweening;
 using UnityEditor;
@@ -39,14 +38,14 @@ namespace Content.Scripts.Player
         #region Properties
 
         public float Speed { get; set; }
-        public bool CanDash { get; set; } = true;
-        public bool CanMove { get; set; } = true;
-        public bool CanJump { get; set; } = true;
-        public bool CanRotate { get; set; } = true;
-        public bool RotateSlow { get; set; } = false;
-        public bool IsInvincible { get; set; }
-        public bool IsGrounded { get; private set; }
-        public Vector2 InputVector { get; set; }
+        public bool canDash { get; set; } = true;
+        public bool canMove { get; set; } = true;
+        public bool canJump { get; set; } = true;
+        public bool canRotate { get; set; } = true;
+        public bool rotateSlow { get; set; }
+        public bool isInvincible { get; set; }
+        public bool isGrounded { get; private set; }
+        public Vector2 inputVector { get; set; }
 
         #endregion
 
@@ -61,9 +60,9 @@ namespace Content.Scripts.Player
 
         #region Private Variables
 
-        private Vector3 _Velocity;
+        private Vector3 _velocity;
         private Vector3 _moveDirection;
-        private float _Gravity;
+        private float _gravity;
         private UnityEngine.Camera _cam;
 
         #endregion
@@ -76,7 +75,7 @@ namespace Content.Scripts.Player
             _player = PlayerScript.Instance;
             _enemy = EnemyScript.Instance;
             Speed = speed;
-            _Gravity = gravity;
+            _gravity = gravity;
             _cam = UnityEngine.Camera.main;
         }
 
@@ -88,8 +87,8 @@ namespace Content.Scripts.Player
 
         private void ProcessMovement()
         {
-            var vertical = InputVector.x;
-            var horizontal = InputVector.y;
+            var vertical = inputVector.x;
+            var horizontal = inputVector.y;
 
             _moveDirection = new Vector3(
                 vertical * Mathf.Sqrt(1 - horizontal * horizontal * 0.5f),
@@ -105,17 +104,17 @@ namespace Content.Scripts.Player
                         camPos,
                         Vector3.up), Vector3.up) * _moveDirection;
        
-            if (CanMove)
+            if (canMove)
                 _controller.Move(_moveDirection * (Speed * Time.fixedDeltaTime));
-            if (RotateSlow && !_moveDirection.Equals(Vector3.zero))
+            if (rotateSlow && !_moveDirection.Equals(Vector3.zero))
                 transform.DOLookAt(transform.position + _moveDirection, 1f);
-            else if (CanRotate) transform.LookAt(transform.position + _moveDirection);
+            else if (canRotate) transform.LookAt(transform.position + _moveDirection);
         }
 
 
         public void ProcessDash()
         {
-            if (!CanDash) return;
+            if (!canDash) return;
 
             _player.combat.InterruptCharging();
             _player.anim.Play("Dash");
@@ -124,29 +123,29 @@ namespace Content.Scripts.Player
 
         public void ProcessJump()
         {
-            if (!IsGrounded || !CanJump) return;
+            if (!isGrounded || !canJump) return;
 
             _player.combat.Block(false);
             _player.combat.InterruptCharging();
             _player.playerInput.ResetHold();
             _player.anim.Play("Jump");
-            _Velocity.y = Mathf.Sqrt(jumpHeight * -2f * _Gravity);
+            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * _gravity);
         }
 
         private void ProcessGravity()
         {
             var position = transform.position;
-            IsGrounded = Physics.CheckSphere(new Vector3(position.x,
+            isGrounded = Physics.CheckSphere(new Vector3(position.x,
                     position.y - _controller.height / 2,
                     position.z),
                 0.4f,
                 groundMask);
 
-            if (IsGrounded && _Velocity.y < 0)
-                _Velocity = new Vector3(0, -2f, 0);
+            if (isGrounded && _velocity.y < 0)
+                _velocity = new Vector3(0, -2f, 0);
 
-            _Velocity.y += _Gravity * Time.fixedDeltaTime;
-            _controller.Move(_Velocity * Time.fixedDeltaTime);
+            _velocity.y += _gravity * Time.fixedDeltaTime;
+            _controller.Move(_velocity * Time.fixedDeltaTime);
         }
 
         public IEnumerator Dash(float distance)
@@ -155,43 +154,43 @@ namespace Content.Scripts.Player
             _player.combat.Block(false);
             _player.combat.CanAttack = false;
             transform.DOKill();
-            if (!IsGrounded)
+            if (!isGrounded)
             {
-                _Gravity = 0;
-                _Velocity = Vector3.zero;
+                _gravity = 0;
+                _velocity = Vector3.zero;
             }
 
-            CanMove = false;
-            CanDash = false;
+            canMove = false;
+            canDash = false;
             var motion = (_moveDirection.Equals(Vector3.zero) ? transform.forward : _moveDirection.normalized) *
                          distance;
             transform.LookAt(transform.position + motion);
             var time = 0f;
             while (time < dashTime)
             {
-                if (!IsInvincible && time >= iframesStart * dashTime) IsInvincible = true;
-                if (IsInvincible && time >= iframesEnd * dashTime) IsInvincible = false;
+                if (!isInvincible && time >= iframesStart * dashTime) isInvincible = true;
+                if (isInvincible && time >= iframesEnd * dashTime) isInvincible = false;
                 time += Time.deltaTime;
                 _controller.Move(motion / (dashTime / Time.deltaTime));
                 yield return new WaitForEndOfFrame();
             }
 
-            _Gravity = gravity;
-            CanMove = true;
+            _gravity = gravity;
+            canMove = true;
             _player.combat.CanAttack = true;
             Invoke(nameof(ResetDashCd), dashCd);
         }
 
 
-        private void ResetDashCd() => CanDash = true;
+        private void ResetDashCd() => canDash = true;
         public void ResetSpeed() => Speed = speed;
 
         public IEnumerator StopInAir(float time)
         {
-            _Velocity = Vector3.zero;
-            _Gravity /= 10;
+            _velocity = Vector3.zero;
+            _gravity /= 10;
             yield return new WaitForSeconds(time);
-            _Gravity = gravity;
+            _gravity = gravity;
         }
 
 

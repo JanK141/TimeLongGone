@@ -41,6 +41,8 @@ public class PlayerCombat : MonoBehaviour
     private float _timeout = 0f;
     private float _lastAttack = 0f;
     private int _attackInCombo = 0;
+    private static readonly int StopBlock = Animator.StringToHash("StopBlock");
+
     #endregion
 
     #region Properties
@@ -61,17 +63,16 @@ public class PlayerCombat : MonoBehaviour
         controller = GetComponent<CharacterController>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Combo > 0)
-        {
-            _timeout -= Time.deltaTime;
-            if (_timeout <= 0)
-            {
-                Combo = 0;
-                player.InvokeCombo(Combo);
-            }
-        }
+        if (Combo <= 0) return;
+        
+        _timeout -= Time.deltaTime;
+        
+        if (!(_timeout <= 0)) return;
+        
+        Combo = 0;
+        player.InvokeCombo(Combo);
     }
 
     public void Attack()
@@ -79,49 +80,50 @@ public class PlayerCombat : MonoBehaviour
         if(!CanAttack) return;
 
         CanAttack = false;
-        player.movementScript.CanRotate = false;
-        player.movementScript.CanMove = false;
+        player.movementScript.canRotate = false;
+        player.movementScript.canMove = false;
         if (Time.time - _lastAttack > timeToChain) _attackInCombo = 0;
         _attackInCombo++;
         _lastAttack = Time.time;
 
-        if (_attackInCombo == 1)
+        switch (_attackInCombo)
         {
-            Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
-            player.anim.Play("Attack1");
-            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
-        }else if (_attackInCombo == 2)
-        {
-            Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
-            player.anim.Play("Attack2");
-            StopCoroutine(player.movementScript.StopInAir(1));
-            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
-        }
-        else if (_attackInCombo == 3)
-        {
-            Damage = (int)(1.5f * damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
-            player.anim.Play("Attack3");
-            StopCoroutine(player.movementScript.StopInAir(1));
-            if (!player.movementScript.IsGrounded) StartCoroutine(player.movementScript.StopInAir(0.1f));
-            _attackInCombo = 0;
+            case 1:
+                Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
+                player.anim.Play("Attack1");
+                if (!player.movementScript.isGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
+                break;
+            case 2:
+                Damage = (int)(damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
+                player.anim.Play("Attack2");
+                StopCoroutine(player.movementScript.StopInAir(1));
+                if (!player.movementScript.isGrounded) StartCoroutine(player.movementScript.StopInAir(0.5f));
+                break;
+            case 3:
+                Damage = (int)(1.5f * damage + damage * comboDamageMult * Mathf.Min(Combo, comboMultCap));
+                player.anim.Play("Attack3");
+                StopCoroutine(player.movementScript.StopInAir(1));
+                if (!player.movementScript.isGrounded) StartCoroutine(player.movementScript.StopInAir(0.1f));
+                _attackInCombo = 0;
+                break;
         }
 
     }
 
     public void Hit(bool isFinisher)
     {
-        if (Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius, enemyMask))
-        {
-            if (isFinisher) ContinueCombo(-1);
-            else ContinueCombo(1);
+        if (!Physics.CheckSphere(transform.position + transform.forward * attackDistance, attackRadius,
+                enemyMask)) return;
+        
+        if (isFinisher) ContinueCombo(-1);
+        else ContinueCombo(1);
 
-            EnemyScript.Instance.ReceiveHit(Damage);
-        }
+        EnemyScript.Instance.ReceiveHit(Damage);
     }
 
     public void HeavyAttack()
     {
-        if(!CanAttack || !player.movementScript.IsGrounded) return;
+        if(!CanAttack || !player.movementScript.isGrounded) return;
         
         player.anim.Play("HeavyAttack");
         StickToGround(false);
@@ -151,14 +153,14 @@ public class PlayerCombat : MonoBehaviour
         else
         {
             CanBlock = false;
-            player.anim.SetTrigger("StopBlock");
+            player.anim.SetTrigger(StopBlock);
             Invoke(nameof(ResetBlock), blockCD);
         }
     }
 
     public void StartCharging()
     {
-        if (!CanAttack || !player.movementScript.IsGrounded) return;
+        if (!CanAttack || !player.movementScript.isGrounded) return;
         IsCharging = true;
         CanAttack = false;
         player.movementScript.Speed = 1.5f;
@@ -189,8 +191,8 @@ public class PlayerCombat : MonoBehaviour
     public void AttackReset()
     {
         CanAttack = true;
-        player.movementScript.CanRotate = true;
-        player.movementScript.CanMove = true;
+        player.movementScript.canRotate = true;
+        player.movementScript.canMove = true;
     }
 
     public void ResetHeavy()
@@ -202,20 +204,20 @@ public class PlayerCombat : MonoBehaviour
     public void StickToGround(bool a) //Allow or disallow every functionality
     {
         CanAttack = a;
-        player.movementScript.CanMove = a;
-        player.movementScript.RotateSlow = !a;
-        player.movementScript.CanDash = a;
-        player.movementScript.CanJump = a;
+        player.movementScript.canMove = a;
+        player.movementScript.rotateSlow = !a;
+        player.movementScript.canDash = a;
+        player.movementScript.canJump = a;
         CanBlock = a;
     }
 
     void ResetBlock()
     {
-        player.anim.ResetTrigger("StopBlock");
+        player.anim.ResetTrigger(StopBlock);
         CanBlock = true;
     }
 
-    void ResetStunAttack() => StunAttackHitbox.gameObject.SetActive(false);
+    private void ResetStunAttack() => StunAttackHitbox.gameObject.SetActive(false);
 
     public void InterruptCharging()
     {

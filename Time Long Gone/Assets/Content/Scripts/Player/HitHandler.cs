@@ -22,7 +22,7 @@ namespace Content.Scripts.Player
             switch (EnemyStatusScript.CurrStatus)
             {
                 case Statuses.Regular:
-                    if (_player.movementScript.IsInvincible) return;
+                    if (_player.movementScript.isInvincible) return;
                     if (_player.combat.IsBlocking)
                         if (Time.time - _player.combat.BlockPressTime <= parryWindow)
                         {
@@ -32,7 +32,7 @@ namespace Content.Scripts.Player
 
                     break;
                 case Statuses.Unblockable:
-                    if (_player.movementScript.IsInvincible) return;
+                    if (_player.movementScript.isInvincible) return;
                     if (_player.combat.IsBlocking && (Time.time - _player.combat.BlockPressTime <= parryWindow))
                     {
                         EnemyScript.Instance.ReceiveParry();

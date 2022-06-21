@@ -11,7 +11,7 @@ public class PlayerAttackBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         PlayerScript player = PlayerScript.Instance;
-        player.movementScript.RotateSlow = true;
+        player.movementScript.rotateSlow = true;
         if(moveSpeed!=0)player.movementScript.Speed = moveSpeed;
     }
 }
