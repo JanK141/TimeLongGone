@@ -1,7 +1,9 @@
 using Content.Scripts.Player;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Content.Scripts.Enemy;
+using Content.Scripts.Enemy.AI_Conditions.Templates;
 using UnityEngine;
 
 public class WalkBehavior : StateMachineBehaviour
@@ -10,25 +12,19 @@ public class WalkBehavior : StateMachineBehaviour
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
-        foreach (var t in transitions)
+        foreach (var t in from t in transitions
+                 let test = t.Conditions.Count(condition =>
+                     condition.Check(animator.gameObject, PlayerScript.Instance.gameObject))
+                 where test >= t.Conditions.Count
+                 select t)
         {
-            int test = 0;
-            foreach (var condition in t.Conditions)
-                if (condition.Check(animator.gameObject, PlayerScript.Instance.gameObject)) test++;
-            if (test >= t.Conditions.Count)
-            {
-                animator.SetTrigger(t.Trigger);
-                return;
-            }
+            animator.SetTrigger(t.Trigger);
+            return;
         }
-
     }
 
-    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
+    public override void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) =>
         EnemyScript.Instance.move.WalkTo(PlayerScript.Instance.transform.position);
-    }
 
     [System.Serializable]
     private class TriggerAndConditions
@@ -36,5 +32,4 @@ public class WalkBehavior : StateMachineBehaviour
         public string Trigger;
         public List<AICondition> Conditions;
     }
-
 }

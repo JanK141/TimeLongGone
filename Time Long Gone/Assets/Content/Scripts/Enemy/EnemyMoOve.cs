@@ -16,6 +16,7 @@ namespace Content.Scripts.Enemy
         //public bool isWalking => _isWalking;
 
         private Vector3 currDestination;
+        private static readonly int StopWalking = Animator.StringToHash("StopWalking");
 
         public Vector3 CurrDestination
         {
@@ -37,7 +38,7 @@ namespace Content.Scripts.Enemy
             {
                 _agent.isStopped = true;
                 _agent.velocity = Vector3.zero;
-                _enemy.anim.SetTrigger("StopWalking");
+                _enemy.anim.SetTrigger(StopWalking);
             }
 
                 // _isWalking = false;

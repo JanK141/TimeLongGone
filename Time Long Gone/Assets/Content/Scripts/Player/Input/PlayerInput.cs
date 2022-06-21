@@ -76,10 +76,10 @@ namespace Content.Scripts.Inputs
                 var x = context.ReadValue<Vector2>().x;
                 var y = context.ReadValue<Vector2>().y;
 
-                player.movementScript.InputVector = new Vector2(x, y);
+                player.movementScript.inputVector = new Vector2(x, y);
             }
             else if (context.canceled)
-                player.movementScript.InputVector = new Vector2(0, 0);
+                player.movementScript.inputVector = new Vector2(0, 0);
         }
 
         public void WantJump(InputAction.CallbackContext context)

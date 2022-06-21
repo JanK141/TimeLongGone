@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AICondition : ScriptableObject
+namespace Content.Scripts.Enemy.AI_Conditions.Templates
 {
-    public abstract bool Check(GameObject source = null, GameObject target = null);
+    public abstract class AICondition : ScriptableObject
+    {
+        public abstract bool Check(GameObject source = null, GameObject target = null);
+    }
 }

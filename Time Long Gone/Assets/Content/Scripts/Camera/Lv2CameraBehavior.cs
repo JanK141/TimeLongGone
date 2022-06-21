@@ -30,9 +30,6 @@ namespace Content.Scripts.Camera
                 _enemy.transform.position
             );
 
-
-            Debug.Log("distance from Enemy " + distance);
-
             if (distance < activationDistance)
                 LookAtEnemyAndPlayer();
             else

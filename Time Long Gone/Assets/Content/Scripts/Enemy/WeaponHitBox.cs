@@ -1,18 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using Content.Scripts.Player;
 using UnityEngine;
 
-public class WeaponHitBox : MonoBehaviour
+namespace Content.Scripts.Enemy
 {
-
-    private void OnTriggerEnter(Collider other)
+    public class WeaponHitBox : MonoBehaviour
     {
-        if (other.gameObject.layer.Equals(LayerMask.NameToLayer("Player")))
+
+        private void OnTriggerEnter(Collider other)
         {
+            if (!other.gameObject.layer.Equals(LayerMask.NameToLayer("Player"))) return;
+        
             PlayerScript.Instance.hit.ReceiveHit();
             GetComponent<Collider>().enabled = false;
         }
-    }
 
+    }
 }

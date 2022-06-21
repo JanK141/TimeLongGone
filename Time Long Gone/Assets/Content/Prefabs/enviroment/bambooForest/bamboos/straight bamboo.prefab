@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 9100900454295519229}
   - component: {fileID: 9100900454295519230}
   - component: {fileID: -7219036383451880694}
-  m_Layer: 0
+  - component: {fileID: 6284659850100229639}
+  m_Layer: 3
   m_Name: straight bamboo
-  m_TagString: Untagged
+  m_TagString: bamboo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,3 +114,42 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6284659850100229639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100900454295519231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fc9178a0b0c3d4bb8b6d91b16d9893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerOptions:
+    triggerType: 0
+    minimumCollisionForce: 0
+    filterCollisionsByTag: 1
+    triggerAllowedTags:
+    - Enemy
+    - Bamboo
+    triggerKey: 0
+  fractureOptions:
+    fragmentCount: 2
+    xAxis: 1
+    yAxis: 1
+    zAxis: 1
+    detectFloatingFragments: 1
+    asynchronous: 0
+    insideMaterial: {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+    textureScale: {x: 1, y: 1}
+    textureOffset: {x: 0, y: 0}
+  refractureOptions:
+    enableRefracturing: 0
+    maxRefractureCount: 1
+    invokeCallbacks: 0
+  callbackOptions:
+    onCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  currentRefractureCount: 0

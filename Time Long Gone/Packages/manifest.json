@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.dgreenheck.openfracture": "https://github.com/dgreenheck/OpenFracture.git",
     "com.unity.cinemachine": "2.8.4",
     "com.unity.collab-proxy": "1.15.18",
     "com.unity.ide.rider": "3.0.14",

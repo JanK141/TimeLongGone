@@ -46,7 +46,7 @@ namespace Content.Scripts.Enemy
             _enemy.anim.SetInteger(Stage, _currStage);
             _stageChangers = new float[stages];
             for (var i = 0; i < stages; i++)
-                _stageChangers[i] = i + 1 == stages ? 0 : maxHealth - (maxHealth / stages) * (i + 1);
+                _stageChangers[i] = i + 1 == stages ? 0 : maxHealth - maxHealth / stages * (i + 1);
         }
 
         private void UpdateHealth()

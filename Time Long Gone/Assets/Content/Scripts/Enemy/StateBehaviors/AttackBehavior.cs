@@ -1,34 +1,34 @@
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Content.Scripts.Enemy.AI_Conditions.Templates;
 using Content.Scripts.Player;
 using UnityEngine;
 
-public class AttackBehavior : StateMachineBehaviour
+namespace Content.Scripts.Enemy.StateBehaviors
 {
-    [SerializeField] private List<TriggerAndConditions> transitions;
-
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class AttackBehavior : StateMachineBehaviour
     {
+        [SerializeField] private List<TriggerAndConditions> transitions;
 
-        foreach (var t in transitions)
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            int test = 0;
-            foreach(var condition in t.Conditions)
-                if(condition.Check(animator.gameObject, PlayerScript.Instance.gameObject)) test++;
-            if (test >= t.Conditions.Count)
+            foreach (var t in from t in transitions
+                     let test = t.conditions.Count(condition =>
+                         condition.Check(animator.gameObject, PlayerScript.Instance.gameObject))
+                     where test >= t.conditions.Count
+                     select t)
             {
-                animator.SetTrigger(t.Trigger);
+                animator.SetTrigger(t.trigger);
                 return;
             }
         }
 
-    }
 
-
-    [System.Serializable]
-    private class TriggerAndConditions
-    {
-        public string Trigger;
-        public List<AICondition> Conditions;
+        [System.Serializable]
+        private class TriggerAndConditions
+        {
+            public string trigger;
+            public List<AICondition> conditions;
+        }
     }
 }
