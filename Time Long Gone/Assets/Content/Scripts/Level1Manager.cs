@@ -4,6 +4,7 @@ using Content.Scripts.Enemy;
 using Content.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class Level1Manager : MonoBehaviour
 {
@@ -26,7 +27,16 @@ public class Level1Manager : MonoBehaviour
 
     IEnumerator WaitForCutscene1End()
     {
-        yield return new WaitForSeconds((float) cutscene1.duration);
+        yield return new WaitForSeconds(0.1f);
+        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+        {
+            if(canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene"))canvas.gameObject.SetActive(false);
+        }
+        yield return new WaitForSeconds((float) cutscene1.duration - 0.1f);
+        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+        {
+            if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene")) canvas.gameObject.SetActive(true);
+        }
         PlayerScript.Instance.MechanicsOnOff(true);
         EnemyScript.Instance.MechanicsOnOff(true);
     }
@@ -41,7 +51,13 @@ public class Level1Manager : MonoBehaviour
         yield return new WaitForSeconds(2f);
         PlayerScript.Instance.MechanicsOnOff(false);
         EnemyScript.Instance.MechanicsOnOff(false);
+        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+        {
+            if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene")) canvas.gameObject.SetActive(false);
+        }
         cutscene2.Play();
+        yield return new WaitForSeconds((float) cutscene2.duration);
+        GameManager.Instance.LoadLevel("Level 2 prototype");
     }
 
     void OnDestroy()

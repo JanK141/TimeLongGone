@@ -22,7 +22,7 @@ public class MainMenu : MonoBehaviour
     [Obsolete("Obsolete")]
     public void NewGame()
     {
-        GameManager.Instance.LoadLevel("Prototype Scene");
+        GameManager.Instance.LoadLevel("Level 1 prototype");
         //playerInput.SwitchCurrentActionMap("Player");
 
         //SceneManager.UnloadScene(1);

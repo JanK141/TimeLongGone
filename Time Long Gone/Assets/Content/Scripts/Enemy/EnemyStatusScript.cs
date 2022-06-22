@@ -9,7 +9,11 @@ namespace Content.Scripts.Enemy
 
         private void Start() => MakeEnemyRegular();
 
-        private void Update() => StatusDebug.Instance.UpdateText(CurrStatus.ToString());
+        private void Update()
+        {
+            StatusDebug.Instance.UpdateText(
+                CurrStatus.ToString());
+        } 
 
         public void MakeEnemyStunned() => CurrStatus = Stunned;
 

@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     {
         //playerInput = GetComponent<PlayerInput>();
         //playerInput.SwitchCurrentActionMap("Menu");
-        SceneManager.LoadScene(1, LoadSceneMode.Additive);
+        //SceneManager.LoadScene(1, LoadSceneMode.Additive);
     }
 
     public void GoToLevel1()
@@ -59,6 +59,11 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(lvlScene1.buildIndex, LoadSceneMode.Additive);
         SceneManager.LoadScene(HUDScene.buildIndex, LoadSceneMode.Additive);
         SceneManager.LoadScene(pauseScene.buildIndex, LoadSceneMode.Additive);
+    }
+
+    public void ExitToMenu()
+    {
+        SceneManager.LoadScene("Main Menu Scene");
     }
 
     public void LoadLevel(string levelName)

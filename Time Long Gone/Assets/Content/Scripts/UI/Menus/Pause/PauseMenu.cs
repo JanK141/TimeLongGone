@@ -33,7 +33,8 @@ public class PauseMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        Application.Quit();
+        //Application.Quit();
+        GameManager.Instance.ExitToMenu();
     }
 
 
