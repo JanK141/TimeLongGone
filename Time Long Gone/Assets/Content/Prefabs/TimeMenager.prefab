@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd4d0a05f2a8e644954d3be403c510e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSlowMo: 0.6
+  minSlowMo: 0.25
   slowMoTime: 0.75
   deathSlowMoMulti: 5
   maxRewindTime: 5
