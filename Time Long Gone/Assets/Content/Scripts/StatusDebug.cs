@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatusDebug : MonoBehaviour
+namespace Content.Scripts
 {
-    public static StatusDebug Instance;
-
-    void Awake() => Instance = this;
-
-    public void UpdateText(string txt)
+    public class StatusDebug : MonoBehaviour
     {
-        GetComponent<Text>().text = txt;
+        public static StatusDebug Instance;
+
+        private void Awake() => Instance = this;
+
+        public void UpdateText(string txt) => GetComponent<Text>().text = txt;
     }
 }

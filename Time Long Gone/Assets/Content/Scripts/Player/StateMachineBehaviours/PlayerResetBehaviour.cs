@@ -1,20 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
-using Content.Scripts.Player;
 using DG.Tweening;
 using UnityEngine;
 
-public class PlayerResetBehaviour : StateMachineBehaviour
+namespace Content.Scripts.Player.StateMachineBehaviours
 {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerResetBehaviour : StateMachineBehaviour
     {
-        PlayerScript player = PlayerScript.Instance;
-        player.movementScript.rotateSlow = false;
-        player.transform.DOKill();
-        player.movementScript.ResetSpeed();
-        player.movementScript.canMove = true;
-        player.movementScript.canRotate = true;
-        player.combat.CanAttack = true;
-        player.playerInput.CanStun = true;
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            var player = PlayerScript.Instance;
+            player.movementScript.rotateSlow = false;
+            player.transform.DOKill();
+            player.movementScript.ResetSpeed();
+            player.movementScript.canMove = true;
+            player.movementScript.canRotate = true;
+            player.combat.CanAttack = true;
+            player.playerInput.CanStun = true;
+        }
     }
 }

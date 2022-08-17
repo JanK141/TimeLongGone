@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Content.Scripts.Player;
 using UnityEngine;
 
-public class PreAttackBehaviour : StateMachineBehaviour
+namespace Content.Scripts.Player.StateMachineBehaviours
 {
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PreAttackBehaviour : StateMachineBehaviour
     {
-        PlayerScript.Instance.combat.InvokeAttackReset(stateInfo.length);
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+            => PlayerScript.Instance.combat.InvokeAttackReset(stateInfo.length);
     }
 }

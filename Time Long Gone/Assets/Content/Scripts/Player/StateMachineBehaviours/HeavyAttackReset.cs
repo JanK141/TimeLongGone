@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using Content.Scripts.Player;
 using UnityEngine;
 
-public class HeavyAttackReset : StateMachineBehaviour
+namespace Content.Scripts.Player.StateMachineBehaviours
 {
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class HeavyAttackReset : StateMachineBehaviour
     {
-        PlayerScript.Instance.combat.StickToGround(true);
+        public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) 
+            => PlayerScript.Instance.combat.StickToGround(true);
     }
-    
 }

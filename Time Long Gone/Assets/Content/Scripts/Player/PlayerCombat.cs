@@ -72,7 +72,7 @@ public class PlayerCombat : MonoBehaviour
         if (!(_timeout <= 0)) return;
         
         Combo = 0;
-        player.InvokeCombo(Combo);
+        PlayerScript.InvokeCombo(Combo);
     }
 
     public void Attack()
@@ -232,7 +232,7 @@ public class PlayerCombat : MonoBehaviour
         {
             _timeout = comboTimeout;
             Combo += value;
-            player.InvokeCombo(Combo);
+            PlayerScript.InvokeCombo(Combo);
         }
     }
 

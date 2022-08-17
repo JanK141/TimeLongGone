@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using Content.Scripts.Player;
-using DG.Tweening;
 using UnityEngine;
 
-public class PlayerAttackBehaviour : StateMachineBehaviour
+namespace Content.Scripts.Player.StateMachineBehaviours
 {
-    [SerializeField] [Tooltip("Put 0 to not affect move speed")] private float moveSpeed = 0;
-
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class PlayerAttackBehaviour : StateMachineBehaviour
     {
-        PlayerScript player = PlayerScript.Instance;
-        player.movementScript.rotateSlow = true;
-        if(moveSpeed!=0)player.movementScript.Speed = moveSpeed;
+        [SerializeField] [Tooltip("Put 0 to not affect move speed")] private float moveSpeed = 0;
+
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            var player = PlayerScript.Instance;
+            player.movementScript.rotateSlow = true;
+            if(moveSpeed!=0)player.movementScript.Speed = moveSpeed;
+        }
     }
 }

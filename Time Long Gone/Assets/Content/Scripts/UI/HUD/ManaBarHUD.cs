@@ -59,10 +59,8 @@ public class ManaBarHUD : MonoBehaviour
 
     void Update()
     {
-        if (CurrMana <= maxMana && generating)
-        {
-            CurrMana += genRate * Time.deltaTime;
-        }
+        if (CurrMana <= maxMana && generating) CurrMana += genRate * Time.deltaTime;
+        
         Mathf.Clamp(CurrMana, 0, maxMana);
 
         if (slowing)
@@ -85,23 +83,19 @@ public class ManaBarHUD : MonoBehaviour
             }
         }
     }
-    
-    void UpdateMana()
-    {
-        slider.value = CurrMana / maxMana;
-    }
+
+    private void UpdateMana() => slider.value = CurrMana / maxMana;
 
     //method triggered by pressing the RewindTime button
-    void StartRewindingTime()
+    private void StartRewindingTime()
     {
-        if (CurrMana >= flatRewindCost)
-        {
-            rewinding = true;
-            generating = false;
-            CurrMana -= flatRewindCost;
-            Time.timeScale = 1f;
-            OnRewindChange?.Invoke(true);
-        }
+        if (!(CurrMana >= flatRewindCost)) return;
+        
+        rewinding = true;
+        generating = false;
+        CurrMana -= flatRewindCost;
+        Time.timeScale = 1f;
+        OnRewindChange?.Invoke(true);
     }
 
     //method triggered by releasing the RewindTime button

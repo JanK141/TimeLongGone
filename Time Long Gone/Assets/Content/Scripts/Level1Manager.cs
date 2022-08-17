@@ -1,67 +1,57 @@
 using System.Collections;
-using System.Collections.Generic;
 using Content.Scripts.Enemy;
 using Content.Scripts.Player;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
-public class Level1Manager : MonoBehaviour
+namespace Content.Scripts
 {
-    [SerializeField] private PlayableDirector cutscene1;
-    [SerializeField] private PlayableDirector cutscene2;
-    // Start is called before the first frame update
-    void Start()
+    public class Level1Manager : MonoBehaviour
     {
-        PlayerScript.Instance.MechanicsOnOff(false);
-        EnemyScript.Instance.MechanicsOnOff(false);
-        EnemyHealth.enemyDeath += EndLevel;
-        StartCoroutine(WaitForCutscene1End());
-    }
+        [SerializeField] private PlayableDirector cutscene1;
+        [SerializeField] private PlayableDirector cutscene2;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    IEnumerator WaitForCutscene1End()
-    {
-        yield return new WaitForSeconds(0.1f);
-        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+        public void Start()
         {
-            if(canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene"))canvas.gameObject.SetActive(false);
+            PlayerScript.Instance.MechanicsOnOff(false);
+            EnemyScript.Instance.MechanicsOnOff(false);
+            EnemyHealth.enemyDeath += EndLevel;
+            StartCoroutine(WaitForCutscene1End());
         }
-        yield return new WaitForSeconds((float) cutscene1.duration - 0.1f);
-        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+    
+
+        IEnumerator WaitForCutscene1End()
         {
-            if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene")) canvas.gameObject.SetActive(true);
+            yield return new WaitForSeconds(0.1f);
+            foreach (var canvas in FindObjectsOfType<Canvas>(true))
+            {
+                if(canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene"))canvas.gameObject.SetActive(false);
+            }
+            yield return new WaitForSeconds((float) cutscene1.duration - 0.1f);
+            foreach (var canvas in FindObjectsOfType<Canvas>(true))
+            {
+                if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene")) canvas.gameObject.SetActive(true);
+            }
+            PlayerScript.Instance.MechanicsOnOff(true);
+            EnemyScript.Instance.MechanicsOnOff(true);
         }
-        PlayerScript.Instance.MechanicsOnOff(true);
-        EnemyScript.Instance.MechanicsOnOff(true);
-    }
 
-    void EndLevel()
-    {
-        StartCoroutine(PlayCutscene2());
-    }
+        void EndLevel() => StartCoroutine(PlayCutscene2());
 
-    IEnumerator PlayCutscene2()
-    {
-        yield return new WaitForSeconds(2f);
-        PlayerScript.Instance.MechanicsOnOff(false);
-        EnemyScript.Instance.MechanicsOnOff(false);
-        foreach (var canvas in FindObjectsOfType<Canvas>(true))
+        IEnumerator PlayCutscene2()
         {
-            if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene")) canvas.gameObject.SetActive(false);
+            yield return new WaitForSeconds(2f);
+            PlayerScript.Instance.MechanicsOnOff(false);
+            EnemyScript.Instance.MechanicsOnOff(false);
+            foreach (var canvas in FindObjectsOfType<Canvas>(true))
+                if (canvas.gameObject.scene == SceneManager.GetSceneByName("HUD Scene"))
+                    canvas.gameObject.SetActive(false);
+            cutscene2.Play();
+            yield return new WaitForSeconds((float) cutscene2.duration);
+            GameManager.Instance.LoadLevel("Level 2 prototype");
         }
-        cutscene2.Play();
-        yield return new WaitForSeconds((float) cutscene2.duration);
-        GameManager.Instance.LoadLevel("Level 2 prototype");
-    }
 
-    void OnDestroy()
-    {
-        EnemyHealth.enemyDeath -= EndLevel;
+        void OnDestroy() => EnemyHealth.enemyDeath -= EndLevel;
     }
 }

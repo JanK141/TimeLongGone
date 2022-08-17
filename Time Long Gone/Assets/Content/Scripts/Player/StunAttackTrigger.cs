@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using Content.Scripts.Enemy;
-using Content.Scripts.Player;
 using UnityEngine;
 
-public class StunAttackTrigger : MonoBehaviour
+namespace Content.Scripts.Player
 {
-    void OnTriggerEnter(Collider other)
+    public class StunAttackTrigger : MonoBehaviour
     {
-        if (other.CompareTag("Enemy"))
+        private void OnTriggerEnter(Collider other)
         {
+            if (!other.CompareTag("Enemy")) return;
+            
             EnemyScript.Instance.ReceiveStun();
             gameObject.SetActive(false);
             PlayerScript.Instance.combat.ContinueCombo(0);

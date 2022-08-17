@@ -12,20 +12,15 @@ public class DummyTest : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text;
     private Tweener t;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
     }
-    void Start()
+
+    private void Start()
     {
         text.text = "";
         t = text.transform.DOLocalMoveY(2f, 1f).OnComplete(Reset).SetAutoKill(false).SetRecyclable(true);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Damage(float value)
@@ -42,7 +37,7 @@ public class DummyTest : MonoBehaviour
         t.Restart();
     }
 
-    void Reset()
+    private void Reset()
     {
         text.text = "";
         text.transform.position = Vector3.zero;

@@ -21,7 +21,7 @@ namespace Content.Scripts.Player
 
         public static event Action<int> OnComboContinue;
 
-        void Awake()
+        private void Awake()
         {
             if (Instance == null) Instance = this;
             movementScript = GetComponent<PlayerMovement>();
@@ -32,7 +32,7 @@ namespace Content.Scripts.Player
             ManaBarHUD.OnRewindChange += DisableOnRewind;
         }
 
-        public void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
+        public static void InvokeCombo(int combo) => OnComboContinue?.Invoke(combo);
 
         private void DisableOnRewind(bool rewind)
         {
@@ -50,9 +50,7 @@ namespace Content.Scripts.Player
             movementScript.enabled = state;
         }
 
-        void OnDestroy()
-        {
-            ManaBarHUD.OnRewindChange -= DisableOnRewind;
-        }
+        private void OnDestroy() 
+            => ManaBarHUD.OnRewindChange -= DisableOnRewind;
     }
 }

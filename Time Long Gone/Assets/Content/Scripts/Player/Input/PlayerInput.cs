@@ -8,11 +8,14 @@ namespace Content.Scripts.Inputs
     public class PlayerInput : MonoBehaviour
     {
         #region Inspector Fields
+
         [SerializeField] [Range(-1, 0)] private float holdTreshhold = -0.25f;
         [SerializeField] private float finisherCancelWindow = 1f;
+
         #endregion
 
         #region Private Variables
+
         private bool _isCharging = false;
         private float _holdTime;
         private bool _isBlocking = false;
@@ -20,6 +23,7 @@ namespace Content.Scripts.Inputs
         private bool _wantsFinisher = false;
         private float _finisherHold = 0f;
         private bool _doLoadFinisher = false;
+
         #endregion
 
         private PlayerInput playerInput;
@@ -45,10 +49,10 @@ namespace Content.Scripts.Inputs
             if (_isCharging)
             {
                 _holdTime += Time.deltaTime;
-                if(_holdTime>=0 && !player.combat.IsCharging) player.combat.StartCharging();
+                if (_holdTime >= 0 && !player.combat.IsCharging) player.combat.StartCharging();
             }
 
-            if(_isBlocking && !player.combat.IsBlocking) player.combat.Block(true);
+            if (_isBlocking && !player.combat.IsBlocking) player.combat.Block(true);
 
             if (_wantsFinisher && player.combat.CanAttack)
             {
@@ -96,13 +100,13 @@ namespace Content.Scripts.Inputs
             }
             else if (context.performed && _isCharging)
             {
-                if(_holdTime>0)player.combat.ChargedAttack(_holdTime);
+                if (_holdTime > 0) player.combat.ChargedAttack(_holdTime);
                 else player.combat.Attack();
                 ResetHold();
             }
             else if (context.canceled && _isCharging)
             {
-                if (_holdTime<0) player.combat.Attack();
+                if (_holdTime < 0) player.combat.Attack();
                 ResetHold();
             }
         }
@@ -120,9 +124,9 @@ namespace Content.Scripts.Inputs
             {
                 _isBlocking = true;
                 player.combat.Block(true);
-                if(_isCharging) ResetHold();
+                if (_isCharging) ResetHold();
             }
-            else if((context.performed || context.canceled) && _isBlocking)
+            else if ((context.performed || context.canceled) && _isBlocking)
             {
                 _isBlocking = false;
                 player.combat.Block(false);
@@ -147,8 +151,11 @@ namespace Content.Scripts.Inputs
 
         public void WantTimeManipulating(InputAction.CallbackContext context)
         {
-            if(context.started){ManaBarHUD.Instance.StartSlowingTime();} //TODO Wyślij prośbę o zaczęcie manipulowania czasem
-            else{ManaBarHUD.Instance.StopSlowingTime();} //TODO Wyślij prośbę o zakończenie manipulowania czasem (Skrypt z maną dopiero sprawdza czy czas jest wgl w tej chwili manipulowany)
+            if (context.started)
+                ManaBarHUD.Instance.StartSlowingTime(); //TODO Wyślij prośbę o zaczęcie manipulowania czasem
+            else
+                ManaBarHUD.Instance
+                    .StopSlowingTime(); //TODO Wyślij prośbę o zakończenie manipulowania czasem (Skrypt z maną dopiero sprawdza czy czas jest wgl w tej chwili manipulowany)
         }
 
         public void WantDash(InputAction.CallbackContext context)
@@ -165,10 +172,8 @@ namespace Content.Scripts.Inputs
 
         public void PauseGame(InputAction.CallbackContext context)
         {
-            if (context.started)
-            {
+            if (context.started) 
                 PausingScript.Instance.Pausing();
-            }
         }
     }
 }

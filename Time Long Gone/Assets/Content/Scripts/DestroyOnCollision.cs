@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyOnCollision : MonoBehaviour
+namespace Content.Scripts
 {
-    [SerializeField] private GameObject fracturedPrefab;
-    [SerializeField] private LayerMask mask;
+    public class DestroyOnCollision : MonoBehaviour
+    {
+        [SerializeField] private GameObject fracturedPrefab;
+        [SerializeField] private LayerMask mask;
 
-    /*private void OnCollisionEnter(Collision collision)
+        /*private void OnCollisionEnter(Collision collision)
     {
         print("");
         if (((1 << collision.gameObject.layer) & mask) != 0)
@@ -20,17 +20,17 @@ public class DestroyOnCollision : MonoBehaviour
         }
     }*/
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (((1 << other.gameObject.layer) & mask) != 0)
+        private void OnTriggerEnter(Collider other)
         {
+            if (((1 << other.gameObject.layer) & mask) == 0) return;
+        
             //print("test");
             Instantiate(fracturedPrefab, transform.position, transform.rotation);
             //Instantiate(fracturedPrefab, transform.parent).transform.localPosition = transform.localPosition;
 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
+
+
     }
-
-
 }

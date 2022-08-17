@@ -8,13 +8,13 @@ public class DebrisDisolve : MonoBehaviour
     [SerializeField] private float initialForce = 1f;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         GetComponent<Rigidbody>().AddForce(new Vector3(Random.value, Random.value, Random.value).normalized * initialForce, ForceMode.Impulse);
         StartCoroutine(Disolve());
     }
 
-    IEnumerator Disolve()
+    private IEnumerator Disolve()
     {
         yield return new WaitForSeconds(Random.Range(4, 10));
         /*while (transform.localScale.magnitude > 0.1)
