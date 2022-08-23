@@ -1,25 +1,31 @@
-﻿namespace Content.Scripts.Player.States
+﻿namespace Player.States
 {
     public class Finisher : IPlayerState
     {
-        public void OnstateEnter()
+        public Player player { get; set; }
+
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            player.move = player.MoveGravityOnly;
+            player.rotate = player.SlowRotate;
+            player.animator.Play("HeavyAttack");
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            player.move = player.MoveNormal;
+            player.rotate = player.InstaRotate;
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            if (player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95 ||
+                player.inputContext == InputIntermediary.InputContext.FinisherCanceled) return player.IDLE_STATE;
+            return null;
         }
     }
 }

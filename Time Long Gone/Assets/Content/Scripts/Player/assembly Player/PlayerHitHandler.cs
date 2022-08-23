@@ -3,7 +3,7 @@ using System.Collections;
 using Content.Scripts.Enemy;
 using UnityEngine;
 
-namespace Content.Scripts.Player.assembly_Player
+namespace Player
 {
     public class PlayerHitHandler : MonoBehaviour
     {

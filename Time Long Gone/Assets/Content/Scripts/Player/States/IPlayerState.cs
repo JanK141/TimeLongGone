@@ -1,10 +1,12 @@
-﻿namespace Content.Scripts.Player.States
+﻿namespace Player.States
 {
     public interface IPlayerState
     {
-        void OnstateEnter();
-        void OnStateExit();
-        void Tick();
-        IPlayerState Evalueate();
+        public Player player { get; set; }
+
+        public void OnStateEnter();
+        public void OnStateExit();
+        public void Tick();
+        public IPlayerState Evaluate();
     }
 }

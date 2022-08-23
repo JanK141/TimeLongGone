@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Content.Scripts.Player.assembly_Player
+namespace Player
 {
     public class InputIntermediary : MonoBehaviour
     {

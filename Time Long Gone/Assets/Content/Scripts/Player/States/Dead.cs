@@ -1,25 +1,24 @@
-﻿namespace Content.Scripts.Player.States
+﻿namespace Player.States
 {
     public class Dead : IPlayerState
     {
-        public void OnstateEnter()
+        public Player player { get; set; }
+
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
     }
 }

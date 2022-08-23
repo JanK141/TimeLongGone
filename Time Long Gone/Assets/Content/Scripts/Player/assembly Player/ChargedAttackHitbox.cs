@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Content.Scripts.Player.assembly_Player
+namespace Player
 {
     public class ChargedAttackHitbox : MonoBehaviour
 

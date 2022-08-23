@@ -1,26 +1,30 @@
-﻿namespace Content.Scripts.Player.States
+﻿using UnityEngine;
+
+namespace Player.States
 {
     public class Jump : IPlayerState
     {
-        public float jumpHeight;
-        public void OnstateEnter()
+        public float jumpHeight { get; set; }
+        public Player player { get; set; }
+
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            player.velocity.y = Mathf.Sqrt(jumpHeight * -2f * player.Gravity);
+            player.animator.Play("Jump");
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            if (player.velocity.y <= 0) return player.IDLE_STATE;
+            return null;
         }
     }
 }

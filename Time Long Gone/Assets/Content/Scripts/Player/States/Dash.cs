@@ -1,34 +1,54 @@
 ﻿using UnityEngine;
 
-namespace Content.Scripts.Player.States
+namespace Player.States
 {
     public class Dash : IPlayerState
     {
+        public float distance { get; set; }
+        public float iframesTime { get; set; }
+        public float dashTime { get; set; }
+        public CharacterController controller { get; set; }
+
         private Vector3 direction;
-        private float distance;
-        private float dashTime;
-        private float time;
-        private float[] iframesTime;
+        protected float time;
 
+        public Player player { get; set; }
 
-        public void OnstateEnter()
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            direction = (player._moveDirection.Equals(Vector3.zero)
+                ? player.transform.forward
+                : player._moveDirection.normalized) * distance;
+            player.move = () => { };
+            player.rotate = () => { };
+            player.IsInvincible = true;
+            player.animator.Play("Dash");
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            player.move = player.MoveNormal;
+            player.rotate = player.InstaRotate;
+            player.ResetDash();
+            player.IsInvincible = false;
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
+            if (player.IsInvincible && time >= iframesTime / player.SpeedFactor) player.IsInvincible = false;
+            time += Time.deltaTime;
+            controller.Move(direction / ((dashTime / player.SpeedFactor) / Time.deltaTime));
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            if (time >= dashTime / player.SpeedFactor) return player.IDLE_STATE;
+            if (player.inputContext == InputIntermediary.InputContext.Stun)
+            {
+                player.inputContext = InputIntermediary.InputContext.Nothing;
+                return player.STUN_STATE;
+            }
+            return null;
         }
     }
 }

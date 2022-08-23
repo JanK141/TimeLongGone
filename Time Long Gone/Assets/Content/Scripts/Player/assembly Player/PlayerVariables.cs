@@ -1,46 +1,56 @@
 ﻿using UnityEngine;
 
-namespace Content.Scripts.Player.assembly_Player
+namespace Player
 {
+    [CreateAssetMenu(fileName = "Player Variables", menuName = "Variable/Player")]
     public class PlayerVariables : ScriptableObject
     {
+        [Header("Movement")]
+            [Tooltip("Vertical velocity added per frame")]public float initialGravity;
+            [Tooltip("Speed in normal conditions")]public float normalSpeed;
+            [Tooltip("Speed while blocking/charging")] public float slowSpeed;
+            [Tooltip("Time used for interpolating LookAt while slow rotating (e.g. while attacking). Lower number = faster rotation")]public float rotationTime;
+            public float jumpHeight;
 
-        public struct Movement
-        {
-            float initialGravity;
-            float normalSpeed;
-            float slowSpeed;
-            float rotationTime;
-            float jumpHeight;
-        }
+            [Space]
 
-        public struct Dash
-        {
-            float cooldown;
-            float distance;
-            float Time;
-        }
+        [Header("Dashing")]
+            public float dashCooldown;
+            public float dashDistance;
+            public float dashTime;
+            public float iframesTime;
+            [Tooltip("Max distance that fully charged dash attack can travel")]public float dashAttackMaxDist;
 
-        public struct Attack
-        {
-            float baseDamage;
-            float cooldown;
-            float radius;
-            float distance;
-            float chainTime;
-        }
+            [Space]
 
-        public struct Block
-        {
-            float cooldown;
-            private float parryWindow;
-        }
+        [Header("Attacking")]
+            public float baseDamage;
+            public float attackCooldown;
+            [Tooltip("Radius of attack hitbox")]public float attackRadius;
+            [Tooltip("How far from player center of attack hitbox is set")]public float attackDistance;
+            [Tooltip("For how long after performing attack animation can chain into next attack animation")]public float chainTime;
+            [Tooltip("For how long player negates gravity while performing an attack")]public float airborneTime;
+            [Tooltip("Maximum multiplier that can be applied on base dmg while performing dash attack")]public float maxChargeMult;
 
-        public struct Combo
-        {
-            float multiplayer;
-            float timeout;
-            float dmgCap;
-        }
+            [Space]
+
+        [Header("Blocking")]
+            public float blockCooldown;
+            [Tooltip("For how long after pressing block hit is treated as parried")]public float parryWindow;
+            [Tooltip("For how long collision with enemy weapon should be ignored after receiving hit")]public float postHitNoCollision;
+            [Tooltip("Knockback velocity after getting hit")]public float pushVelocity;
+            [Tooltip("How long knockback should apply velocity")]public float pushTime;
+        
+            [Space]
+        
+        [Header("Combo")]
+            [Tooltip("What portion of base damage should be added to output damage witch each combo multiplier")]public float comboMultiplayer;
+            [Tooltip("Time for combo to expire")]public float comboTimeout;
+            [Tooltip("After how many combo multipliers damage does not scale up anymore")]public int comboDmgCap;
+
+            [Space]
+            
+        [Header("Time control")] 
+            [Tooltip("How much faster player gets when time is slowed down")][Range(0,1)]public float speedBoost;
     }
 }

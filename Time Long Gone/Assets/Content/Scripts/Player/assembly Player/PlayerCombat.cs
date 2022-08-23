@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Content.Scripts.Player.assembly_Player
+namespace Player
 {
     public class PlayerCombat : MonoBehaviour
     {
@@ -12,9 +12,9 @@ namespace Content.Scripts.Player.assembly_Player
         private float _timeout = 0;
 
 
-        private event Action OnHit;
-        event Action<int> OnCombo;
-        event Action<int> OnFinisher;
+        public static event Action OnHit;
+        public static event Action<int> OnCombo;
+        public static event Action<int> OnFinisher;
 
 
         private void Hit() => OnHit += Hit;

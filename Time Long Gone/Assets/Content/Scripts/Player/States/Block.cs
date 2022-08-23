@@ -1,25 +1,34 @@
-﻿namespace Content.Scripts.Player.States
+﻿using UnityEngine;
+
+namespace Player.States
 {
     public class Block : IPlayerState
     {
-        public void OnstateEnter()
+        public Player player { get; set; }
+
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
+            player.move = player.MoveSlow;
+            player.BlockTime = Time.time;
+            player.IsBlocking = true;
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
+            player.move = player.MoveNormal;
+            player.ResetBlock();
+            player.IsBlocking = false;
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
+            
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            if (player.inputContext == InputIntermediary.InputContext.BlockCanceled) return player.IDLE_STATE;
+            return null;
         }
     }
 }

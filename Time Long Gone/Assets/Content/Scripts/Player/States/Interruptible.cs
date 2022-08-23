@@ -1,4 +1,4 @@
-﻿namespace Content.Scripts.Player.States
+﻿namespace Player.States
 {
     public class Interruptible : IPlayerState
         /*
@@ -7,28 +7,37 @@
         * is being interrupted
         */
     {
-        
-        
-        
-        
-        public void OnstateEnter()
+        public Player player { get; set; }
+
+        public virtual void OnStateEnter()
         {
-            throw new System.NotImplementedException();
         }
 
-        public void OnStateExit()
+        public virtual void OnStateExit()
         {
-            throw new System.NotImplementedException();
         }
 
-        public void Tick()
+        public virtual void Tick()
         {
-            throw new System.NotImplementedException();
         }
 
-        public IPlayerState Evalueate()
+        public virtual IPlayerState Evaluate()
         {
-            throw new System.NotImplementedException();
+            var input = player.inputContext;
+            if (input == InputIntermediary.InputContext.Dash && player.CanDash)
+            {
+                player.inputContext = InputIntermediary.InputContext.Nothing;
+                return player.DASH_STATE;
+            }
+
+            if (input == InputIntermediary.InputContext.BlockStarted && player.CanBlock) return player.BLOCK_STATE;
+            if (input == InputIntermediary.InputContext.Jump && player.IsGrounded)
+            {
+                player.inputContext = InputIntermediary.InputContext.Nothing;
+                return player.JUMP_STATE;
+            }
+
+            return null;
         }
     }
 }
