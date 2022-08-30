@@ -8,6 +8,7 @@ namespace Player.States
 
         public virtual void OnStateEnter()
         {
+            player.animator.Play("Block");
             player.move = player.MoveSlow;
             player.BlockTime = Time.time;
             player.IsBlocking = true;

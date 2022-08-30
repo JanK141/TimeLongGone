@@ -44,9 +44,9 @@ namespace Player
             [Space]
         
         [Header("Combo")]
-            [Tooltip("What portion of base damage should be added to output damage witch each combo multiplier")]public float comboMultiplayer;
+            [Tooltip("What portion of base damage should be added to output damage witch each combo multiplier")]public float comboMultiplier;
             [Tooltip("Time for combo to expire")]public float comboTimeout;
-            [Tooltip("After how many combo multipliers damage does not scale up anymore")]public int comboDmgCap;
+            [Tooltip("Multiplier of base damage for finisher attack")]public float finisherMultiplier;
 
             [Space]
             

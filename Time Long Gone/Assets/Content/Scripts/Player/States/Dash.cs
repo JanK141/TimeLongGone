@@ -7,7 +7,6 @@ namespace Player.States
         public float distance { get; set; }
         public float iframesTime { get; set; }
         public float dashTime { get; set; }
-        public CharacterController controller { get; set; }
 
         private Vector3 direction;
         protected float time;
@@ -16,6 +15,7 @@ namespace Player.States
 
         public virtual void OnStateEnter()
         {
+            time = 0;
             direction = (player._moveDirection.Equals(Vector3.zero)
                 ? player.transform.forward
                 : player._moveDirection.normalized) * distance;
@@ -37,7 +37,7 @@ namespace Player.States
         {
             if (player.IsInvincible && time >= iframesTime / player.SpeedFactor) player.IsInvincible = false;
             time += Time.deltaTime;
-            controller.Move(direction / ((dashTime / player.SpeedFactor) / Time.deltaTime));
+            player.velocity = direction / (dashTime / player.SpeedFactor);
         }
 
         public virtual IPlayerState Evaluate()

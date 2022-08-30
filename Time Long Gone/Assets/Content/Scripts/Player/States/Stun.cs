@@ -26,8 +26,9 @@ namespace Player.States
 
         public override void Tick()
         {
-            player.velocity.x += direction.x * player.SpeedFactor;
-            player.velocity.z += direction.z * player.SpeedFactor;
+            var dir = direction * Mathf.Clamp(1-player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime, 0.2f, 1f);
+            player.velocity.x += dir.x * player.SpeedFactor;
+            player.velocity.z += dir.z * player.SpeedFactor;
         }
 
         public override IPlayerState Evaluate()

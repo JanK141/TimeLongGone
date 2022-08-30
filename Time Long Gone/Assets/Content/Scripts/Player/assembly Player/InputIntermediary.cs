@@ -5,9 +5,13 @@ namespace Player
 {
     public class InputIntermediary : MonoBehaviour
     {
-        [SerializeField] private float charge;
+        [SerializeField] private float chargeTreshhold = 0.25f;
 
-        
+        private Player player;
+
+        private bool _isCharging = false;
+        private float _holdTime = 0;
+
         public enum InputContext
         {
             Nothing,
@@ -23,40 +27,79 @@ namespace Player
             ChargeCanceled,
         }
 
+        void Start()
+        {
+            player = GetComponent<Player>();
+        }
 
-        void ProcessMove(InputAction.CallbackContext ctx)
+        void Update()
+        {
+            if (_isCharging)
+            {
+                _holdTime += Time.unscaledDeltaTime;
+                if (_holdTime >= chargeTreshhold && player.inputContext != InputContext.ChargeStarted) player.inputContext = InputContext.ChargeStarted;
+            }
+        }
+
+        public void ProcessMove(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed)
+            {
+                var x = ctx.ReadValue<Vector2>().x;
+                var y = ctx.ReadValue<Vector2>().y;
+                player.inputVector = new Vector2(x, y);
+            }
+            else if (ctx.canceled)
+                player.inputVector = new Vector2(0, 0);
+        }
+
+        public void ProcessAttack(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started)
+            {
+                _isCharging = true;
+            }
+            else if ((ctx.performed || ctx.canceled) && _isCharging)
+            {
+                if (_holdTime >= chargeTreshhold) player.inputContext = InputContext.ChargeCanceled;
+                else player.inputContext = InputContext.Attack;
+                _isCharging = false;
+                _holdTime = 0;
+            }
+        }
+
+        public void ProcessJump(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed) player.inputContext = InputContext.Jump;
+        }
+
+        public void ProcessStun(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed) player.inputContext = InputContext.Stun;
+        }
+
+        public void ProcessBlock(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started) player.inputContext = InputContext.BlockStarted;
+            else if (ctx.performed || ctx.canceled) player.inputContext = InputContext.BlockCanceled;
+        }
+
+        public void ProcessFinisher(InputAction.CallbackContext ctx)
+        {
+            if (ctx.started) player.inputContext = InputContext.FinisherStarted;
+            else if (ctx.performed || ctx.canceled) player.inputContext = InputContext.FinisherCanceled;
+        }
+
+        public void ProcessDash(InputAction.CallbackContext ctx)
+        {
+            if (ctx.performed) player.inputContext = InputContext.Dash;
+        }
+
+        public void ProcessTime(InputAction.CallbackContext ctx)
         {
         }
 
-        void ProcessAttack(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessJump(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessStun(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessBlock(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessFinisher(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessDash(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessTime(InputAction.CallbackContext ctx)
-        {
-        }
-
-        void ProcessPause(InputAction.CallbackContext ctx)
+        public void ProcessPause(InputAction.CallbackContext ctx)
         {
         }
     }

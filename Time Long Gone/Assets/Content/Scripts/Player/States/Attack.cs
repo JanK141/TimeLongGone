@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using DG.Tweening;
+using UnityEngine;
 
 namespace Player.States
 {
@@ -8,7 +9,6 @@ namespace Player.States
         public float airborne { get; set; }
 
         private float time;
-        private float tmpGravity; //Remembers it to restore after airborne
 
         public override void OnStateEnter()
         {
@@ -16,7 +16,6 @@ namespace Player.States
             player.move = player.MoveSlow;
             player.rotate = player.SlowRotate;
             player.velocity = Vector3.zero;
-            tmpGravity = player.Gravity;
             player.Gravity = 0;
             player.animator.SetTrigger("Attack");
             player.ResetAttack();
@@ -26,12 +25,13 @@ namespace Player.States
         {
             player.move = player.MoveNormal;
             player.rotate = player.InstaRotate;
-            player.Gravity = tmpGravity;
+            player.Gravity = player.variables.initialGravity;
+            player.transform.DOKill();
         }
 
         public override void Tick()
         {
-            if (player.Gravity != 0 && time >= airborne * player.SpeedFactor) player.Gravity = tmpGravity;
+            if (player.Gravity == 0 && time >= airborne * player.SpeedFactor) player.Gravity = player.variables.initialGravity;
             time += Time.deltaTime;
         }
 
@@ -44,7 +44,12 @@ namespace Player.States
                 player.inputContext = InputIntermediary.InputContext.Nothing;
                 return player.ATTACK_STATE;
             }
-            if (time >= chainTime) return player.IDLE_STATE;
+
+            if (time >= chainTime)
+            {
+                player.animator.SetTrigger("EndChain");
+                return player.IDLE_STATE;
+            }
             return null;
         }
     }

@@ -27,14 +27,14 @@ MonoBehaviour:
   attackRadius: 1.4
   attackDistance: 0.9
   chainTime: 0.8
-  airborneTime: 0.5
+  airborneTime: 0.25
   maxChargeMult: 3
   blockCooldown: 0.7
   parryWindow: 0.5
   postHitNoCollision: 0.2
   pushVelocity: 100
   pushTime: 1.2
-  comboMultiplayer: 0.1
+  comboMultiplier: 0.1
   comboTimeout: 4
-  comboDmgCap: 20
+  finisherMultiplier: 2
   speedBoost: 0.2

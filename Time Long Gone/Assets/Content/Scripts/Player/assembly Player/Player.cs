@@ -5,17 +5,21 @@ using UnityEngine;
 
 namespace Player
 {
+    /// <summary>
+    /// Main player class. Works as a state machine and holds everything that other classes in composition may need.
+    /// </summary>
     [SelectionBase]
     public class Player : MonoBehaviour
     {
         [SerializeField] internal PlayerVariables variables;
         [SerializeField] private LayerMask ground;
-        [SerializeField] private LayerMask enemy;
+        [SerializeField] internal LayerMask enemy;
 
         #region Dependencies
 
         internal ChargedAttackHitbox chargedAttack;
         internal StunAttackHitBox stunAttack;
+        internal PlayerCombat combat;
         private CharacterController controller;
         [SerializeField] internal Animator animator;
 
@@ -48,6 +52,9 @@ namespace Player
         public bool IsInvincible { get; set; } = false;
         public bool IsGrounded { get; set; } = true;
         public float Gravity { get; set; }
+        /// <summary>
+        /// General speed boost depending on current time scale. The lower the time scale is, the higher SpeedFactor gets.
+        /// </summary>
         public float SpeedFactor { get; set; } = 1;
 
 
@@ -71,15 +78,16 @@ namespace Player
             chargedAttack = GetComponentInChildren<ChargedAttackHitbox>(true);
             stunAttack = GetComponentInChildren<StunAttackHitBox>(true);
             controller = GetComponent<CharacterController>();
+            combat = GetComponent<PlayerCombat>();
 
             move = MoveNormal;
             rotate = InstaRotate;
 
             IDLE_STATE = new Idle() {player = this};
             JUMP_STATE = new Jump() {jumpHeight = variables.jumpHeight, player = this};
-            DASH_STATE = new Dash(){dashTime = variables.dashTime, iframesTime = variables.iframesTime, distance = variables.dashDistance, controller = controller, player = this};
+            DASH_STATE = new Dash(){dashTime = variables.dashTime, iframesTime = variables.iframesTime, distance = variables.dashDistance, player = this};
             DASHATTACK_STATE = new DashAttack() { dashTime = variables.dashTime, iframesTime = variables.iframesTime, distance = variables.dashDistance, 
-                maxDistance = variables.dashAttackMaxDist, hitBox = chargedAttack, controller = controller, enemy = enemy, player = this};
+                maxDistance = variables.dashAttackMaxDist, hitBox = chargedAttack, enemy = enemy, player = this};
             BLOCK_STATE = new Block() {player = this};
             FINISHER_STATE = new Finisher() {player = this};
             DEAD_STATE = new Dead() {player = this};
@@ -114,7 +122,7 @@ namespace Player
 
         void LateUpdate()
         {
-            controller.Move(velocity);
+            controller.Move(velocity * Time.deltaTime);
         }
 
         #endregion
@@ -128,7 +136,7 @@ namespace Player
 
         internal void SlowRotate()
         {
-            transform.DOLookAt(transform.position + _moveDirection, variables.rotationTime / SpeedFactor);
+            transform.DOLookAt(transform.position + (_moveDirection==Vector3.zero ? transform.forward : _moveDirection), variables.rotationTime / SpeedFactor);
         }
 
         internal void MoveNormal()
@@ -162,28 +170,30 @@ namespace Player
         internal void ResetBlock()
         {
             CanBlock = false;
-            Invoke(nameof(Reset), variables.blockCooldown / SpeedFactor);
-            void Reset() => CanBlock = true;
+            Invoke(nameof(ResetBlockInvoke), variables.blockCooldown / SpeedFactor);
         }
-
+        void ResetBlockInvoke() => CanBlock = true;
         internal void ResetDash()
         {
             CanDash = false;
-            Invoke(nameof(Reset), variables.dashCooldown / SpeedFactor);
-            void Reset() => CanDash = true;
+            Invoke(nameof(ResetDashInvoke), variables.dashCooldown / SpeedFactor);
         }
-
+        void ResetDashInvoke() => CanDash = true;
         internal void ResetAttack()
         {
             CanAttack = false;
-            Invoke(nameof(Reset), variables.attackCooldown / SpeedFactor);
-            void Reset() => CanAttack = true;
+            Invoke(nameof(ResetAttackInvoke), variables.attackCooldown / SpeedFactor);
         }
-
+        void ResetAttackInvoke() => CanAttack = true;
         #endregion
 
         #region Helper methods
 
+        /// <summary>
+        /// This method maps 2D input vector into 3D vector representing move direction in reference to camera. 
+        /// </summary>
+        /// <param name="input">Input vector from keyboard or game pad stick</param>
+        /// <returns>3D vector representing move direction in world space</returns>
         private Vector3 CalculateMoveDirection(Vector2 input)
         {
             var vertical = input.x;
@@ -194,14 +204,14 @@ namespace Player
                 0,
                 horizontal * Mathf.Sqrt(1 - vertical * vertical * 0.5f)
             );
-
+            
             var camPos = _cam.transform.forward;
 
             dir =
                 Quaternion.AngleAxis(
                     Vector3.SignedAngle(Vector3.forward,
                         camPos,
-                        Vector3.up), Vector3.up) * _moveDirection;
+                        Vector3.up), Vector3.up) * dir;
             return dir;
         }
         void UpdateAnimator()

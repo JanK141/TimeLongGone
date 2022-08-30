@@ -1,4 +1,6 @@
-﻿namespace Player.States
+﻿using DG.Tweening;
+
+namespace Player.States
 {
     public class Finisher : IPlayerState
     {
@@ -15,6 +17,7 @@
         {
             player.move = player.MoveNormal;
             player.rotate = player.InstaRotate;
+            player.transform.DOKill();
         }
 
         public virtual void Tick()
@@ -23,8 +26,12 @@
 
         public virtual IPlayerState Evaluate()
         {
-            if (player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95 ||
-                player.inputContext == InputIntermediary.InputContext.FinisherCanceled) return player.IDLE_STATE;
+            if (player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.95) return player.IDLE_STATE;
+            if (player.inputContext == InputIntermediary.InputContext.FinisherCanceled)
+            {
+                player.animator.SetTrigger("FinisherCanceled");
+                return player.IDLE_STATE;
+            }
             return null;
         }
     }
