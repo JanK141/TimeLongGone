@@ -17,7 +17,7 @@ public class SMTransition : ScriptableObject
         this.@from = from;
         this.to = to;
         this.parent = parent;
-        transitionName = from.stateName + " -> " + to.stateName;
+        transitionName = (from!=null?from.stateName:"Any") + " -> " + to.stateName;
     }
     public void Start()
     {

@@ -13,8 +13,6 @@ public class SMStateEditor : UnityEditor.Editor
     private SerializedObject so;
     private SerializedProperty parent;
     private SerializedProperty stateName;
-    private List<SMState> states;
-    private List<SerializedProperty> transitions;
 
     private ReorderableList transitionsList;
 
@@ -40,15 +38,15 @@ public class SMStateEditor : UnityEditor.Editor
         int currWidth = Screen.width - 10;
         SerializedObject element =
             new SerializedObject(transitionsList.serializedProperty.GetArrayElementAtIndex(index).objectReferenceValue);
-        EditorGUI.LabelField(new Rect(rect.x, rect.y, 85, EditorGUIUtility.singleLineHeight),
-            element.FindProperty("transitionName").stringValue);
+        EditorGUI.LabelField(new Rect(rect.x, rect.y, (int)(0.2 * currWidth), EditorGUIUtility.singleLineHeight),
+            new GUIContent(element.FindProperty("transitionName").stringValue, element.FindProperty("transitionName").stringValue));
         element.Update();
         var tmpcond = element.FindProperty("conditions");
         List<SerializedProperty> conditions = new List<SerializedProperty>();
         for (int j = 0; j < tmpcond.arraySize; j++)
             conditions.Add(tmpcond.GetArrayElementAtIndex(j));
-        using (new GUILayout.AreaScope(new Rect(rect.x + 95, rect.y+EditorGUIUtility.singleLineHeight*5+5,
-                       currWidth - 115, tmpcond.arraySize * (EditorGUIUtility.singleLineHeight + 5)), 
+        using (new GUILayout.AreaScope(new Rect(rect.x + (int)(0.2 * currWidth), rect.y+EditorGUIUtility.singleLineHeight*5+5,
+                       currWidth - (int)(0.2 * currWidth) - 20, tmpcond.arraySize * (EditorGUIUtility.singleLineHeight + 5)), 
                    new GUIContent("Condtiions"), EditorStyles.helpBox))
         {
             for (int j = conditions.Count; j-- > 0;)

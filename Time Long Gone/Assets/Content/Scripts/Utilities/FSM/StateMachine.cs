@@ -11,6 +11,7 @@ public class StateMachine : ScriptableObject
     [SerializeField] public List<Parameter> parameters = new List<Parameter>();
     [SerializeField] public List<SMState> states = new List<SMState>();
     [SerializeField] public SMState initialState;
+    [SerializeField] public List<SMTransition> transitions;
 
     private SMState _currState;
 
@@ -27,7 +28,16 @@ public class StateMachine : ScriptableObject
     public void Update()
     {
         _currState.StateUpdate();
-        var state = _currState.Evaluate();
+        SMState state = null;
+        foreach (SMTransition transition in transitions)
+        {
+            if (transition.Check()) { 
+                state = transition.to;
+                break;
+            }
+        }
+        if(state==null)
+            state =_currState.Evaluate();
         if (state != null)
         {
             _currState.StateExit();
