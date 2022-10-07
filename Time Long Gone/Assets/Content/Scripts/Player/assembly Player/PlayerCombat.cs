@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Enemy;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Player
@@ -13,7 +15,8 @@ namespace Player
         private float _timeout = 0;
         private Player player;
         private PlayerVariables variables;
-        private LayerMask enemy;
+        private LayerMask whatIsEnemy;
+        internal IEnemy enemy;
 
         #region Events
         /// <summary>
@@ -33,8 +36,9 @@ namespace Player
         void Start()
         {
             player = GetComponent<Player>();
+            enemy = FindObjectsOfType<MonoBehaviour>().OfType<IEnemy>().FirstOrDefault();
             variables = player.variables;
-            enemy = player.enemy;
+            whatIsEnemy = player.enemy;
         }
 
         void Update()
@@ -46,23 +50,27 @@ namespace Player
 
         internal void Hit(bool lastInChain = false)
         {
-            if(!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, enemy)) return;
-
-            OnHit?.Invoke(lastInChain);
-            ContinueCombo(1);
-            float baseDmg = lastInChain ? variables.baseDamage * 1.5f : variables.baseDamage;
-            float damage = baseDmg + baseDmg * _combo * variables.comboMultiplier;
-            //TODO enemy receive dmg
+            if(!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) return;
+            if (enemy != null && enemy.Status != EnemyStatus.Untouchable)
+            {
+                OnHit?.Invoke(lastInChain);
+                ContinueCombo(1);
+                float baseDmg = lastInChain ? variables.baseDamage * 1.5f : variables.baseDamage;
+                float damage = baseDmg + baseDmg * _combo * variables.comboMultiplier;
+                enemy.ReceiveHit(damage);
+            }
         }
 
         internal void Finisher()
         {
-            if (!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, enemy)) return;
-
-            OnFinisher?.Invoke(_combo);
-            float damage = variables.baseDamage + variables.baseDamage * _combo * variables.comboMultiplier * variables.finisherMultiplier;
-            ContinueCombo(-1);
-            //TODO enemy receive dmg
+            if (!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) return;
+            if (enemy != null && enemy.Status != EnemyStatus.Untouchable)
+            {
+                OnFinisher?.Invoke(_combo);
+                float damage = variables.baseDamage + variables.baseDamage * _combo * variables.comboMultiplier * variables.finisherMultiplier;
+                ContinueCombo(-1);
+                enemy.ReceiveHit(damage);
+            }
         }
 
         internal float CalculateDashDamage()

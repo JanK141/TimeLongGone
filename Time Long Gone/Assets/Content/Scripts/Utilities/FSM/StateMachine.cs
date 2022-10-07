@@ -12,6 +12,7 @@ public class StateMachine : ScriptableObject
     [SerializeField] public List<SMState> states = new List<SMState>();
     [SerializeField] public SMState initialState;
     [SerializeField] public List<SMTransition> transitions;
+    [SerializeField] public string executorType = "UnityEngine.MonoBehaviour, UnityEngine.CoreModule";
 
     private SMState _currState;
 
@@ -21,17 +22,21 @@ public class StateMachine : ScriptableObject
         {
             state.Start();
         }
+        foreach (SMTransition transition in transitions)
+        {
+            transition.Start();
+        }
 
         _currState = initialState;
     }
 
-    public void Update()
+    public void Tick(MonoBehaviour executer)
     {
-        _currState.StateUpdate();
+        _currState.StateUpdate(executer);
         SMState state = null;
         foreach (SMTransition transition in transitions)
         {
-            if (transition.Check()) { 
+            if (transition.Check() && transition.to != _currState) { 
                 state = transition.to;
                 break;
             }
@@ -40,9 +45,10 @@ public class StateMachine : ScriptableObject
             state =_currState.Evaluate();
         if (state != null)
         {
-            _currState.StateExit();
+            _currState.StateExit(executer);
             _currState = state;
-            _currState.StateEnter();
+            //Debug.Log(_currState.stateName);
+            _currState.StateEnter(executer);
         }
     }
 
@@ -71,6 +77,10 @@ public class StateMachine : ScriptableObject
     public bool GetBool(string name)
     {
         return (parameters.SingleOrDefault(p => p.paramName == name) as BoolParameter).value;
+    }
+    public SMState GetCurrentState()
+    {
+        return _currState;
     }
 }
 

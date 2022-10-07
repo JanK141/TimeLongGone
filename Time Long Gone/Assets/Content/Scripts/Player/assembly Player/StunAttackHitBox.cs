@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Enemy;
+using System;
 using UnityEngine;
 
 namespace Player
@@ -13,11 +14,13 @@ namespace Player
         }
         private void OnTriggerEnter(Collider other)
         {
-            //TODO
-            // Try get compnent of enemy
-            player.combat.ContinueCombo(1);
-            // apply stun
-            gameObject.SetActive(false);
+            var enemy = other.GetComponentInParent<IEnemy>();
+            if(enemy != null && enemy.Status == EnemyStatus.Vulnerable)
+            {
+                player.combat.ContinueCombo(1);
+                enemy.ReceiveStun();
+                gameObject.SetActive(false);
+            }
         }
     }
 }

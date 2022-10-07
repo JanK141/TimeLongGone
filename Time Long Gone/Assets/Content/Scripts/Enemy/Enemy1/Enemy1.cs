@@ -1,0 +1,345 @@
+using DG.Tweening;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Events;
+
+namespace Enemy
+{
+    public class Enemy1 : MonoBehaviour, IEnemy
+    {
+        [SerializeField] private NavMeshAgent navAgent;
+        [SerializeField] private Animator animator;
+        [Space(10)]
+        [SerializeField] private float MaxHealth;
+        [SerializeField] private float StunTime;
+        [SerializeField] private float ParryTime;
+        [SerializeField] private int SequenceParryCount;
+        [SerializeField] private int MinThrownProj;
+        [SerializeField] private int MaxThrownProj;
+        [SerializeField] private GameObject Projectile;
+        [SerializeField] private GameObject ProjectilesParent;
+        [SerializeField][Range(0, 1)] private float VulnerableOnParryChance;
+        [SerializeField] private AnimationCurve jumpHeightCurve;
+        [SerializeField] private AnimationCurve jumpDistanceCurve;
+        [SerializeField] private List<StateMachine> Stages;
+
+        public float Health { get;  private set; }
+        public EnemyStatus Status { get; private set; }
+        public int Stage { get; private set; }
+
+        private StateMachine currSM;
+        private Player.Player player;
+        private LinkedList<Vector3> playerPositions = new LinkedList<Vector3>();
+        private List<Vector3> projectilesSpots;
+        private LinkedList<float> pastHealth = new LinkedList<float>();
+        private Vector3 escapeTargetPos;
+        private int sequenceParries = 0;
+
+        void Awake()
+        {
+            Stage = 0;
+            currSM = Stages[Stage];
+            Health = MaxHealth;
+            Status = EnemyStatus.Passive;
+        }
+
+        void Start()
+        {
+            projectilesSpots = GameObject.FindGameObjectsWithTag("Projectiles Spot").Select(o => o.transform.position).ToList();
+            currSM.Start();
+            player = FindObjectOfType<Player.Player>();
+            for (int i = 0; i < 40; i++) { 
+                playerPositions.AddLast(player.transform.position);
+                pastHealth.AddLast(Health);
+            }
+            StartCoroutine(UpdateRandomParameters());
+            StartCoroutine(CalculatePlayerAvgDeltaPos());
+        }
+
+        void Update()
+        {
+            UpdateSM();
+            currSM.Tick(this);
+        }
+        void UpdateSM()
+        {
+            currSM.SetFloat("Distance", Vector3.Distance(transform.position, player.transform.position));
+            currSM.SetFloat("TimeSinceRest", currSM.GetFloat("TimeSinceRest") + Time.deltaTime);
+            currSM.SetFloat("TimeSinceCharge", currSM.GetFloat("TimeSinceCharge") + Time.deltaTime);
+            currSM.SetFloat("DistanceToProjectileSpot", projectilesSpots.Select(p=>Vector3.Distance(transform.position,p)).Min());
+            currSM.SetFloat("AngleToPlayer", Vector3.SignedAngle(player.transform.position - transform.position, transform.forward, Vector3.up));
+        }
+
+        public void PlayAnimation(string anim, float crossfade) => animator.CrossFade(anim, crossfade);
+
+        #region Corutines
+        IEnumerator UpdateRandomParameters()
+        {
+            YieldInstruction cycle = new WaitForSeconds(0.5f);
+            while (true)
+            {
+                currSM.SetFloat("RestingChance", UnityEngine.Random.value);
+                currSM.SetFloat("JumpAttackChance", UnityEngine.Random.value);
+                currSM.SetFloat("ChanceToEscape", UnityEngine.Random.value);
+                currSM.SetFloat("ChanceForProjectiles", UnityEngine.Random.value);
+                currSM.SetFloat("RepulsingChance", UnityEngine.Random.value);
+                currSM.SetFloat("ChanceToBreak", UnityEngine.Random.value);
+                currSM.SetFloat("StrongAttackChance", UnityEngine.Random.value);
+                currSM.SetFloat("BackAttackChance", UnityEngine.Random.value);
+                currSM.SetFloat("SequenceChance", UnityEngine.Random.value);
+                currSM.SetFloat("AreaAttackChance", UnityEngine.Random.value);
+                yield return cycle;
+            }
+        }
+        IEnumerator CalculatePlayerAvgDeltaPos()
+        {
+            YieldInstruction cycle = new WaitForSeconds(0.1f);
+            while (true)
+            {
+                pastHealth.RemoveFirst();
+                pastHealth.AddLast(Health);
+                playerPositions.RemoveFirst();
+                playerPositions.AddLast(player.transform.position);
+                float distance = 0;
+                foreach (Vector3 pos in playerPositions) distance += Vector3.Distance(pos, playerPositions.First.Value);
+                currSM.SetFloat("PlayerAvgDeltaPos", distance / 40);
+                currSM.SetFloat("HealthDelta", pastHealth.First.Value - Health);
+                yield return cycle; 
+            }
+        }
+        IEnumerator JumpTowardsPlayer()
+        {
+            navAgent.ResetPath();
+            IncrementCombo();
+            var pos = player.transform.position;
+            pos.y -= player.GetComponent<CharacterController>().height / 2;
+            transform.LookAt(pos);
+            var startpos = transform.position;
+            var distance = Vector3.Distance(transform.position, pos);
+            var time = distance / 15;
+            animator.SetFloat("JumpSpeed", 1.25f/time);
+            float currTime = 0;
+            while(currTime < time)
+            {
+                Vector3 currpos = Vector3.Lerp(startpos, pos, jumpDistanceCurve.Evaluate(currTime/time));
+                currpos.y += jumpHeightCurve.Evaluate(currTime/time)*(distance/4);
+                navAgent.Warp(currpos);
+                currTime += Time.deltaTime;
+                yield return null;
+            }
+            transform.DOLookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.5f);
+            yield return new WaitForSeconds(1f);
+            currSM.SetBool("IsAttacking", false);
+        }
+        IEnumerator SequenceAttack()
+        {
+            sequenceParries = 0;
+            while (true)
+            {
+                if (!currSM.GetBool("IsAttacking"))
+                {
+                    yield break;
+                }
+                if(sequenceParries >= SequenceParryCount)
+                {
+                    currSM.SetBool("IsParried", true);
+                    currSM.SetBool("IsAttacking", false);
+                    StopCoroutine(ResetAttack());
+                    Status = EnemyStatus.Vulnerable;
+                    yield return new WaitForSeconds(ParryTime / 2);
+                    if (Status == EnemyStatus.Stunned)
+                    {
+                        currSM.SetBool("IsParried", false);
+                        yield break;
+                    }
+                    Status = EnemyStatus.Parried;
+                    yield return new WaitForSeconds(ParryTime / 2);
+                    currSM.SetBool("IsParried", false);
+                    Status = EnemyStatus.Passive;
+                }
+                yield return null;
+            }
+        }
+        IEnumerator ThrowProjectiles()
+        {
+            int projToThrow = UnityEngine.Random.Range(MinThrownProj, MaxThrownProj);
+            int projThrown = 0;
+            Vector3 spot = projectilesSpots.
+                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next);
+            while (projThrown < projToThrow)
+            {
+                transform.DOLookAt(spot, 0.5f);
+                yield return new WaitForSeconds(0.5f);
+                GameObject proj = GameObject.Instantiate(Projectile, ProjectilesParent.transform);
+                Rigidbody rb = proj.GetComponent<Rigidbody>();
+                rb.detectCollisions = false;
+                proj.transform.position = new Vector3(ProjectilesParent.transform.position.x, ProjectilesParent.transform.position.y, ProjectilesParent.transform.position.z + 3);
+                yield return new WaitForSeconds(0.25f);
+                transform.DOLookAt(player.transform.position, 0.5f);
+                yield return new WaitForSeconds(1f);
+
+                proj.transform.SetParent(null);
+                rb.isKinematic = false;
+                rb.detectCollisions = true;
+
+                Vector3 direction = player.transform.position - proj.transform.position;
+                var h = direction.y;
+                direction.y = 0;
+                var dist = direction.magnitude;
+                var a = UnityEngine.Random.Range(10f, 45f) * Mathf.Deg2Rad;
+                direction.y = dist * Mathf.Tan(a);
+                dist += h / Mathf.Tan(a);
+                var vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
+                rb.velocity = vel * direction.normalized;
+
+                projThrown++;
+                yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f));
+            }
+            currSM.SetBool("IsThrowing", false);
+        }
+        #endregion
+
+        #region Attacks
+        public void IncrementCombo() => currSM.SetInt("AttacksInCombo", currSM.GetInt("AttacksInCombo") + 1);
+        public void BasicAttack()
+        {
+            var currAnim = animator.GetCurrentAnimatorStateInfo(0);
+            if (!currAnim.IsName("BasicAttack1") && !currAnim.IsName("BasicAttack2")
+                && !currAnim.IsName("BasicAttack3") && !currAnim.IsName("BasicAttack4"))
+            {
+                PlayAnimation("BasicAttack1", 0.1f);
+            }
+            else animator.SetTrigger("BasicAttack");
+        }
+        public void CountBreakTime() => currSM.SetFloat("BreakTime", currSM.GetFloat("BreakTime") + Time.deltaTime);
+        public void WaitForAttackEnd() => StartCoroutine(ResetAttack());
+        public void StartSequenceAttack() => StartCoroutine(SequenceAttack());
+        public void ThrowingProjectiles() => StartCoroutine(ThrowProjectiles());
+        #endregion
+
+        #region Movement
+        public void LookAtPlayer(float timeToRotate) => transform.DOLookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), timeToRotate);
+        public void Chase() => navAgent.SetDestination(player.transform.position);
+        public void ChangeAgentSpeed(float speed) => navAgent.speed = speed;
+        public void Jump() => StartCoroutine(JumpTowardsPlayer());
+        public void FindEscapeTarget()
+        {
+            NavMeshHit hit;
+            for (int i =0; i++<50;)
+            {
+                Vector3 randDir = new Vector3(UnityEngine.Random.Range(-1f,1f), 0, UnityEngine.Random.Range(-1f,1f)).normalized;
+                float randDist = UnityEngine.Random.Range(10, 20);
+                var pos = player.transform.position + randDir * randDist;
+                if (NavMesh.SamplePosition(pos, out hit, 5, NavMesh.AllAreas) 
+                    && !Physics.Raycast(transform.position, (hit.position-transform.position).normalized, Vector3.Distance(transform.position, hit.position)))
+                {
+                    escapeTargetPos = hit.position;
+                    return;
+                }
+            }
+            escapeTargetPos = player.transform.position;
+        }
+        public void Escape()
+        {
+            if (navAgent.remainingDistance < 5) FindEscapeTarget();
+            navAgent.SetDestination(escapeTargetPos);
+        }
+        public void StopAgent() => navAgent.ResetPath();
+        public void RunToProjectiles()
+        {
+            navAgent.SetDestination(projectilesSpots.
+                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
+            print(projectilesSpots.
+                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
+        }
+        #endregion
+
+        #region Receiving
+        public void ReceiveHit(float damage)
+        {
+            if (Status != EnemyStatus.Untouchable) { 
+                Health -= damage; 
+                //TODO stuff
+            }
+        }
+
+        public void ReceiveParry()
+        {
+            if (currSM.GetCurrentState().stateName == "SequencionalAttack")
+            {
+                sequenceParries++;
+                return;
+            }
+            Status = EnemyStatus.Parried;
+            currSM.SetBool("IsParried", true);
+            currSM.SetBool("IsAttacking", false);
+            StopCoroutine(ResetAttack());
+            Invoke(nameof(ResetParry), ParryTime);
+        }
+
+        public void ReceiveStun()
+        {
+            if(Status == EnemyStatus.Vulnerable)
+            {
+                Status = EnemyStatus.Stunned;
+                currSM.SetBool("IsParried", false);
+                currSM.SetBool("IsStunned", true);
+                currSM.SetBool("IsAttacking", false);
+                StopCoroutine(ResetAttack());
+                StartCoroutine(ResetStun());
+            }
+        }
+        #endregion
+
+        #region Resets
+        IEnumerator ResetAttack()
+        {
+            yield return null;
+            while (true)
+            {
+                if (!animator.IsInTransition(0) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.98f)
+                {
+                    yield return new WaitForSeconds(UnityEngine.Random.value);
+                    currSM.SetBool("IsAttacking", false);
+                    yield break;
+                }
+                yield return null;
+            }
+        }
+        IEnumerator ResetStun()
+        {
+            yield return new WaitForSeconds(StunTime - 1);
+            PlayAnimation("StunEnd", 0.1f);
+            yield return new WaitForSeconds(1);
+            currSM.SetBool("IsStunned", false);
+            Status = EnemyStatus.Passive;
+        }
+        IEnumerator ResetParry()
+        {
+            if (UnityEngine.Random.value <= VulnerableOnParryChance) Status = EnemyStatus.Vulnerable;
+            yield return new WaitForSeconds(ParryTime / 2);
+            if(Status == EnemyStatus.Stunned) {
+                currSM.SetBool("IsParried", false);
+                yield break;
+            }
+            Status = EnemyStatus.Parried;
+            yield return new WaitForSeconds(ParryTime / 2);
+            currSM.SetBool("IsParried", false);
+            Status = EnemyStatus.Passive;
+        }
+        #endregion
+        void NextStage()
+        {
+            if (Stage + 1 >= Stages.Count) return;
+            Stage++;
+            currSM = Stages[Stage];
+            currSM.Start();
+        }
+
+    }
+}

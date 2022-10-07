@@ -16,7 +16,17 @@ public class SMStateEditor : UnityEditor.Editor
 
     private ReorderableList transitionsList;
 
+    private ReorderableList enterList;
+    private ReorderableList updateList;
+    private ReorderableList exitList;
+
     private bool showTransitions = true;
+    private bool showEnter = true;
+    private bool showUpdate = true;
+    private bool showExit = true;
+
+    private List<string> executorMethods;
+    private List<string> parentMethods;
 
     void OnEnable()
     {
@@ -31,8 +41,157 @@ public class SMStateEditor : UnityEditor.Editor
         transitionsList.elementHeightCallback = index => (so.targetObject as SMState).transitions[index].conditions.Count * (EditorGUIUtility.singleLineHeight+5);
         transitionsList.onAddDropdownCallback = AddTransitionDropdown;
         transitionsList.onRemoveCallback = list => DeleteTransition(list.index);
+
+
+        executorMethods = Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly).
+            Where(i => !i.IsSpecialName && i.ReturnType == typeof(void)).
+            Where(i => i.GetParameters().Length <= 2).
+            Where(i => i.GetParameters().Where(p => p.ParameterType != typeof(int) && p.ParameterType != typeof(float) && p.ParameterType != typeof(string) && p.ParameterType != typeof(bool)).Count() == 0).
+            Select(i => i.Name).ToList();
+        parentMethods = typeof(StateMachine).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly).
+            Where(i => !i.IsSpecialName && i.ReturnType==typeof(void)).
+            Where(i => i.GetParameters().Length <= 2).
+            Where(i => i.GetParameters().Where(p => p.ParameterType != typeof(int) && p.ParameterType != typeof(float) && p.ParameterType != typeof(string) && p.ParameterType != typeof(bool)).Count() == 0).
+            Select(i => i.Name).ToList();
+
+        enterList = new ReorderableList(so, so.FindProperty("OnEnter"), true, true, true, true);
+        enterList.drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Enter State Actions");
+        enterList.drawElementCallback = DrawEnterAction;
+        enterList.onAddCallback = AddEnterAction;
+        enterList.onRemoveCallback = DeleteEnterAction;
+
+        updateList = new ReorderableList(so, so.FindProperty("OnUpdate"), true, true, true, true);
+        updateList.drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Update State Actions");
+        updateList.drawElementCallback = DrawUpdateAction;
+        updateList.onAddCallback = AddUpdateAction;
+        updateList.onRemoveCallback = DeleteUpdateAction;
+
+        exitList = new ReorderableList(so, so.FindProperty("OnExit"), true, true, true, true);
+        exitList.drawHeaderCallback = rect => EditorGUI.LabelField(rect, "Exit State Actions");
+        exitList.drawElementCallback = DrawExitAction;
+        exitList.onAddCallback = AddExitAction;
+        exitList.onRemoveCallback = DeleteExitAction;
     }
 
+
+    #region ListMethods
+    void DrawEnterAction(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        int currWidth = Screen.width - 10;
+        SerializedProperty element = enterList.serializedProperty.GetArrayElementAtIndex(index);
+        int selectedExec = element.FindPropertyRelative("Executer").stringValue == typeof(StateMachine).FullName ? 0 : 1;
+        int selectionExec = EditorGUI.Popup(new Rect(rect.x, rect.y, (int)(0.2 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedExec, new string[] { typeof(StateMachine).FullName, (so.targetObject as SMState).parent.executorType });
+        if (selectedExec != selectionExec) 
+        { 
+            element.FindPropertyRelative("Executer").stringValue = selectionExec == 0 ? typeof(StateMachine).FullName : (so.targetObject as SMState).parent.executorType;
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[0] : executorMethods[0];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[0]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        int selectedMethod = selectionExec == 0 ? parentMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue) : executorMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue);
+        int selectionMethod = EditorGUI.Popup(new Rect(rect.x + (int)(0.22 * currWidth), rect.y, (int)(0.4 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedMethod, selectionExec == 0 ? parentMethods.ToArray() : executorMethods.ToArray());
+        if (selectedMethod != selectionMethod)
+        {
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[selectionMethod] : executorMethods[selectionMethod];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[selectionMethod]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[selectionMethod]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        EditorGUI.PropertyField(new Rect(rect.x + (int)(0.64 * currWidth), rect.y, (int)(0.28 * currWidth), EditorGUIUtility.singleLineHeight),
+            element.FindPropertyRelative("Parameters"), new GUIContent(""));
+
+    }
+    void DrawUpdateAction(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        int currWidth = Screen.width - 10;
+        SerializedProperty element = updateList.serializedProperty.GetArrayElementAtIndex(index);
+        int selectedExec = element.FindPropertyRelative("Executer").stringValue == typeof(StateMachine).FullName ? 0 : 1;
+        int selectionExec = EditorGUI.Popup(new Rect(rect.x, rect.y, (int)(0.2 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedExec, new string[] { typeof(StateMachine).FullName, (so.targetObject as SMState).parent.executorType });
+        if (selectedExec != selectionExec)
+        {
+            element.FindPropertyRelative("Executer").stringValue = selectionExec == 0 ? typeof(StateMachine).FullName : (so.targetObject as SMState).parent.executorType;
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[0] : executorMethods[0];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[0]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        int selectedMethod = selectionExec == 0 ? parentMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue) : executorMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue);
+        int selectionMethod = EditorGUI.Popup(new Rect(rect.x + (int)(0.22 * currWidth), rect.y, (int)(0.4 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedMethod, selectionExec == 0 ? parentMethods.ToArray() : executorMethods.ToArray());
+        if (selectedMethod != selectionMethod)
+        {
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[selectionMethod] : executorMethods[selectionMethod];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[selectionMethod]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[selectionMethod]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        EditorGUI.PropertyField(new Rect(rect.x + (int)(0.64 * currWidth), rect.y, (int)(0.28 * currWidth), EditorGUIUtility.singleLineHeight),
+            element.FindPropertyRelative("Parameters"), new GUIContent(""));
+
+    }
+    void DrawExitAction(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        int currWidth = Screen.width - 10;
+        SerializedProperty element = exitList.serializedProperty.GetArrayElementAtIndex(index);
+        int selectedExec = element.FindPropertyRelative("Executer").stringValue == typeof(StateMachine).FullName ? 0 : 1;
+        int selectionExec = EditorGUI.Popup(new Rect(rect.x, rect.y, (int)(0.2 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedExec, new string[] { typeof(StateMachine).FullName, (so.targetObject as SMState).parent.executorType });
+        if (selectedExec != selectionExec)
+        {
+            element.FindPropertyRelative("Executer").stringValue = selectionExec == 0 ? typeof(StateMachine).FullName : (so.targetObject as SMState).parent.executorType;
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[0] : executorMethods[0];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[0]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        int selectedMethod = selectionExec == 0 ? parentMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue) : executorMethods.IndexOf(element.FindPropertyRelative("MethodName").stringValue);
+        int selectionMethod = EditorGUI.Popup(new Rect(rect.x + (int)(0.22 * currWidth), rect.y, (int)(0.4 * currWidth), EditorGUIUtility.singleLineHeight),
+            selectedMethod, selectionExec == 0 ? parentMethods.ToArray() : executorMethods.ToArray());
+        if (selectedMethod != selectionMethod)
+        {
+            element.FindPropertyRelative("MethodName").stringValue = selectionExec == 0 ? parentMethods[selectionMethod] : executorMethods[selectionMethod];
+            string pars = "";
+            foreach (var par in selectionExec == 0 ? typeof(StateMachine).GetMethod(parentMethods[selectionMethod]).GetParameters() : Type.GetType((so.targetObject as SMState).parent.executorType, true).GetMethod(executorMethods[selectionMethod]).GetParameters())
+            {
+                pars += par.ParameterType.Name + ",";
+            }
+            if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+            element.FindPropertyRelative("Parameters").stringValue = pars;
+        }
+
+        EditorGUI.PropertyField(new Rect(rect.x + (int)(0.64 * currWidth), rect.y, (int)(0.28 * currWidth), EditorGUIUtility.singleLineHeight),
+            element.FindPropertyRelative("Parameters"), new GUIContent(""));
+
+    }
     void DrawTransition(Rect rect, int index, bool isActive, bool isFocused)
     {
         int currWidth = Screen.width - 10;
@@ -127,6 +286,7 @@ public class SMStateEditor : UnityEditor.Editor
 
         menu.ShowAsContext();
     }
+    #endregion
 
     public override void OnInspectorGUI()
     {
@@ -143,12 +303,22 @@ public class SMStateEditor : UnityEditor.Editor
         showTransitions = EditorGUILayout.Foldout(showTransitions, new GUIContent("Transitions"));
         if (showTransitions) transitionsList.DoLayoutList();
 
+        GUILayout.Space(15);
+
+        showEnter = EditorGUILayout.Foldout(showEnter, new GUIContent("On Enter"));
+        if (showEnter) enterList.DoLayoutList();
+
+        GUILayout.Space(15);
+
+        showUpdate = EditorGUILayout.Foldout(showUpdate, new GUIContent("On Update"));
+        if (showUpdate) updateList.DoLayoutList();
+
+        GUILayout.Space(15);
+
+        showExit = EditorGUILayout.Foldout(showExit, new GUIContent("On Exit"));
+        if (showExit) exitList.DoLayoutList();
+
         EditorGUILayout.Space(30);
-
-        EditorGUILayout.PropertyField(so.FindProperty("onStateEnter"));
-        EditorGUILayout.PropertyField(so.FindProperty("onStateUpdate"));
-        EditorGUILayout.PropertyField(so.FindProperty("onStateExit"));
-
         if (so.ApplyModifiedProperties())
         {
             if ((so.targetObject as SMState).name != stateName.stringValue)
@@ -160,6 +330,68 @@ public class SMStateEditor : UnityEditor.Editor
         }
     }
 
+
+    #region HelperMethods
+    void AddEnterAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Add Action");
+        SMState.SMAction a = new SMState.SMAction();
+        a.Executer = typeof(StateMachine).FullName;
+        a.MethodName = parentMethods[0];
+        string pars = "";
+        foreach(var par in typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters())
+        {
+            pars += par.ParameterType.Name + ",";
+        }
+        if(pars.Length>0)pars = pars.Substring(0, pars.Length - 1);
+        a.Parameters = pars;
+        (so.targetObject as SMState).OnEnter.Add(a);
+    }
+    void DeleteEnterAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Delete Action");
+        (so.targetObject as SMState).OnEnter.RemoveAt(l.index);
+    }
+    void AddUpdateAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Add Action");
+        SMState.SMAction a = new SMState.SMAction();
+        a.Executer = typeof(StateMachine).FullName;
+        a.MethodName = parentMethods[0];
+        string pars = "";
+        foreach (var par in typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters())
+        {
+            pars += par.ParameterType.Name + ",";
+        }
+        if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+        a.Parameters = pars;
+        (so.targetObject as SMState).OnUpdate.Add(a);
+    }
+    void DeleteUpdateAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Delete Action");
+        (so.targetObject as SMState).OnUpdate.RemoveAt(l.index);
+    }
+    void AddExitAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Add Action");
+        SMState.SMAction a = new SMState.SMAction();
+        a.Executer = typeof(StateMachine).FullName;
+        a.MethodName = parentMethods[0];
+        string pars = "";
+        foreach (var par in typeof(StateMachine).GetMethod(parentMethods[0]).GetParameters())
+        {
+            pars += par.ParameterType.Name + ",";
+        }
+        if (pars.Length > 0) pars = pars.Substring(0, pars.Length - 1);
+        a.Parameters = pars;
+        (so.targetObject as SMState).OnExit.Add(a);
+    }
+    void DeleteExitAction(ReorderableList l)
+    {
+        Undo.RegisterCompleteObjectUndo(so.targetObject as SMState, "Delete Action");
+        (so.targetObject as SMState).OnExit.RemoveAt(l.index);
+    }
     void RemoveCondition(SMTransition target, int at)
     {
         if(target.conditions.Count==1) return;
@@ -219,4 +451,5 @@ public class SMStateEditor : UnityEditor.Editor
         AssetDatabase.SaveAssets();
         Undo.CollapseUndoOperations(groupIndex);
     }
+    #endregion
 }

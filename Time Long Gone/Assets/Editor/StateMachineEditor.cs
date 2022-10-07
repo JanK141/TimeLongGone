@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,8 @@ public class StateMachineEditor : UnityEditor.Editor
 
     private bool showTransitions = true;
 
+    private bool showTypeErr = false;
+
     void OnEnable()
     {
         so = serializedObject;
@@ -44,8 +47,19 @@ public class StateMachineEditor : UnityEditor.Editor
         transitionsList.elementHeightCallback = index => (so.targetObject as StateMachine).transitions[index].conditions.Count * (EditorGUIUtility.singleLineHeight + 5);
         transitionsList.onAddDropdownCallback = AddTransitionDropdown;
         transitionsList.onRemoveCallback = list => DeleteTransition(list.index);
+
+        try
+        {
+            Type t = Type.GetType(so.FindProperty("executorType").stringValue, true);
+            showTypeErr = false;
+        }
+        catch (TypeLoadException)
+        {
+            showTypeErr = true;
+        }
     }
 
+    #region ListMethods
     void DrawTransition(Rect rect, int index, bool isActive, bool isFocused)
     {
         int currWidth = Screen.width - 10;
@@ -199,7 +213,8 @@ public class StateMachineEditor : UnityEditor.Editor
         {
             if (element.targetObject.name != (element.targetObject as SMState).stateName)
             {
-                element.targetObject.name = (element.targetObject as SMState).stateName + "(State)";
+                var targetObj = element.targetObject as SMState;
+                element.targetObject.name = targetObj.stateName + "(State)";
                 AssetDatabase.SaveAssets();
                 EditorUtility.SetDirty(element.targetObject);
             }
@@ -211,6 +226,7 @@ public class StateMachineEditor : UnityEditor.Editor
     }
     void AddStateInList(ReorderableList l) => AddState();
     void RemoveStateInList(ReorderableList l) => DeleteState(l.index);
+    #endregion
 
     public override void OnInspectorGUI()
     {
@@ -243,7 +259,7 @@ public class StateMachineEditor : UnityEditor.Editor
             {
                 Undo.IncrementCurrentGroup();
                 Undo.SetCurrentGroupName("set initial state");
-                Undo.RegisterCompleteObjectUndo(this as Object, "");
+                Undo.RegisterCompleteObjectUndo(this, "");
                 selectedState = selection;
                 Undo.RegisterCompleteObjectUndo(so.targetObject as StateMachine, "");
                 (so.targetObject as StateMachine).initialState =
@@ -256,6 +272,31 @@ public class StateMachineEditor : UnityEditor.Editor
 
         showTransitions = EditorGUILayout.Foldout(showTransitions, new GUIContent("Transitions"));
         if (showTransitions) transitionsList.DoLayoutList();
+
+        GUILayout.Space(15);
+        using (new GUILayout.HorizontalScope())
+        {
+            EditorGUILayout.PropertyField(so.FindProperty("executorType"), new GUIContent("Executor Type", "Must correspond to a class that will manage and run Update() on this SM. \n namespace.class, assembly"));
+            if (GUILayout.Button("Check"))
+            {
+                try
+                {
+                    Type t = Type.GetType(so.FindProperty("executorType").stringValue, true);
+                    showTypeErr = false;
+                }catch(TypeLoadException)
+                {
+                    showTypeErr = true;
+                }
+            }
+        }
+        if (showTypeErr)
+        {
+            using (new GUILayout.HorizontalScope(EditorStyles.helpBox))
+            {
+                GUI.contentColor = Color.red;
+                EditorGUILayout.LabelField("Type not found");
+            }
+        }
 
         so.ApplyModifiedProperties();
     }

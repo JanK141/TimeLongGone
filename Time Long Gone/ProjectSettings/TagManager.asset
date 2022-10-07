@@ -12,6 +12,7 @@ TagManager:
   - bamboo
   - Arena
   - Enemy Weapon
+  - Projectiles Spot
   layers:
   - Default
   - TransparentFX

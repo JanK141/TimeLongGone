@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Enemy;
+using System;
 using UnityEngine;
 
 namespace Player
@@ -14,12 +15,14 @@ namespace Player
 
         private void OnTriggerEnter(Collider other)
         {
-            //TODO
-            // Try get component of enemy
-            var dmg = player.combat.CalculateDashDamage();
-            player.combat.ContinueCombo(1);
-            // apply damage
-            gameObject.SetActive(false);
+            var enemy = other.GetComponentInParent<IEnemy>();
+            if(enemy != null && enemy.Status != EnemyStatus.Untouchable)
+            {
+                var dmg = player.combat.CalculateDashDamage();
+                player.combat.ContinueCombo(1);
+                enemy.ReceiveHit(dmg);
+                gameObject.SetActive(false);
+            }
         }
     }
 }

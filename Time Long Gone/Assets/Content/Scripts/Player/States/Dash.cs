@@ -23,6 +23,7 @@ namespace Player.States
             player.rotate = () => { };
             player.IsInvincible = true;
             player.animator.Play("Dash");
+            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), (player.combat.enemy as MonoBehaviour).GetComponent<Collider>(), true);
         }
 
         public virtual void OnStateExit()
@@ -31,6 +32,7 @@ namespace Player.States
             player.rotate = player.InstaRotate;
             player.ResetDash();
             player.IsInvincible = false;
+            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), (player.combat.enemy as MonoBehaviour).GetComponent<Collider>(), false);
         }
 
         public virtual void Tick()

@@ -7,26 +7,118 @@ namespace Player
 {
     public class PlayerHitHandler : MonoBehaviour
     {
-        [SerializeField] private PlayerVariables variables;
+        private Player player;
+        private PlayerVariables variables;
 
         [SerializeField] private AnimationCurve pushCurve;
 
-
-        void ProcessHit(Statuses enemyStatus)
+        private void Start()
         {
-            if (enemyStatus == Statuses.Vulnerable)
+            player = GetComponent<Player>();
+            variables = player.variables;
+        }
+
+        public void ProcessHit(Enemy.AttackStatus status, Collider weaponHitBox, float pushFactor)
+        {
+            print("HIT by " + status.ToString());
+
+            switch (status)
             {
+                case Enemy.AttackStatus.Regular:
+                    if (player.IsBlocking)
+                    {
+                        if(Time.time - player.BlockTime < variables.parryWindow)
+                        {
+                            print("Parried");
+                            StartCoroutine(NoCollision(weaponHitBox));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
+                            return;
+                        }
+                        else
+                        {
+                            print("Blocked");
+                            StartCoroutine(NoCollision(weaponHitBox));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/2));
+                            return;
+                        }
+                    }else if (player.IsInvincible)
+                    {
+                        print("Dodged");
+                        StartCoroutine(NoCollision(weaponHitBox));
+                        return;
+                    }
+                    break;
+                case Enemy.AttackStatus.Sequence:
+                    if (player.IsBlocking)
+                    {
+                        if (Time.time - player.BlockTime < variables.parryWindow)
+                        {
+                            print("Parried");
+                            StartCoroutine(NoCollision(weaponHitBox));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            return;
+                        }
+                        else
+                        {
+                            print("Blocked");
+                            StartCoroutine(NoCollision(weaponHitBox));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
+                            return;
+                        }
+                    }
+                    else if (player.IsInvincible)
+                    {
+                        print("Dodged");
+                        StartCoroutine(NoCollision(weaponHitBox));
+                        return;
+                    }
+                    break;
+                case Enemy.AttackStatus.Unblockable:
+                    if (player.IsBlocking)
+                    {
+                        if (Time.time - player.BlockTime < variables.parryWindow)
+                        {
+                            print("Parried");
+                            StartCoroutine(NoCollision(weaponHitBox));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            return;
+                        }
+                    }
+                    else if (player.IsInvincible)
+                    {
+                        print("Dodged");
+                        StartCoroutine(NoCollision(weaponHitBox));
+                        return;
+                    }
+                    break;
+                case Enemy.AttackStatus.Force:
+                    StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
+                    break;
             }
+            print("Death");
         }
 
-        IEnumerator NoCollision()
+        IEnumerator NoCollision(Collider weaponHitBox)
         {
-            throw new InvalidOperationException();
+            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, true);
+            yield return new WaitForSeconds(variables.postHitNoCollision);
+            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, false);
         }
 
-        IEnumerator PushPlayer(float velocity, float time)
+        IEnumerator PushPlayer(Transform source, float factor)
         {
-            throw new InvalidOperationException();
+            var direction = transform.position - source.position;
+            direction.y = 0f;
+            var y = variables.pushVelocity * factor;
+            var initVel = variables.pushVelocity * factor;
+            float time = 0f;
+            while(time < variables.pushTime)
+            {
+                player.velocity += pushCurve.Evaluate(time/variables.pushTime) * direction * initVel;
+                if(time<variables.pushTime/6)player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
+                time += Time.deltaTime;
+                yield return null;
+            }
         }
     }
 }

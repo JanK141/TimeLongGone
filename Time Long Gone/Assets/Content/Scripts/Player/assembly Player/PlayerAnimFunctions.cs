@@ -12,6 +12,8 @@ namespace Player
 
         public void Hit() => player.combat.Hit();
 
-        public void Finisher() => player.combat.Hit(true);
+        public void LastHit() => player.combat.Hit(true);
+
+        public void Finisher() => player.combat.Finisher();
     }
 }
