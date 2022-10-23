@@ -14,6 +14,7 @@ public class SMState : ScriptableObject
     [SerializeField] public List<SMAction> OnEnter = new List<SMAction>();
     [SerializeField] public List<SMAction> OnUpdate = new List<SMAction>();
     [SerializeField] public List<SMAction> OnExit = new List<SMAction>();
+    public float timeInState;
 
     public void Init(StateMachine parent, string name)
     {
@@ -40,6 +41,7 @@ public class SMState : ScriptableObject
 
     public void StateEnter(MonoBehaviour executer)
     {
+        timeInState = 0;
         foreach (var a in OnEnter)
         {
             MethodInfo delegateInfo = Type.GetType(a.Executer).GetMethod(a.MethodName);
@@ -74,6 +76,7 @@ public class SMState : ScriptableObject
 
     public void StateUpdate(MonoBehaviour executer)
     {
+        timeInState += Time.deltaTime;
         foreach(var a in OnUpdate)
         {
             MethodInfo delegateInfo = Type.GetType(a.Executer).GetMethod(a.MethodName);

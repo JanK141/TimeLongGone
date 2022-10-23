@@ -1,3 +1,4 @@
+using Content.Scripts.Variables;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -7,11 +8,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace Enemy
 {
     public class Enemy1 : MonoBehaviour, IEnemy
     {
+        [SerializeField] private FloatVariable TimeToRemember;
+        [SerializeField] private FloatVariable TimeBetweenEntries;
+        [SerializeField] private BoolVariable IsRewinding;
         [SerializeField] private NavMeshAgent navAgent;
         [SerializeField] private Animator animator;
         [Space(10)]
@@ -28,9 +34,10 @@ namespace Enemy
         [SerializeField] private AnimationCurve jumpDistanceCurve;
         [SerializeField] private List<StateMachine> Stages;
 
-        public float Health { get;  private set; }
+        public float Health { get; private set; }
         public EnemyStatus Status { get; private set; }
         public int Stage { get; private set; }
+        public bool ActiveAI { get; set; } = true;
 
         private StateMachine currSM;
         private Player.Player player;
@@ -39,6 +46,9 @@ namespace Enemy
         private LinkedList<float> pastHealth = new LinkedList<float>();
         private Vector3 escapeTargetPos;
         private int sequenceParries = 0;
+        private LinkedList<TimeEntry> timeEntries = new LinkedList<TimeEntry>();
+        private int maxentries;
+        private int entries;
 
         void Awake()
         {
@@ -50,20 +60,24 @@ namespace Enemy
 
         void Start()
         {
+            entries = 0;
+            maxentries = (int)(TimeToRemember.Value / TimeBetweenEntries.Value);
             projectilesSpots = GameObject.FindGameObjectsWithTag("Projectiles Spot").Select(o => o.transform.position).ToList();
             currSM.Start();
             player = FindObjectOfType<Player.Player>();
-            for (int i = 0; i < 40; i++) { 
+            for (int i = 0; i < 40; i++) {
                 playerPositions.AddLast(player.transform.position);
                 pastHealth.AddLast(Health);
             }
             StartCoroutine(UpdateRandomParameters());
             StartCoroutine(CalculatePlayerAvgDeltaPos());
+            StartCoroutine(Cycle());
         }
 
         void Update()
         {
             UpdateSM();
+            if (!ActiveAI || IsRewinding.Value) return;
             currSM.Tick(this);
         }
         void UpdateSM()
@@ -71,7 +85,7 @@ namespace Enemy
             currSM.SetFloat("Distance", Vector3.Distance(transform.position, player.transform.position));
             currSM.SetFloat("TimeSinceRest", currSM.GetFloat("TimeSinceRest") + Time.deltaTime);
             currSM.SetFloat("TimeSinceCharge", currSM.GetFloat("TimeSinceCharge") + Time.deltaTime);
-            currSM.SetFloat("DistanceToProjectileSpot", projectilesSpots.Select(p=>Vector3.Distance(transform.position,p)).Min());
+            currSM.SetFloat("DistanceToProjectileSpot", projectilesSpots.Select(p => Vector3.Distance(transform.position, p)).Min());
             currSM.SetFloat("AngleToPlayer", Vector3.SignedAngle(player.transform.position - transform.position, transform.forward, Vector3.up));
         }
 
@@ -109,7 +123,7 @@ namespace Enemy
                 foreach (Vector3 pos in playerPositions) distance += Vector3.Distance(pos, playerPositions.First.Value);
                 currSM.SetFloat("PlayerAvgDeltaPos", distance / 40);
                 currSM.SetFloat("HealthDelta", pastHealth.First.Value - Health);
-                yield return cycle; 
+                yield return cycle;
             }
         }
         IEnumerator JumpTowardsPlayer()
@@ -122,12 +136,12 @@ namespace Enemy
             var startpos = transform.position;
             var distance = Vector3.Distance(transform.position, pos);
             var time = distance / 15;
-            animator.SetFloat("JumpSpeed", 1.25f/time);
+            animator.SetFloat("JumpSpeed", 1.25f / time);
             float currTime = 0;
-            while(currTime < time)
+            while (currTime < time)
             {
-                Vector3 currpos = Vector3.Lerp(startpos, pos, jumpDistanceCurve.Evaluate(currTime/time));
-                currpos.y += jumpHeightCurve.Evaluate(currTime/time)*(distance/4);
+                Vector3 currpos = Vector3.Lerp(startpos, pos, jumpDistanceCurve.Evaluate(currTime / time));
+                currpos.y += jumpHeightCurve.Evaluate(currTime / time) * (distance / 4);
                 navAgent.Warp(currpos);
                 currTime += Time.deltaTime;
                 yield return null;
@@ -145,7 +159,7 @@ namespace Enemy
                 {
                     yield break;
                 }
-                if(sequenceParries >= SequenceParryCount)
+                if (sequenceParries >= SequenceParryCount)
                 {
                     currSM.SetBool("IsParried", true);
                     currSM.SetBool("IsAttacking", false);
@@ -230,13 +244,13 @@ namespace Enemy
         public void FindEscapeTarget()
         {
             NavMeshHit hit;
-            for (int i =0; i++<50;)
+            for (int i = 0; i++ < 50;)
             {
-                Vector3 randDir = new Vector3(UnityEngine.Random.Range(-1f,1f), 0, UnityEngine.Random.Range(-1f,1f)).normalized;
+                Vector3 randDir = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0, UnityEngine.Random.Range(-1f, 1f)).normalized;
                 float randDist = UnityEngine.Random.Range(10, 20);
                 var pos = player.transform.position + randDir * randDist;
-                if (NavMesh.SamplePosition(pos, out hit, 5, NavMesh.AllAreas) 
-                    && !Physics.Raycast(transform.position, (hit.position-transform.position).normalized, Vector3.Distance(transform.position, hit.position)))
+                if (NavMesh.SamplePosition(pos, out hit, 5, NavMesh.AllAreas)
+                    && !Physics.Raycast(transform.position, (hit.position - transform.position).normalized, Vector3.Distance(transform.position, hit.position)))
                 {
                     escapeTargetPos = hit.position;
                     return;
@@ -262,9 +276,10 @@ namespace Enemy
         #region Receiving
         public void ReceiveHit(float damage)
         {
-            if (Status != EnemyStatus.Untouchable) { 
-                Health -= damage; 
-                //TODO stuff
+            if (Status != EnemyStatus.Untouchable) {
+                Health -= damage;
+                if (Health <= MaxHealth - (Stage + 1) * (MaxHealth / Stages.Count))
+                    StartCoroutine(NextStage());
             }
         }
 
@@ -284,7 +299,7 @@ namespace Enemy
 
         public void ReceiveStun()
         {
-            if(Status == EnemyStatus.Vulnerable)
+            if (Status == EnemyStatus.Vulnerable)
             {
                 Status = EnemyStatus.Stunned;
                 currSM.SetBool("IsParried", false);
@@ -323,7 +338,7 @@ namespace Enemy
         {
             if (UnityEngine.Random.value <= VulnerableOnParryChance) Status = EnemyStatus.Vulnerable;
             yield return new WaitForSeconds(ParryTime / 2);
-            if(Status == EnemyStatus.Stunned) {
+            if (Status == EnemyStatus.Stunned) {
                 currSM.SetBool("IsParried", false);
                 yield break;
             }
@@ -333,13 +348,105 @@ namespace Enemy
             Status = EnemyStatus.Passive;
         }
         #endregion
-        void NextStage()
+        public void SetStatus(string statusName)
         {
-            if (Stage + 1 >= Stages.Count) return;
+            EnemyStatus tmp;
+            if (Enum.TryParse<EnemyStatus>(statusName, out tmp))
+            {
+                Status = tmp;
+            }
+        }
+        IEnumerator NextStage()
+        {
+            if (Stage + 1 >= Stages.Count) yield break;
+            currSM.SetBool("SwitchingStage", true);
+            Status = EnemyStatus.Untouchable;
+            yield return new WaitForSeconds(3f);
+            Status = EnemyStatus.Passive;
             Stage++;
             currSM = Stages[Stage];
             currSM.Start();
         }
+
+        #region Rewinding
+        public float RewindTimeNeeded()
+        {
+            var entry = timeEntries.Last.Value;
+            if ((entry.state.stateName == "JumpAttack" || entry.state.stateName == "SequenceAttack") && entry.stateTime > TimeBetweenEntries.Value)
+            {
+                return entry.stateTime - TimeBetweenEntries.Value;
+            }
+            else
+            {
+                return 0f;
+            }
+        }
+        void OnEnable() => IsRewinding.OnValueChange += HandleRewind;
+        void OnDisable() => IsRewinding.OnValueChange -= HandleRewind;
+        private void HandleRewind()
+        {
+            if (IsRewinding.Value)
+            {
+                navAgent.enabled = false;
+                StopAllCoroutines();
+                StartCoroutine(Cycle());
+            }
+            else
+            {
+                navAgent.enabled = true;
+                var entry = timeEntries.Last.Value;
+                Health = entry.hp;
+                if (Health > MaxHealth - Stage * (MaxHealth / Stages.Count))
+                {
+                    Stage--;
+                    currSM = Stages[Stage];
+                }
+                currSM.SetCurrentState(entry.state, this);
+                StartCoroutine(UpdateRandomParameters());
+                StartCoroutine(CalculatePlayerAvgDeltaPos());
+            }
+        }
+        IEnumerator Cycle()
+        {
+            YieldInstruction waitBetween = new WaitForSeconds(TimeBetweenEntries.Value);
+            while (true)
+            {
+                if (IsRewinding.Value)
+                {
+                    if (entries > 1)
+                    {
+                        timeEntries.RemoveLast();
+                        entries--;
+                    }
+                    yield return waitBetween;
+                }
+                else
+                {
+                    timeEntries.AddLast(new TimeEntry(Health, currSM.GetCurrentState()));
+                    entries++;
+                    if(entries > maxentries)
+                    {
+                        timeEntries.RemoveFirst();
+                        entries--;
+                    }
+                    yield return waitBetween;
+                }
+            }
+        }
+
+        private struct TimeEntry
+        {
+            public float hp;
+            public SMState state;
+            public float stateTime;
+            public TimeEntry(float health, SMState currState)
+            {
+                hp = health;
+                state = currState;
+                stateTime = state.timeInState;
+            }
+        }
+        #endregion
 
     }
 }

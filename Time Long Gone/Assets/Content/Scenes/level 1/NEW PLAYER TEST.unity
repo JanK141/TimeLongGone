@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   status: 3
-  pushFactor: 3
+  pushFactor: 0.5
 --- !u!1 &172391087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7446528539173641916, guid: bedcd08f872f803458d8dc57748d6151, type: 3}
@@ -366,6 +366,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   status: 0
   pushFactor: 1
+--- !u!1 &312577595 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7222807739977064602, guid: bedcd08f872f803458d8dc57748d6151, type: 3}
+  m_PrefabInstance: {fileID: 1591827035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &312577596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312577595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90d26881c72ccc46ad17b228d6f91da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
+  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
+  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
+  AnimatorSpeedParams:
+  - TimeSpeed
 --- !u!1 &334001883 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1402680565646486834, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
@@ -383,6 +405,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eef837e554600e3458151ad246acab94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &334001885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334001883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90d26881c72ccc46ad17b228d6f91da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
+  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
+  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
+  AnimatorSpeedParams: []
 --- !u!1 &498564041
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,13 +588,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870663153}
-  m_LocalRotation: {x: 0.3416222, y: 0.03027588, z: -0.011011478, w: 0.93928504}
-  m_LocalPosition: {x: 0.15, y: 29.15, z: -49.67}
+  m_LocalRotation: {x: 0.34179667, y: -0.0039832005, z: 0.001448744, w: 0.93976444}
+  m_LocalPosition: {x: 5.9, y: 29.15, z: -56.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 39.973, y: 3.692, z: 0}
+  m_LocalEulerAnglesHint: {x: 39.973, y: -0.486, z: 0}
 --- !u!114 &870663157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -846,6 +884,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1402680565530961990, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ProcessTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 1402680565530961990, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Player.InputIntermediary, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 1402680565530962110, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
       propertyPath: m_Name
       value: player refactored
@@ -882,6 +928,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3908306780636290211, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
+      propertyPath: IsRewinding
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
+    - target: {fileID: 4108325749058533046, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
+      propertyPath: IsRewinding
+      value: 
+      objectReference: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
     m_RemovedComponents:
     - {fileID: 8284340274007611674, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
     - {fileID: 8284340274007611651, guid: af3c2e7130c4e9740bd6e3fe05af2941, type: 3}
@@ -1160,6 +1214,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0482aba168677d34191ab8fe62ba6f2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
+  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
+  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   navAgent: {fileID: 1591827038}
   animator: {fileID: 1591827037}
   MaxHealth: 5000
@@ -1248,6 +1305,22 @@ MonoBehaviour:
     m_RotationOrder: 4
   Stages:
   - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
+  currSM: {fileID: 0}
+--- !u!114 &1591827040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591827036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069aabbb98b486e46b059bbf5a0dbf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
+  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
+  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
 --- !u!4 &1600848132 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1480446016164383778, guid: bedcd08f872f803458d8dc57748d6151, type: 3}
@@ -1362,6 +1435,21 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1926605125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926605123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069aabbb98b486e46b059bbf5a0dbf7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
+  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
+  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
 --- !u!1 &1973479984
 GameObject:
   m_ObjectHideFlags: 0

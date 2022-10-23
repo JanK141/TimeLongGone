@@ -18,6 +18,12 @@ public class StateMachine : ScriptableObject
 
     public void Start()
     {
+        foreach(Parameter parameter in parameters)
+        {
+            if (parameter is FloatParameter) (parameter as FloatParameter).value = 0f;
+            else if (parameter is IntParameter) (parameter as IntParameter).value = 0;
+            else (parameter as BoolParameter).value = false;
+        }
         foreach (SMState state in states)
         {
             state.Start();
@@ -81,6 +87,13 @@ public class StateMachine : ScriptableObject
     public SMState GetCurrentState()
     {
         return _currState;
+    }
+    public void SetCurrentState(SMState state, MonoBehaviour executer)
+    {
+        if (state.parent != this) return;
+        _currState.StateExit(executer);
+        _currState = state;
+        _currState.StateEnter(executer);
     }
 }
 

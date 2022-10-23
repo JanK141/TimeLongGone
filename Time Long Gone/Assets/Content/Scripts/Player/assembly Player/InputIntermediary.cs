@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Content.Scripts.Variables;
+using Enemy;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
@@ -6,6 +9,7 @@ namespace Player
     public class InputIntermediary : MonoBehaviour
     {
         [SerializeField] private float chargeTreshhold = 0.25f;
+        [SerializeField] BoolVariable IsRewinding;
 
         private Player player;
 
@@ -97,10 +101,57 @@ namespace Player
 
         public void ProcessTime(InputAction.CallbackContext ctx)
         {
+            if (ctx.started)
+            {
+                IsRewinding.Value = true;
+                StartCoroutine(SpeedUp());
+            }
+            else
+            {
+                float tmp = FindObjectOfType<Enemy1>().RewindTimeNeeded();
+                if (tmp == 0)
+                {
+                    IsRewinding.Value = false;
+                    StartCoroutine(SlowDown());
+                }
+                else
+                {
+                    print("Need more time - " + tmp);
+                    Invoke(nameof(SetIsRewinding), tmp);
+                }
+            }
         }
 
         public void ProcessPause(InputAction.CallbackContext ctx)
         {
+        }
+
+        void SetIsRewinding() { IsRewinding.Value = false; StartCoroutine(SlowDown()); }
+        IEnumerator SlowDown()
+        {
+            Time.timeScale = 0;
+            yield return new WaitForSecondsRealtime(0.5f);
+            float time = 0;
+            while(time < 1f)
+            {
+                time += Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(0, 1, (time / 1f));
+                yield return null;
+            }
+            Time.timeScale = 1;
+        }
+        IEnumerator SpeedUp()
+        {
+            Time.timeScale = 0.5f;
+            yield return new WaitForSecondsRealtime(0.5f);
+            float time = 0;
+            while (time < 1f)
+            {
+                time += Time.unscaledDeltaTime;
+                Time.timeScale = Mathf.Lerp(0.5f, 1.5f, (time / 1f));
+                yield return null;
+            }
+            Time.timeScale = 1.5f;
         }
     }
 }

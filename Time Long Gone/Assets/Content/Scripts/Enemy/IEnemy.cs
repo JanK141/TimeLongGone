@@ -9,11 +9,13 @@ namespace Enemy
         public float Health { get;}
         public EnemyStatus Status { get;}
         public int Stage { get;}
+        public bool ActiveAI { get; set; }
 
 
         public void ReceiveHit(float damage);
         public void ReceiveStun();
         public void ReceiveParry();
+        public float RewindTimeNeeded();
 
     }
     public enum EnemyStatus

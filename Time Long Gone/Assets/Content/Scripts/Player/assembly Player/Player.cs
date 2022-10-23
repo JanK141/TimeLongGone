@@ -1,4 +1,5 @@
 ﻿using System;
+using Content.Scripts.Variables;
 using DG.Tweening;
 using Player.States;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace Player
     [SelectionBase]
     public class Player : MonoBehaviour
     {
+        [SerializeField] private BoolVariable IsRewinding;
         [SerializeField] internal PlayerVariables variables;
         [SerializeField] private LayerMask ground;
         [SerializeField] internal LayerMask enemy;
@@ -105,6 +107,7 @@ namespace Player
 
         void Update()
         {
+            if (IsRewinding.Value) return;
             SpeedFactor = (CurrentState==DEAD_STATE)? 1 : 1 + (1 - Time.timeScale) * variables.speedBoost;
             _moveDirection = CalculateMoveDirection(inputVector);
             rotate();
@@ -122,7 +125,7 @@ namespace Player
 
         void LateUpdate()
         {
-            controller.Move(velocity * Time.deltaTime);
+            if(!IsRewinding.Value)controller.Move(velocity * Time.deltaTime);
         }
 
         #endregion
@@ -210,7 +213,7 @@ namespace Player
             dir =
                 Quaternion.AngleAxis(
                     Vector3.SignedAngle(Vector3.forward,
-                        camPos,
+                        Vector3.ProjectOnPlane(camPos, Vector3.up),
                         Vector3.up), Vector3.up) * dir;
             return dir;
         }
