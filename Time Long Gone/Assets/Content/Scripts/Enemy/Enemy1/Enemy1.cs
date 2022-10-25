@@ -39,7 +39,7 @@ namespace Enemy
         public int Stage { get; private set; }
         public bool ActiveAI { get; set; } = true;
 
-        private StateMachine currSM;
+        [SerializeField][HideInInspector] private StateMachine currSM;
         private Player.Player player;
         private LinkedList<Vector3> playerPositions = new LinkedList<Vector3>();
         private List<Vector3> projectilesSpots;
