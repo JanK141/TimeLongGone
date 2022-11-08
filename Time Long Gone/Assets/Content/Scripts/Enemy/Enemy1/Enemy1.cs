@@ -1,3 +1,4 @@
+using Content.Scripts.Camera;
 using Content.Scripts.Variables;
 using DG.Tweening;
 using System;
@@ -15,9 +16,6 @@ namespace Enemy
 {
     public class Enemy1 : MonoBehaviour, IEnemy
     {
-        [SerializeField] private FloatVariable TimeToRemember;
-        [SerializeField] private FloatVariable TimeBetweenEntries;
-        [SerializeField] private BoolVariable IsRewinding;
         [SerializeField] private NavMeshAgent navAgent;
         [SerializeField] private Animator animator;
         [Space(10)]
@@ -28,7 +26,7 @@ namespace Enemy
         [SerializeField] private int MinThrownProj;
         [SerializeField] private int MaxThrownProj;
         [SerializeField] private GameObject Projectile;
-        [SerializeField] private GameObject ProjectilesParent;
+        [SerializeField] private Transform ProjectilesParent;
         [SerializeField][Range(0, 1)] private float VulnerableOnParryChance;
         [SerializeField] private AnimationCurve jumpHeightCurve;
         [SerializeField] private AnimationCurve jumpDistanceCurve;
@@ -40,6 +38,9 @@ namespace Enemy
         public bool ActiveAI { get; set; } = true;
 
         [SerializeField][HideInInspector] private StateMachine currSM;
+        private FloatVariable TimeToRemember;
+        private FloatVariable TimeBetweenEntries;
+        private BoolVariable IsRewinding;
         private Player.Player player;
         private LinkedList<Vector3> playerPositions = new LinkedList<Vector3>();
         private List<Vector3> projectilesSpots;
@@ -52,6 +53,10 @@ namespace Enemy
 
         void Awake()
         {
+            IsRewinding = Resources.Load<BoolVariable>("Rewind/IsRewinding");
+            TimeToRemember = Resources.Load<FloatVariable>("Rewind/TimeToRemember");
+            TimeBetweenEntries = Resources.Load<FloatVariable>("Rewind/TimeBetweenEntries");
+
             Stage = 0;
             currSM = Stages[Stage];
             Health = MaxHealth;
@@ -64,6 +69,7 @@ namespace Enemy
             maxentries = (int)(TimeToRemember.Value / TimeBetweenEntries.Value);
             projectilesSpots = GameObject.FindGameObjectsWithTag("Projectiles Spot").Select(o => o.transform.position).ToList();
             currSM.Start();
+            currSM.GetCurrentState().StateEnter(this);
             player = FindObjectOfType<Player.Player>();
             for (int i = 0; i < 40; i++) {
                 playerPositions.AddLast(player.transform.position);
@@ -76,8 +82,8 @@ namespace Enemy
 
         void Update()
         {
-            UpdateSM();
             if (!ActiveAI || IsRewinding.Value) return;
+            UpdateSM();
             currSM.Tick(this);
         }
         void UpdateSM()
@@ -181,23 +187,49 @@ namespace Enemy
         }
         IEnumerator ThrowProjectiles()
         {
+            yield return null;
+            bool restoring = false;
+            GameObject restoredProjectile = null;
             int projToThrow = UnityEngine.Random.Range(MinThrownProj, MaxThrownProj);
-            int projThrown = 0;
+            for(int i = 0; i<ProjectilesParent.childCount; i++)
+            {
+                if(ProjectilesParent.GetChild(i).name.Contains(Projectile.name))
+                {
+                    restoring = true;
+                    restoredProjectile = ProjectilesParent.GetChild(i).gameObject;
+                    if (currSM.GetInt("ProjectilesThrown") >= projToThrow) projToThrow = currSM.GetInt("ProjectilesThrown") + 1;
+                    break;
+                }
+            }
+            
             Vector3 spot = projectilesSpots.
                 Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next);
-            while (projThrown < projToThrow)
+            while (currSM.GetInt("ProjectilesThrown") < projToThrow)
             {
-                transform.DOLookAt(spot, 0.5f);
-                yield return new WaitForSeconds(0.5f);
-                GameObject proj = GameObject.Instantiate(Projectile, ProjectilesParent.transform);
-                Rigidbody rb = proj.GetComponent<Rigidbody>();
-                rb.detectCollisions = false;
-                proj.transform.position = new Vector3(ProjectilesParent.transform.position.x, ProjectilesParent.transform.position.y, ProjectilesParent.transform.position.z + 3);
-                yield return new WaitForSeconds(0.25f);
+                Rigidbody rb;
+                GameObject proj;
+                if (!restoring)
+                {
+                    transform.DOLookAt(spot, 0.5f);
+                    yield return new WaitForSeconds(0.5f);
+                    proj = GameObject.Instantiate(Projectile);
+                    proj.transform.SetParent(ProjectilesParent, true);
+                    rb = proj.GetComponent<Rigidbody>();
+                    rb.detectCollisions = false;
+                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y, ProjectilesParent.position.z + 3);
+                    yield return new WaitForSeconds(0.25f);
+                }
+                else
+                {
+                    proj = restoredProjectile;
+                    rb = proj.GetComponent<Rigidbody>();
+                    rb.detectCollisions = false;
+                    restoring = false;
+                }
                 transform.DOLookAt(player.transform.position, 0.5f);
                 yield return new WaitForSeconds(1f);
 
-                proj.transform.SetParent(null);
+                proj.transform.SetParent(null, true);
                 rb.isKinematic = false;
                 rb.detectCollisions = true;
 
@@ -210,8 +242,8 @@ namespace Enemy
                 dist += h / Mathf.Tan(a);
                 var vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
                 rb.velocity = vel * direction.normalized;
-
-                projThrown++;
+                rb.angularVelocity = new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value).normalized * UnityEngine.Random.Range(1f,5f);
+                currSM.SetInt("ProjectilesThrown", currSM.GetInt("ProjectilesThrown") + 1);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f));
             }
             currSM.SetBool("IsThrowing", false);
@@ -268,8 +300,6 @@ namespace Enemy
         {
             navAgent.SetDestination(projectilesSpots.
                 Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
-            print(projectilesSpots.
-                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
         }
         #endregion
 
@@ -285,6 +315,7 @@ namespace Enemy
 
         public void ReceiveParry()
         {
+            if (currSM.GetCurrentState().stateName == "ThrowingProjectiles") return;
             if (currSM.GetCurrentState().stateName == "SequencionalAttack")
             {
                 sequenceParries++;
@@ -294,13 +325,14 @@ namespace Enemy
             currSM.SetBool("IsParried", true);
             currSM.SetBool("IsAttacking", false);
             StopCoroutine(ResetAttack());
-            Invoke(nameof(ResetParry), ParryTime);
+            StartCoroutine(ResetParry());
         }
 
         public void ReceiveStun()
         {
             if (Status == EnemyStatus.Vulnerable)
             {
+                CinemachineSwitcher.Instance.Switch(true);
                 Status = EnemyStatus.Stunned;
                 currSM.SetBool("IsParried", false);
                 currSM.SetBool("IsStunned", true);
@@ -329,6 +361,7 @@ namespace Enemy
         IEnumerator ResetStun()
         {
             yield return new WaitForSeconds(StunTime - 1);
+            CinemachineSwitcher.Instance.Switch(false);
             PlayAnimation("StunEnd", 0.1f);
             yield return new WaitForSeconds(1);
             currSM.SetBool("IsStunned", false);
@@ -388,6 +421,7 @@ namespace Enemy
             if (IsRewinding.Value)
             {
                 navAgent.enabled = false;
+                transform.DOKill();
                 StopAllCoroutines();
                 StartCoroutine(Cycle());
             }
@@ -402,8 +436,17 @@ namespace Enemy
                     currSM = Stages[Stage];
                 }
                 currSM.SetCurrentState(entry.state, this);
+                for(int i = 0; i < entry.parameters.Length; i++)
+                {
+                    if (entry.parameters[i] is float) (currSM.parameters[i] as FloatParameter).value = (float)entry.parameters[i];
+                    else if (entry.parameters[i] is int) (currSM.parameters[i] as IntParameter).value = (int)entry.parameters[i];
+                    else (currSM.parameters[i] as BoolParameter).value = (bool)entry.parameters[i];
+                }
                 StartCoroutine(UpdateRandomParameters());
                 StartCoroutine(CalculatePlayerAvgDeltaPos());
+                if (currSM.GetBool("IsParried")) StartCoroutine(ResetParry());
+                else if (currSM.GetBool("IsStunned")) StartCoroutine(ResetStun());
+                else if (currSM.GetBool("IsAttacking")) StartCoroutine(ResetAttack());
             }
         }
         IEnumerator Cycle()
@@ -422,7 +465,7 @@ namespace Enemy
                 }
                 else
                 {
-                    timeEntries.AddLast(new TimeEntry(Health, currSM.GetCurrentState()));
+                    timeEntries.AddLast(new TimeEntry(Health, currSM));
                     entries++;
                     if(entries > maxentries)
                     {
@@ -439,11 +482,20 @@ namespace Enemy
             public float hp;
             public SMState state;
             public float stateTime;
-            public TimeEntry(float health, SMState currState)
+            public object[] parameters;
+            public TimeEntry(float health, StateMachine machine)
             {
                 hp = health;
-                state = currState;
+                state = machine.GetCurrentState();
                 stateTime = state.timeInState;
+                parameters = new object[machine.parameters.Count];
+                for(int i = 0; i < parameters.Length; i++)
+                {
+                    var tmp = machine.parameters[i];
+                    if (tmp is FloatParameter) parameters[i] = (tmp as FloatParameter).value as object;
+                    else if (tmp is IntParameter) parameters[i] = (tmp as IntParameter).value as object;
+                    else parameters[i] = (tmp as BoolParameter).value as object;
+                }
             }
         }
         #endregion

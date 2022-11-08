@@ -4,10 +4,10 @@ namespace Player.States
 {
     public class Charging : Interruptible
     {
-        public override void OnStateEnter()
+        public override void OnStateEnter(bool playAnimation)
         {
             player.move = player.MoveSlow;
-            player.animator.Play("Charging");
+            if(playAnimation)player.animator.Play("Charging");
             player.ChargeAttackMultiplier = 0;
         }
 

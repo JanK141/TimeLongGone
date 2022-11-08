@@ -7,10 +7,13 @@ namespace Player.States
         public float jumpHeight { get; set; }
         public Player player { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(bool playAnimation)
         {
-            player.velocity.y = Mathf.Sqrt(jumpHeight * -2f * player.Gravity);
-            player.animator.Play("Jump");
+            if (player.velocity.y <= 0)
+            {
+                player.velocity.y = Mathf.Sqrt(jumpHeight * -2f * player.Gravity);
+                if(playAnimation)player.animator.Play("Jump");
+            }
         }
 
         public virtual void OnStateExit()

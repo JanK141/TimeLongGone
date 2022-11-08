@@ -4,7 +4,7 @@
     {
         public Player player { get; set; }
 
-        public void OnStateEnter();
+        public void OnStateEnter(bool playAnimation);
         public void OnStateExit();
         public void Tick();
         public IPlayerState Evaluate();

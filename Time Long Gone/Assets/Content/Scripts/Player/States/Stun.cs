@@ -8,13 +8,13 @@ namespace Player.States
 
         private Vector3 direction;
 
-        public override void OnStateEnter()
+        public override void OnStateEnter(bool playAnimation)
         {
             hitBox.gameObject.SetActive(true);
             player.move = player.MoveGravityOnly;
             player.rotate = () => { };
             direction = player.velocity / player.SpeedFactor;
-            player.animator.Play("StunAttack");
+            if(playAnimation)player.animator.Play("StunAttack");
         }
 
         public override void OnStateExit()

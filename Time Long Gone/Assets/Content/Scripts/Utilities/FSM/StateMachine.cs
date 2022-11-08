@@ -53,7 +53,6 @@ public class StateMachine : ScriptableObject
         {
             _currState.StateExit(executer);
             _currState = state;
-            //Debug.Log(_currState.stateName);
             _currState.StateEnter(executer);
         }
     }

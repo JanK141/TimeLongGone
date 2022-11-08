@@ -6,9 +6,9 @@ namespace Player.States
     {
         public Player player { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(bool playAnimation)
         {
-            player.animator.Play("Block");
+            if(playAnimation)player.animator.Play("Block");
             player.move = player.MoveSlow;
             player.BlockTime = Time.time;
             player.IsBlocking = true;

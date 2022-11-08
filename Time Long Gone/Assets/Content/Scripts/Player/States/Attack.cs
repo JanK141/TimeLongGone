@@ -10,14 +10,14 @@ namespace Player.States
 
         private float time;
 
-        public override void OnStateEnter()
+        public override void OnStateEnter(bool playAnimation)
         {
             time = 0;
             player.move = player.MoveSlow;
             player.rotate = player.SlowRotate;
             player.velocity = Vector3.zero;
             player.Gravity = 0;
-            player.animator.SetTrigger("Attack");
+            if(playAnimation)player.animator.SetTrigger("Attack");
             player.ResetAttack();
         }
 

@@ -1,13 +1,19 @@
-using Content.Scripts.Player;
 using UnityEngine;
 
-public class PlayerAnimFunctions : MonoBehaviour
+namespace Player
 {
-    private PlayerScript _player;
+    public class PlayerAnimFunctions : MonoBehaviour
+    {
+        private Player player;
+        void Start()
+        {
+            player = GetComponentInParent<Player>();
+        }
 
-    public void Start() => _player = GetComponentInParent<PlayerScript>();
+        public void Hit() => player.combat.Hit();
 
-    public void Hit() => _player.combat.Hit(false);
+        public void LastHit() => player.combat.Hit(true);
 
-    public void Finisher() => _player.combat.Hit(true);
+        public void Finisher() => player.combat.Finisher();
+    }
 }

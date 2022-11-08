@@ -6,11 +6,11 @@ namespace Player.States
     {
         public Player player { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(bool playAnimation)
         {
             player.move = player.MoveGravityOnly;
             player.rotate = player.SlowRotate;
-            player.animator.Play("HeavyAttack");
+            if(playAnimation)player.animator.Play("HeavyAttack");
         }
 
         public virtual void OnStateExit()

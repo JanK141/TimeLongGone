@@ -9,19 +9,17 @@ namespace Player.States
         public LayerMask enemy { get; set; }
 
 
-        public override void OnStateEnter()
+        public override void OnStateEnter(bool playAnimation)
         {
             hitBox.gameObject.SetActive(true);
             distance = (player.ChargeAttackMultiplier / player.variables.maxChargeMult) * maxDistance;
-            Physics.IgnoreLayerCollision(player.gameObject.layer, enemy.value, true);
-            base.OnStateEnter();
-            player.animator.Play("DashAttack");
+            base.OnStateEnter(playAnimation);
+            if(playAnimation)player.animator.Play("DashAttack");
         }
 
         public override void OnStateExit()
         {
             hitBox.gameObject.SetActive(false);
-            Physics.IgnoreLayerCollision(player.gameObject.layer, enemy.value, false);
             base.OnStateExit();
         }
 

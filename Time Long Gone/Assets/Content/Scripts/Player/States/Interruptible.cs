@@ -9,7 +9,7 @@
     {
         public Player player { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(bool playAnimation)
         {
         }
 

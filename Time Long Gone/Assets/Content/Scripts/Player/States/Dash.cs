@@ -13,7 +13,7 @@ namespace Player.States
 
         public Player player { get; set; }
 
-        public virtual void OnStateEnter()
+        public virtual void OnStateEnter(bool playAnimation)
         {
             time = 0;
             direction = (player._moveDirection.Equals(Vector3.zero)
@@ -22,7 +22,7 @@ namespace Player.States
             player.move = () => { };
             player.rotate = () => { };
             player.IsInvincible = true;
-            player.animator.Play("Dash");
+            if(playAnimation)player.animator.Play("Dash");
             if (player.combat.enemy != null) Physics.IgnoreLayerCollision(player.gameObject.layer, (player.combat.enemy as MonoBehaviour).gameObject.layer, true);
         }
 
@@ -51,6 +51,15 @@ namespace Player.States
                 return player.STUN_STATE;
             }
             return null;
+        }
+
+        public float GetTime()
+        {
+            return time;
+        }
+        public void SeTime(float time)
+        {
+            this.time = time;
         }
     }
 }

@@ -241,8 +241,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674286006955959898}
-  m_LocalRotation: {x: 0.4065734, y: -0.24175714, z: 0.11248266, w: 0.87384164}
-  m_LocalPosition: {x: -1.0465913, y: 14.544718, z: -15.001747}
+  m_LocalRotation: {x: 0.41433072, y: -0.27823997, z: 0.13467315, w: 0.85602325}
+  m_LocalPosition: {x: -0.23840332, y: 14.177479, z: -16.29375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8112735063738235572}
@@ -273,7 +273,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -573,8 +573,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674286007693271276}
-  m_LocalRotation: {x: 0.4065734, y: -0.24175714, z: 0.11248266, w: 0.87384164}
-  m_LocalPosition: {x: -1.0923901, y: 14.438892, z: -14.925312}
+  m_LocalRotation: {x: 0.41433072, y: -0.27823997, z: 0.13467315, w: 0.85602325}
+  m_LocalPosition: {x: 0.020334244, y: 14.733807, z: -16.649712}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1674286007473040676}
@@ -602,7 +602,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 1674286008008336460}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 80
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -610,7 +610,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0078864, y: 1}
+    m_SensorSize: {x: 1.6286645, y: 1}
     Iso: 200
     ShutterSpeed: 0.005
     Aperture: 16
@@ -666,7 +666,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1674286008008336462}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.3950005, y: -0.44000012, z: 2.5099995}
+  m_LocalPosition: {x: -6.9700003, y: -0.18500018, z: 0.3349996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8112735063738235572}
