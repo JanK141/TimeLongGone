@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Content.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -16,24 +14,28 @@ public class MainMenu : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    private void OnEnable() => gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
+    void OnEnable()
+    {
+        gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
+    }
 
-    public void Continue(){}
+    public void Continue()
+    {
 
-    [Obsolete("Obsolete")]
+    }
+
     public void NewGame()
     {
-        GameManager.Instance.LoadLevel("Level 1 prototype");
         //playerInput.SwitchCurrentActionMap("Player");
 
-        //SceneManager.UnloadScene(1);
-        //SceneManager.LoadScene(3);
+        SceneManager.UnloadScene(1);
+        SceneManager.LoadScene(3);
 
         //hud
-        //SceneManager.LoadScene(4, LoadSceneMode.Additive);
+        SceneManager.LoadScene(4, LoadSceneMode.Additive);
 
         //pause
-        //SceneManager.LoadScene(2, LoadSceneMode.Additive);
+        SceneManager.LoadScene(2, LoadSceneMode.Additive);
 
         //MainInputActions mainInputActions = new MainInputActions();
         //mainInputActions.Menu.Disable();
@@ -46,16 +48,23 @@ public class MainMenu : MonoBehaviour
         EventManager.SettingsMenu.MakeActive();
     }
 
-    public void ExitGame() => Application.Quit();
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 
 
     public void MakeActive()
     {
+
         gameObject.SetActive(true);
         gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
         EventSystem.current.SetSelectedGameObject(null);    //validation
         EventSystem.current.SetSelectedGameObject(FirstButtonInMain);
     }
 
-    public void MakeInactive() => gameObject.SetActive(false);
+    public void MakeInactive()
+    {
+        gameObject.SetActive(false);
+    }
 }

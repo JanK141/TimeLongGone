@@ -45,11 +45,12 @@ Material:
   stringTagMap:
     MotionVector: User
   disabledShaderPasses:
-  - RayTracingPrepass
+  - DistortionVectors
   - MOTIONVECTORS
   - TransparentDepthPrepass
   - TransparentDepthPostpass
   - TransparentBackface
+  - RayTracingPrepass
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:

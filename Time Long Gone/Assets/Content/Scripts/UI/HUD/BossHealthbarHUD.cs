@@ -1,38 +1,28 @@
-using Content.Scripts.Variables;
+using Content.Scripts.Enemy;
 using DG.Tweening;
-using Enemy;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HUD
+namespace Content.Scripts.UI.HUD
 {
     public class BossHealthbarHUD : MonoBehaviour
     {
         [SerializeField] private Slider slider;
-        [SerializeField] private BoolVariable IsRewinding;
 
-        private IEnemy enemy;
-        private float maxHealth;
-        private float currHealth;
-        private void Start()
+        void Start()
         {
-            enemy = FindObjectsOfType<MonoBehaviour>().OfType<IEnemy>().SingleOrDefault();
-            maxHealth = enemy.Health;
-            currHealth = maxHealth;
-            slider.value = 1;
+            EnemyScript.OnEnemyHeatlhChange += UpdateHealth;
         }
 
-        private void Update()
+        void UpdateHealth(int max, int curr)
         {
-            if(currHealth != enemy.Health)
-            {
-                float dif = (currHealth - enemy.Health)/maxHealth;
-                currHealth = enemy.Health;
-                slider.DOValue(currHealth / maxHealth, 0.5f);
-                if(!IsRewinding.Value)slider.transform.DOShakePosition(0.2f, dif*1000);
-            }
+            slider.DOValue((max / curr), 0.5f);
+            slider.transform.DOShakePosition(0.2f);
         }
 
+        void OnDestroy()
+        {
+            EnemyScript.OnEnemyHeatlhChange -= UpdateHealth;
+        }
     }
 }

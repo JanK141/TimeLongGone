@@ -1,3 +1,6 @@
+using Content.Scripts.Player;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,43 +12,38 @@ public class PausingScript : MonoBehaviour
     public PauseMenu menu;
 
 
-    private Player.InputIntermediary playerInput;
-    private Player.PlayerTimeControl playerControl;
-    private float restoreTimeScale = 1;
+    private PlayerScript playerScript;
+    private PlayerInput playerInput;
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(this);
         }
-        Instance = this;
+        else
+        {
+            Instance = this;
+        }
     }
 
     private void Start()
     {
-        playerInput = FindObjectOfType<Player.InputIntermediary>();
-        playerControl = playerInput.GetComponent<Player.PlayerTimeControl>();
+        playerScript = PlayerScript.Instance;
     }
 
     public void Pausing()
     {
-        restoreTimeScale = Time.timeScale;
         Time.timeScale = 0;
-        playerInput.enabled = false;
-        playerInput.GetComponent<PlayerInput>().enabled = false;
-        playerControl.WantsToTimeControl = false;
-        playerControl.ActiveTime = false;
+        playerScript.GetComponent<PlayerInput>().enabled = false;
         canvas.SetActive(true);
         menu.MakeActive();
     }
 
     public void Unpausing()
     {
+        playerScript.GetComponent<PlayerInput>().enabled = true;
         canvas.SetActive(false);
-        Time.timeScale = restoreTimeScale;
-        playerInput.enabled = true;
-        playerInput.GetComponent<PlayerInput>().enabled = true;
-        playerControl.ActiveTime = true;
+        Time.timeScale = 1;
     }
 }
