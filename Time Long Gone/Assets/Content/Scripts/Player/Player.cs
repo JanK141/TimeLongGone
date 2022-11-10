@@ -21,7 +21,7 @@ namespace Player
 
         #region Dependencies
 
-        private BoolVariable IsRewinding;
+        internal BoolVariable IsRewinding;
         private FloatVariable TimeToRemember;
         private FloatVariable TimeBetweenEntries;
         internal ChargedAttackHitbox chargedAttack;

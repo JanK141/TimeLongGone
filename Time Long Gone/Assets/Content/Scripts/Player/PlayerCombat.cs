@@ -85,6 +85,7 @@ namespace Player
         /// <param name="value"></param>
         internal void ContinueCombo(int value)
         {
+            if (player.IsRewinding.Value) return;
             if (value > 0) _combo++;
             if (value >= 0) _timeout = variables.comboTimeout;
             else _combo = 0;

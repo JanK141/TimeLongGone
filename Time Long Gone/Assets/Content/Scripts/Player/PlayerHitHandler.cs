@@ -43,6 +43,7 @@ namespace Player
 
         public void ProcessHit(Enemy.AttackStatus status, Collider weaponHitBox, float pushFactor)
         {
+            if (IsRewinding.Value) return;
             print("HIT by " + status.ToString());
             if (ignoreHit) return;
             switch (status)
@@ -57,6 +58,7 @@ namespace Player
                             player.combat.enemy.ReceiveParry();
                             StartCoroutine(NoCollision(weaponHitBox));
                             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
+                            player.combat.ContinueCombo(0);
                             return;
                         }
                         else
@@ -64,6 +66,7 @@ namespace Player
                             print("Blocked");
                             StartCoroutine(NoCollision(weaponHitBox));
                             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/2));
+                            player.combat.ContinueCombo(0);
                             return;
                         }
                     }else if (player.IsInvincible)
@@ -71,6 +74,7 @@ namespace Player
                         print("Dodged");
                         control.Mana += variables.manaReward;
                         StartCoroutine(NoCollision(weaponHitBox));
+                        player.combat.ContinueCombo(0);
                         return;
                     }
                     break;
@@ -84,6 +88,7 @@ namespace Player
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
                             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            player.combat.ContinueCombo(0);
                             return;
                         }
                         else
@@ -91,6 +96,7 @@ namespace Player
                             print("Blocked");
                             StartCoroutine(NoCollision(weaponHitBox));
                             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
+                            player.combat.ContinueCombo(0);
                             return;
                         }
                     }
@@ -99,6 +105,7 @@ namespace Player
                         print("Dodged");
                         control.Mana += variables.manaReward;
                         StartCoroutine(NoCollision(weaponHitBox));
+                        player.combat.ContinueCombo(0);
                         return;
                     }
                     break;
@@ -112,6 +119,7 @@ namespace Player
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
                             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            player.combat.ContinueCombo(0);
                             return;
                         }
                     }
@@ -120,6 +128,7 @@ namespace Player
                         print("Dodged");
                         control.Mana += variables.manaReward;
                         StartCoroutine(NoCollision(weaponHitBox));
+                        player.combat.ContinueCombo(0);
                         return;
                     }
                     break;
@@ -129,6 +138,7 @@ namespace Player
                     return;
             }
             print("Death");
+            player.combat.ContinueCombo(-1);
             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
             StartCoroutine(NoCollision(weaponHitBox));
             player.CurrentState.OnStateExit();
