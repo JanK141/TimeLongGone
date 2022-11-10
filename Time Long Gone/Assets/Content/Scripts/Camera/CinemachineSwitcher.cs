@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 
 namespace Content.Scripts.Camera
@@ -6,29 +7,9 @@ namespace Content.Scripts.Camera
     {
         public static CinemachineSwitcher Instance;
 
-        private Animator _animator;
-        private CameraScript _camera;
+        [SerializeField] private CinemachineVirtualCamera altVcam;
 
-        private void Awake()
-        {
-            Instance = this;
-            _animator = GetComponent<Animator>();
-            _camera = CameraScript.Instance;
-        }
-
-
-        public void Switch(bool x)
-        {
-            if (!x)
-            {
-                _animator.Play("ArenaCamera");
-                _camera.ActiveView = CameraScript.View.Arena;
-            }
-            else
-            {
-                _animator.Play("PlayerCamera");
-                _camera.ActiveView = CameraScript.View.Player;
-            }
-        }
+        private void Awake() => Instance = this;
+        public void Switch(bool x) => altVcam.gameObject.SetActive(x);
     }
 }
