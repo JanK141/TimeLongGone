@@ -30,7 +30,7 @@ namespace Enemy
         [SerializeField][Range(0, 1)] private float VulnerableOnParryChance;
         [SerializeField] private AnimationCurve jumpHeightCurve;
         [SerializeField] private AnimationCurve jumpDistanceCurve;
-        [SerializeField] private List<StateMachine> Stages;
+        private List<StateMachine> Stages;
 
         public float Health { get; private set; }
         public EnemyStatus Status { get; private set; }
@@ -53,10 +53,10 @@ namespace Enemy
 
         void Awake()
         {
-            IsRewinding = Resources.Load<BoolVariable>("Rewind/IsRewinding");
-            TimeToRemember = Resources.Load<FloatVariable>("Rewind/TimeToRemember");
-            TimeBetweenEntries = Resources.Load<FloatVariable>("Rewind/TimeBetweenEntries");
-
+            IsRewinding = GameLogic.Instance.IsRewinding;
+            TimeToRemember = GameLogic.Instance.TimeToRemember;
+            TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
+            Stages = Level1DataManager.Instance.Enemy1StateMachines;
             Stage = 0;
             currSM = Stages[Stage];
             Health = MaxHealth;

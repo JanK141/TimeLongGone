@@ -20,7 +20,7 @@ public class DebrisDisolve : MonoBehaviour
 
     private void Awake()
     {
-        IsRewinding = Resources.Load<BoolVariable>("Rewind/IsRewinding");
+        IsRewinding = GameLogic.Instance.IsRewinding;
     }
     private void Start()
     {

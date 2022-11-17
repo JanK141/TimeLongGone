@@ -7,20 +7,30 @@ using UnityEngine;
 public class IntVariable : ScriptableObject
 {
     [SerializeField] private int variable;
-    public int origin = 0;
+    public int _value = 0;
     public event Action OnValueChange;
 
     public int Value
     {
-        get => variable;
+        get => _value;
         set
         {
-            variable = value;
+            _value = value;
             OnValueChange?.Invoke();
         }
     }
 
-    public int OriginalValue { get => origin;}
+    /// <summary>
+    /// The unmodified value that variable was initialized with in inspector.
+    /// </summary>
+    public int OriginalValue => variable;
 
-    public void Reset() => origin = variable;
+    /// <summary>
+    /// Resets value used at runtime (modifiable one) to value that is set in inspector (origin).
+    /// Use it whenever you want to make sure that variable is in its default state.
+    /// </summary>
+    public void ResetToOrigin() => _value = variable;
+
+    private void OnValidate() => ResetToOrigin();
+
 }

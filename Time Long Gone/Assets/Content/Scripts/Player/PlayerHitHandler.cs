@@ -27,9 +27,9 @@ namespace Player
 
         private void Awake()
         {
-            IsRewinding = Resources.Load<BoolVariable>("Rewind/IsRewinding");
-            TimeToRemember = Resources.Load<FloatVariable>("Rewind/TimeToRemember");
-            TimeBetweenEntries = Resources.Load<FloatVariable>("Rewind/TimeBetweenEntries");
+            IsRewinding = GameLogic.Instance.IsRewinding;
+            TimeToRemember = GameLogic.Instance.TimeToRemember;
+            TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
         }
         private void Start()
         {

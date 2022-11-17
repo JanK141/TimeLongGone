@@ -9,20 +9,30 @@ namespace Content.Scripts.Variables
     public class BoolVariable : ScriptableObject
     {
         [SerializeField] private bool variable;
-        private bool _origin = false;
+        private bool _value = false;
         public event Action OnValueChange;
 
         public bool Value
         {
-            get => variable;
+            get => _value;
             set
             {
-                variable = value;
+                _value = value;
                 OnValueChange?.Invoke();
             }
         }
-        public bool OriginalValue => _origin;
+        /// <summary>
+        /// The unmodified value that variable was initialized with in inspector.
+        /// </summary>
+        public bool OriginalValue => variable;
 
-        public void Reset() => _origin = variable;
+        /// <summary>
+        /// Resets value used at runtime (modifiable one) to value that is set in inspector (origin).
+        /// Use it whenever you want to make sure that variable is in its default state.
+        /// </summary>
+        public void ResetToOrigin() => _value = variable;
+
+        private void OnValidate() => ResetToOrigin();
+
     }
 }

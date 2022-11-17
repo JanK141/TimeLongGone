@@ -10,8 +10,15 @@ namespace Content.Scripts
 {
     public class GameManager : MonoBehaviour
     {
-
-        public static GameManager Instance { get; private set; }
+        private static GameManager _i;
+        public static GameManager Instance
+        {
+            get
+            {
+                if (_i == null) _i = (Instantiate(Resources.Load("Managers/Game Manager")) as GameObject).GetComponent<GameManager>();
+                return _i;
+            }
+        }
 
         private PlayerInput _playerInput;
 
@@ -21,15 +28,11 @@ namespace Content.Scripts
         Scene pauseScene;
         Scene HUDScene;
         Scene lvlScene1;
+        [SerializeField] private string mainMenuSceneName;
 
-        // Start is called before the first frame update
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);
-            if (Instance != null && Instance != this)
-                Destroy(this);
-            else
-                Instance = this;
 
             mainMenuScene = SceneManager.GetSceneByBuildIndex(1);
             pauseScene = SceneManager.GetSceneByBuildIndex(2);

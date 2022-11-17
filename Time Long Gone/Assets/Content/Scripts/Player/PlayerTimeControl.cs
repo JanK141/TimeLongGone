@@ -27,7 +27,7 @@ namespace Player
 
         private void Awake()
         {
-            IsRewinding = Resources.Load<BoolVariable>("Rewind/IsRewinding");
+            IsRewinding = GameLogic.Instance.IsRewinding;
         }
         void Start()
         {
