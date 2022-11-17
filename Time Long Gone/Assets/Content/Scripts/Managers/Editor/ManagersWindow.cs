@@ -37,6 +37,7 @@ public class ManagersWindow : MultipleEditorWindow
             {
                 if(currentSerializedObject != null)
                 {
+                    EditorGUILayout.LabelField(currentSerializedObject.targetObject.name, EditorStyles.boldLabel);
                     DrawSerializedObject(currentSerializedObject, true);
                     currentSerializedObject.ApplyModifiedProperties();
                 }
