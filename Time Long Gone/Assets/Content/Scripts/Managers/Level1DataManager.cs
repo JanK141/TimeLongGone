@@ -8,7 +8,8 @@ using UnityEngine;
 /// </summary>
 public class Level1DataManager : MonoBehaviour
 {
-    [SerializeField][Tooltip("Each entry is for diffirent difficulty level")] private List<ListContainer> enemyStateMachines;
+    [SerializeField][Tooltip("Each entry is for diffirent difficulty level")] 
+    private List<ListContainer> enemyStateMachines;
 
     private static Level1DataManager _i;
 
@@ -16,7 +17,8 @@ public class Level1DataManager : MonoBehaviour
     {
         get
         {
-            if (_i == null) _i = (Instantiate(Resources.Load("Managers/Level 1 Data Manager")) as GameObject).GetComponent<Level1DataManager>();
+            if (_i == null) 
+                _i = (Instantiate(Resources.Load("Managers/Level 1 Data Manager")) as GameObject).GetComponent<Level1DataManager>();
             return _i;
         }
     }

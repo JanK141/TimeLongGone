@@ -15,7 +15,9 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private FloatVariable timeToRemember;
     [SerializeField] private FloatVariable timeBetweenEntries;
     [SerializeField] private BoolVariable isRewinding;
-    [SerializeField][Tooltip("Easy, Normal, Hard, Very Hard")] private PlayerVariables[] playerVariables = { null, null, null, null };
+
+    [SerializeField, Tooltip("Easy, Normal, Hard, Very Hard")]
+    private PlayerVariables[] playerVariables = { null, null, null, null };
 
     private static GameLogic _i;
 
@@ -23,7 +25,8 @@ public class GameLogic : MonoBehaviour
     {
         get
         {
-            if (_i == null) _i = (Instantiate(Resources.Load("Managers/Game Logic")) as GameObject).GetComponent<GameLogic>();
+            if (_i == null) 
+                _i = (Instantiate(Resources.Load("Managers/Game Logic")) as GameObject)!.GetComponent<GameLogic>();
             return _i;
         }
     }

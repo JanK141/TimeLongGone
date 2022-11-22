@@ -18,8 +18,7 @@ namespace Enemy
     {
         [SerializeField] private NavMeshAgent navAgent;
         [SerializeField] private Animator animator;
-        [Space(10)]
-        [SerializeField] private float MaxHealth;
+        [Space(10)] [SerializeField] private float MaxHealth;
         [SerializeField] private float StunTime;
         [SerializeField] private float ParryTime;
         [SerializeField] private int SequenceParryCount;
@@ -27,17 +26,20 @@ namespace Enemy
         [SerializeField] private int MaxThrownProj;
         [SerializeField] private GameObject Projectile;
         [SerializeField] private Transform ProjectilesParent;
-        [SerializeField][Range(0, 1)] private float VulnerableOnParryChance;
+        [SerializeField] [Range(0, 1)] private float VulnerableOnParryChance;
         [SerializeField] private AnimationCurve jumpHeightCurve;
         [SerializeField] private AnimationCurve jumpDistanceCurve;
         private List<StateMachine> Stages;
 
+        private bool beingHit = false;
+        public float GetMaxHealth => MaxHealth;
+        public bool GetHurtByPlayer => beingHit;
         public float Health { get; private set; }
         public EnemyStatus Status { get; private set; }
         public int Stage { get; private set; }
         public bool ActiveAI { get; set; } = true;
 
-        [SerializeField][HideInInspector] private StateMachine currSM;
+        [SerializeField] [HideInInspector] private StateMachine currSM;
         private FloatVariable TimeToRemember;
         private FloatVariable TimeBetweenEntries;
         private BoolVariable IsRewinding;
@@ -67,14 +69,17 @@ namespace Enemy
         {
             entries = 0;
             maxentries = (int)(TimeToRemember.Value / TimeBetweenEntries.Value);
-            projectilesSpots = GameObject.FindGameObjectsWithTag("Projectiles Spot").Select(o => o.transform.position).ToList();
+            projectilesSpots = GameObject.FindGameObjectsWithTag("Projectiles Spot").Select(o => o.transform.position)
+                .ToList();
             currSM.Start();
             currSM.GetCurrentState().StateEnter(this);
             player = FindObjectOfType<Player.Player>();
-            for (int i = 0; i < 40; i++) {
+            for (int i = 0; i < 40; i++)
+            {
                 playerPositions.AddLast(player.transform.position);
                 pastHealth.AddLast(Health);
             }
+
             StartCoroutine(UpdateRandomParameters());
             StartCoroutine(CalculatePlayerAvgDeltaPos());
             StartCoroutine(Cycle());
@@ -86,18 +91,22 @@ namespace Enemy
             UpdateSM();
             currSM.Tick(this);
         }
+
         void UpdateSM()
         {
             currSM.SetFloat("Distance", Vector3.Distance(transform.position, player.transform.position));
             currSM.SetFloat("TimeSinceRest", currSM.GetFloat("TimeSinceRest") + Time.deltaTime);
             currSM.SetFloat("TimeSinceCharge", currSM.GetFloat("TimeSinceCharge") + Time.deltaTime);
-            currSM.SetFloat("DistanceToProjectileSpot", projectilesSpots.Select(p => Vector3.Distance(transform.position, p)).Min());
-            currSM.SetFloat("AngleToPlayer", Vector3.SignedAngle(player.transform.position - transform.position, transform.forward, Vector3.up));
+            currSM.SetFloat("DistanceToProjectileSpot",
+                projectilesSpots.Select(p => Vector3.Distance(transform.position, p)).Min());
+            currSM.SetFloat("AngleToPlayer",
+                Vector3.SignedAngle(player.transform.position - transform.position, transform.forward, Vector3.up));
         }
 
         public void PlayAnimation(string anim, float crossfade) => animator.CrossFade(anim, crossfade);
 
         #region Corutines
+
         IEnumerator UpdateRandomParameters()
         {
             YieldInstruction cycle = new WaitForSeconds(0.5f);
@@ -116,6 +125,7 @@ namespace Enemy
                 yield return cycle;
             }
         }
+
         IEnumerator CalculatePlayerAvgDeltaPos()
         {
             YieldInstruction cycle = new WaitForSeconds(0.1f);
@@ -132,6 +142,7 @@ namespace Enemy
                 yield return cycle;
             }
         }
+
         IEnumerator JumpTowardsPlayer()
         {
             navAgent.ResetPath();
@@ -152,10 +163,13 @@ namespace Enemy
                 currTime += Time.deltaTime;
                 yield return null;
             }
-            transform.DOLookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.5f);
+
+            transform.DOLookAt(
+                new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.5f);
             yield return new WaitForSeconds(1f);
             currSM.SetBool("IsAttacking", false);
         }
+
         IEnumerator SequenceAttack()
         {
             sequenceParries = 0;
@@ -165,6 +179,7 @@ namespace Enemy
                 {
                     yield break;
                 }
+
                 if (sequenceParries >= SequenceParryCount)
                 {
                     currSM.SetBool("IsParried", true);
@@ -177,33 +192,37 @@ namespace Enemy
                         currSM.SetBool("IsParried", false);
                         yield break;
                     }
+
                     Status = EnemyStatus.Parried;
                     yield return new WaitForSeconds(ParryTime / 2);
                     currSM.SetBool("IsParried", false);
                     Status = EnemyStatus.Passive;
                 }
+
                 yield return null;
             }
         }
+
         IEnumerator ThrowProjectiles()
         {
             yield return null;
             bool restoring = false;
             GameObject restoredProjectile = null;
             int projToThrow = UnityEngine.Random.Range(MinThrownProj, MaxThrownProj);
-            for(int i = 0; i<ProjectilesParent.childCount; i++)
+            for (int i = 0; i < ProjectilesParent.childCount; i++)
             {
-                if(ProjectilesParent.GetChild(i).name.Contains(Projectile.name))
+                if (ProjectilesParent.GetChild(i).name.Contains(Projectile.name))
                 {
                     restoring = true;
                     restoredProjectile = ProjectilesParent.GetChild(i).gameObject;
-                    if (currSM.GetInt("ProjectilesThrown") >= projToThrow) projToThrow = currSM.GetInt("ProjectilesThrown") + 1;
+                    if (currSM.GetInt("ProjectilesThrown") >= projToThrow)
+                        projToThrow = currSM.GetInt("ProjectilesThrown") + 1;
                     break;
                 }
             }
-            
-            Vector3 spot = projectilesSpots.
-                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next);
+
+            Vector3 spot = projectilesSpots.Aggregate((min, next) =>
+                Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next);
             while (currSM.GetInt("ProjectilesThrown") < projToThrow)
             {
                 Rigidbody rb;
@@ -216,7 +235,8 @@ namespace Enemy
                     proj.transform.SetParent(ProjectilesParent, true);
                     rb = proj.GetComponent<Rigidbody>();
                     rb.detectCollisions = false;
-                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y, ProjectilesParent.position.z + 3);
+                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y,
+                        ProjectilesParent.position.z + 3);
                     yield return new WaitForSeconds(0.25f);
                 }
                 else
@@ -226,6 +246,7 @@ namespace Enemy
                     rb.detectCollisions = false;
                     restoring = false;
                 }
+
                 transform.DOLookAt(player.transform.position, 0.5f);
                 yield return new WaitForSeconds(1f);
 
@@ -242,72 +263,96 @@ namespace Enemy
                 dist += h / Mathf.Tan(a);
                 var vel = Mathf.Sqrt(dist * Physics.gravity.magnitude / Mathf.Sin(2 * a));
                 rb.velocity = vel * direction.normalized;
-                rb.angularVelocity = new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value).normalized * UnityEngine.Random.Range(1f,5f);
+                rb.angularVelocity =
+                    new Vector3(UnityEngine.Random.value, UnityEngine.Random.value, UnityEngine.Random.value)
+                        .normalized * UnityEngine.Random.Range(1f, 5f);
                 currSM.SetInt("ProjectilesThrown", currSM.GetInt("ProjectilesThrown") + 1);
                 yield return new WaitForSeconds(UnityEngine.Random.Range(1f, 3f));
             }
+
             currSM.SetBool("IsThrowing", false);
         }
+
         #endregion
 
         #region Attacks
+
         public void IncrementCombo() => currSM.SetInt("AttacksInCombo", currSM.GetInt("AttacksInCombo") + 1);
+
         public void BasicAttack()
         {
             var currAnim = animator.GetCurrentAnimatorStateInfo(0);
             if (!currAnim.IsName("BasicAttack1") && !currAnim.IsName("BasicAttack2")
-                && !currAnim.IsName("BasicAttack3") && !currAnim.IsName("BasicAttack4"))
+                                                 && !currAnim.IsName("BasicAttack3") &&
+                                                 !currAnim.IsName("BasicAttack4"))
             {
                 PlayAnimation("BasicAttack1", 0.1f);
             }
             else animator.SetTrigger("BasicAttack");
         }
+
         public void CountBreakTime() => currSM.SetFloat("BreakTime", currSM.GetFloat("BreakTime") + Time.deltaTime);
         public void WaitForAttackEnd() => StartCoroutine(ResetAttack());
         public void StartSequenceAttack() => StartCoroutine(SequenceAttack());
         public void ThrowingProjectiles() => StartCoroutine(ThrowProjectiles());
+
         #endregion
 
         #region Movement
-        public void LookAtPlayer(float timeToRotate) => transform.DOLookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), timeToRotate);
+
+        public void LookAtPlayer(float timeToRotate) => transform.DOLookAt(
+            new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), timeToRotate);
+
         public void Chase() => navAgent.SetDestination(player.transform.position);
         public void ChangeAgentSpeed(float speed) => navAgent.speed = speed;
         public void Jump() => StartCoroutine(JumpTowardsPlayer());
+
         public void FindEscapeTarget()
         {
             NavMeshHit hit;
             for (int i = 0; i++ < 50;)
             {
-                Vector3 randDir = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0, UnityEngine.Random.Range(-1f, 1f)).normalized;
+                Vector3 randDir = new Vector3(UnityEngine.Random.Range(-1f, 1f), 0, UnityEngine.Random.Range(-1f, 1f))
+                    .normalized;
                 float randDist = UnityEngine.Random.Range(10, 20);
                 var pos = player.transform.position + randDir * randDist;
                 if (NavMesh.SamplePosition(pos, out hit, 5, NavMesh.AllAreas)
-                    && !Physics.Raycast(transform.position, (hit.position - transform.position).normalized, Vector3.Distance(transform.position, hit.position)))
+                    && !Physics.Raycast(transform.position, (hit.position - transform.position).normalized,
+                        Vector3.Distance(transform.position, hit.position)))
                 {
                     escapeTargetPos = hit.position;
                     return;
                 }
             }
+
             escapeTargetPos = player.transform.position;
         }
+
         public void Escape()
         {
             if (navAgent.remainingDistance < 5) FindEscapeTarget();
             navAgent.SetDestination(escapeTargetPos);
         }
+
         public void StopAgent() => navAgent.ResetPath();
+
         public void RunToProjectiles()
         {
-            navAgent.SetDestination(projectilesSpots.
-                Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
+            navAgent.SetDestination(projectilesSpots.Aggregate((min, next) =>
+                Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next));
         }
+
         #endregion
 
         #region Receiving
+
         public void ReceiveHit(float damage)
         {
-            if (Status != EnemyStatus.Untouchable) {
+            if (Status != EnemyStatus.Untouchable)
+            {
+                beingHit = true;
                 Health -= damage;
+                beingHit = false;
                 if (Health <= MaxHealth - (Stage + 1) * (MaxHealth / Stages.Count))
                     StartCoroutine(NextStage());
             }
@@ -321,6 +366,7 @@ namespace Enemy
                 sequenceParries++;
                 return;
             }
+
             Status = EnemyStatus.Parried;
             currSM.SetBool("IsParried", true);
             currSM.SetBool("IsAttacking", false);
@@ -341,9 +387,11 @@ namespace Enemy
                 StartCoroutine(ResetStun());
             }
         }
+
         #endregion
 
         #region Resets
+
         IEnumerator ResetAttack()
         {
             yield return null;
@@ -355,9 +403,11 @@ namespace Enemy
                     currSM.SetBool("IsAttacking", false);
                     yield break;
                 }
+
                 yield return null;
             }
         }
+
         IEnumerator ResetStun()
         {
             yield return new WaitForSeconds(StunTime - 1);
@@ -367,20 +417,25 @@ namespace Enemy
             currSM.SetBool("IsStunned", false);
             Status = EnemyStatus.Passive;
         }
+
         IEnumerator ResetParry()
         {
             if (UnityEngine.Random.value <= VulnerableOnParryChance) Status = EnemyStatus.Vulnerable;
             yield return new WaitForSeconds(ParryTime / 2);
-            if (Status == EnemyStatus.Stunned) {
+            if (Status == EnemyStatus.Stunned)
+            {
                 currSM.SetBool("IsParried", false);
                 yield break;
             }
+
             Status = EnemyStatus.Parried;
             yield return new WaitForSeconds(ParryTime / 2);
             currSM.SetBool("IsParried", false);
             Status = EnemyStatus.Passive;
         }
+
         #endregion
+
         public void SetStatus(string statusName)
         {
             EnemyStatus tmp;
@@ -389,6 +444,7 @@ namespace Enemy
                 Status = tmp;
             }
         }
+
         IEnumerator NextStage()
         {
             if (Stage + 1 >= Stages.Count) yield break;
@@ -402,10 +458,12 @@ namespace Enemy
         }
 
         #region Rewinding
+
         public float RewindTimeNeeded()
         {
             var entry = timeEntries.Last.Value;
-            if ((entry.state.stateName == "JumpAttack" || entry.state.stateName == "SequenceAttack") && entry.stateTime > TimeBetweenEntries.Value)
+            if ((entry.state.stateName == "JumpAttack" || entry.state.stateName == "SequenceAttack") &&
+                entry.stateTime > TimeBetweenEntries.Value)
             {
                 return entry.stateTime - TimeBetweenEntries.Value;
             }
@@ -414,8 +472,10 @@ namespace Enemy
                 return 0f;
             }
         }
+
         void OnEnable() => IsRewinding.OnValueChange += HandleRewind;
         void OnDisable() => IsRewinding.OnValueChange -= HandleRewind;
+
         private void HandleRewind()
         {
             if (IsRewinding.Value)
@@ -435,13 +495,17 @@ namespace Enemy
                     Stage--;
                     currSM = Stages[Stage];
                 }
+
                 currSM.SetCurrentState(entry.state, this);
-                for(int i = 0; i < entry.parameters.Length; i++)
+                for (int i = 0; i < entry.parameters.Length; i++)
                 {
-                    if (entry.parameters[i] is float) (currSM.parameters[i] as FloatParameter).value = (float)entry.parameters[i];
-                    else if (entry.parameters[i] is int) (currSM.parameters[i] as IntParameter).value = (int)entry.parameters[i];
+                    if (entry.parameters[i] is float)
+                        (currSM.parameters[i] as FloatParameter).value = (float)entry.parameters[i];
+                    else if (entry.parameters[i] is int)
+                        (currSM.parameters[i] as IntParameter).value = (int)entry.parameters[i];
                     else (currSM.parameters[i] as BoolParameter).value = (bool)entry.parameters[i];
                 }
+
                 StartCoroutine(UpdateRandomParameters());
                 StartCoroutine(CalculatePlayerAvgDeltaPos());
                 if (currSM.GetBool("IsParried")) StartCoroutine(ResetParry());
@@ -449,6 +513,7 @@ namespace Enemy
                 else if (currSM.GetBool("IsAttacking")) StartCoroutine(ResetAttack());
             }
         }
+
         IEnumerator Cycle()
         {
             YieldInstruction waitBetween = new WaitForSeconds(TimeBetweenEntries.Value);
@@ -461,17 +526,19 @@ namespace Enemy
                         timeEntries.RemoveLast();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
                 else
                 {
                     timeEntries.AddLast(new TimeEntry(Health, currSM));
                     entries++;
-                    if(entries > maxentries)
+                    if (entries > maxentries)
                     {
                         timeEntries.RemoveFirst();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
             }
@@ -483,13 +550,14 @@ namespace Enemy
             public SMState state;
             public float stateTime;
             public object[] parameters;
+
             public TimeEntry(float health, StateMachine machine)
             {
                 hp = health;
                 state = machine.GetCurrentState();
                 stateTime = state.timeInState;
                 parameters = new object[machine.parameters.Count];
-                for(int i = 0; i < parameters.Length; i++)
+                for (int i = 0; i < parameters.Length; i++)
                 {
                     var tmp = machine.parameters[i];
                     if (tmp is FloatParameter) parameters[i] = (tmp as FloatParameter).value as object;
@@ -498,7 +566,7 @@ namespace Enemy
                 }
             }
         }
-        #endregion
 
+        #endregion
     }
 }
