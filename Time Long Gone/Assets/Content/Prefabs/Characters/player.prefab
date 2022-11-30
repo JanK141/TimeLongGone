@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: 49cf163fa2ed4334f9ca4356add61b60, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -255,7 +255,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bcf37fb918c159347a14ff6e631fb661, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -337,7 +337,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bcf37fb918c159347a14ff6e631fb661, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 4489070120500149424}
   - component: {fileID: 4489070120500149427}
   m_Layer: 8
-  m_Name: Player
+  m_Name: player
   m_TagString: Player
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -660,10 +660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a60c249157964ba99438e04fb0119c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  variables: {fileID: 11400000, guid: f9f5d9358ae79414aa41d54652b8754f, type: 2}
   ground:
     serializedVersion: 2
     m_Bits: 8
@@ -697,9 +693,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79d47e83f2e5453e942c87df93a59c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
   pushCurve:
     serializedVersion: 2
     m_Curve:
@@ -746,9 +739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069aabbb98b486e46b059bbf5a0dbf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   rewindTransformParent: 0
   UseLossyScale: 1
 --- !u!114 &4489070120500149427
@@ -763,7 +753,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f7fc6397cd2e964c8af98bd2cb319d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   targetSlowMoScale: 0.3
   targetDeathScale: 0.05
   rewindTimeScale: 1.2
@@ -828,7 +817,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bcf37fb918c159347a14ff6e631fb661, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -909,7 +898,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bcf37fb918c159347a14ff6e631fb661, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -992,7 +981,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: bcf37fb918c159347a14ff6e631fb661, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1091,7 +1080,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90d26881c72ccc46ad17b228d6f91da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   AnimatorSpeedParams: []

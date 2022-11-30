@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 73c176f402d2c2f4d929aa5da7585d17, type: 2}
+  - {fileID: 2100000, guid: a8151c749f0c12542a9c0349f7d2458d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -146,9 +146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069aabbb98b486e46b059bbf5a0dbf7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   rewindTransformParent: 1
   UseLossyScale: 1
 --- !u!114 &-78611343525205702
@@ -163,9 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ae4e10285648c48add56993fce08ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
 --- !u!114 &1404580929706657765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,10 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb0c094afe12d3a43a679d4639a33169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TimeToRemember: {fileID: 11400000, guid: 01f26beee3ee0aa498dd96e94160a3cb, type: 2}
-  TimeBetweenEntries: {fileID: 11400000, guid: 2e0a34e8163fd0d4390376e6f469e45c, type: 2}
-  IsRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
-  RewindTransformParent: 0
 --- !u!114 &-1382893351613061013
 MonoBehaviour:
   m_ObjectHideFlags: 0
