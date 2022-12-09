@@ -206,9 +206,18 @@ namespace Player
         internal void ResetAttack()
         {
             CanAttack = false;
-            Invoke(nameof(ResetAttackInvoke), variables.attackCooldown / SpeedFactor);
+            StartCoroutine(ResetAttackInvoke());
         }
-        void ResetAttackInvoke() => CanAttack = true;
+        IEnumerator ResetAttackInvoke()
+        {
+            float cd = variables.attackCooldown / SpeedFactor;
+            yield return new WaitForSeconds(cd);
+            while (!CanAttack)
+            {
+                yield return null;
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) CanAttack = true; 
+            }
+        }
         #endregion
 
         #region Helper methods

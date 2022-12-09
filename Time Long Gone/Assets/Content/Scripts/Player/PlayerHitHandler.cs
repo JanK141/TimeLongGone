@@ -143,6 +143,7 @@ namespace Player
             StartCoroutine(NoCollision(weaponHitBox));
             player.CurrentState.OnStateExit();
             player.CurrentState = player.DEAD_STATE;
+            player.CurrentState.OnStateEnter(true);
         }
 
         IEnumerator NoCollision(Collider weaponHitBox)

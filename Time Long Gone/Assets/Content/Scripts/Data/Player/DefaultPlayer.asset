@@ -26,8 +26,8 @@ MonoBehaviour:
   attackCooldown: 0.4
   attackRadius: 1.4
   attackDistance: 0.9
-  chainTime: 0.8
-  airborneTime: 0.25
+  chainTime: 1
+  airborneTime: 0.5
   maxChargeMult: 3
   blockCooldown: 0.7
   parryWindow: 0.5

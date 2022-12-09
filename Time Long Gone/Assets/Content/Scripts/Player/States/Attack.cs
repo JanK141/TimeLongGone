@@ -19,6 +19,7 @@ namespace Player.States
             player.Gravity = 0;
             if(playAnimation)player.animator.SetTrigger("Attack");
             player.ResetAttack();
+            player.animator.ResetTrigger("EndChain");
         }
 
         public override void OnStateExit()
@@ -45,7 +46,7 @@ namespace Player.States
                 return player.ATTACK_STATE;
             }
 
-            if (time >= chainTime)
+            if (time >= chainTime && player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=0.95)
             {
                 player.animator.SetTrigger("EndChain");
                 return player.IDLE_STATE;
