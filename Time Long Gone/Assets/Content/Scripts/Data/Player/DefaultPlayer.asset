@@ -32,8 +32,8 @@ MonoBehaviour:
   blockCooldown: 0.7
   parryWindow: 0.5
   postHitNoCollision: 0.2
-  pushVelocity: 6
-  pushTime: 0.6
+  pushVelocity: 20
+  pushTime: 2
   comboMultiplier: 0.1
   comboTimeout: 4
   finisherMultiplier: 2
