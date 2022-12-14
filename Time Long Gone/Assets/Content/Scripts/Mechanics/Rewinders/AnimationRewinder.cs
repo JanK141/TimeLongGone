@@ -40,16 +40,8 @@ public class AnimationRewinder : MonoBehaviour
 
     private void InvertParams()
     {
-        if (IsRewinding.Value)
-        {
-            foreach(string par in AnimatorSpeedParams)
-                anim.SetFloat(par, -1);
-        }
-        else
-        {
-            foreach (string par in AnimatorSpeedParams)
-                anim.SetFloat(par, 1);
-        }
+        foreach (string par in AnimatorSpeedParams)
+            anim.SetFloat(par, -1 * anim.GetFloat(par));
     }
     IEnumerator Cycle()
     {
