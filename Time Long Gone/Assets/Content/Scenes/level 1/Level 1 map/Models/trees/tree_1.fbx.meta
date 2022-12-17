@@ -2,7 +2,10 @@ fileFormatVersion: 2
 guid: 5146aa583c3d5ab40a8dfef2a1198ebe
 ModelImporter:
   serializedVersion: 20200
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      74: -5146127438035244767
+    second: "tree_1|drzewo_li\u015B\u0107.002drzewo_li\u015B\u0107Action"
   externalObjects: {}
   materials:
     materialImportMode: 2
