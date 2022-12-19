@@ -39,7 +39,7 @@ public class Tutorial_Script : MonoBehaviour
         }
     }
 
-    public void PrepareText(int i)
+    public void DisplayText(int i)
     {
         Title.gameObject.GetComponent<Text>().text = source[i, 0];
         Flavour.gameObject.GetComponent<Text>().text = source[i, 1];
@@ -49,7 +49,7 @@ public class Tutorial_Script : MonoBehaviour
     public void Run_T0_Intro()
     {
         Canvas.SetActive(true);
-        PrepareText(0);
+        DisplayText(0);
 
         Buttons.SetActive(true);
     }
@@ -67,66 +67,66 @@ public class Tutorial_Script : MonoBehaviour
     public void Run_T1_Movement()
     {
         Canvas.SetActive(true);
-        PrepareText(1);
+        DisplayText(1);
     }
 
     public void Run_T2_Attacks()
     {
         Canvas.SetActive(true);
-        PrepareText(2);
+        DisplayText(2);
     }
 
     public void Run_T3_CombosAndFinishers()
     {
         Canvas.SetActive(true);
-        PrepareText(3);
+        DisplayText(3);
     }
 
     public void Run_T4_ChargeAttack()
     {
         Canvas.SetActive(true);
-        PrepareText(4);
+        DisplayText(4);
     }
 
     public void Run_T5_Blocks()
     {
         Canvas.SetActive(true);
-        PrepareText(5);
+        DisplayText(5);
     }
 
     public void Run_T6_DodgesAndParries()
     {
         Canvas.SetActive(true);
-        PrepareText(6);
+        DisplayText(6);
     }
 
     public void Run_T7_Kicks()
     {
         Canvas.SetActive(true);
-        PrepareText(7);
+        DisplayText(7);
     }
 
     public void Run_T8_Finishers()
     {
         Canvas.SetActive(true);
-        PrepareText(8);
+        DisplayText(8);
     }
 
     public void Run_T9_TimeRewind()
     {
         Canvas.SetActive(true);
-        PrepareText(9);
+        DisplayText(9);
     }
 
     public void Run_T10_TimeDilution()
     {
         Canvas.SetActive(true);
-        PrepareText(10);
+        DisplayText(10);
     }
 
     public void Run_T11_End()
     {
         Canvas.SetActive(true);
-        PrepareText(11);
+        DisplayText(11);
     }
 }
