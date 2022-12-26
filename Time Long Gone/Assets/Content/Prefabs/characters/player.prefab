@@ -563,6 +563,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7660288171457394974, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -4214927027447959987, guid: 988196dc7233b224b8f6c445526efdd7, type: 3}
+    - target: {fileID: 95901835472813296, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 1795715784970945036, guid: 988196dc7233b224b8f6c445526efdd7, type: 3}
     - target: {fileID: 919132149155446097, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
       propertyPath: m_Name
       value: MainHero
@@ -578,6 +586,14 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7593685707970302390, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880506382239382463, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1aa1d26925bd87d429d8786d6d67b3cd, type: 3}
