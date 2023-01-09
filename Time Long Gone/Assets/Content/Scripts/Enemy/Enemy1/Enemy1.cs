@@ -56,7 +56,7 @@ namespace Enemy
             IsRewinding = GameLogic.Instance.IsRewinding;
             TimeToRemember = GameLogic.Instance.TimeToRemember;
             TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
-            Stages = Level1DataManager.Instance.Enemy1StateMachines;
+            Stages = Level1DataManager.Instance.EnemyStateMachines;
             Stage = 0;
             currSM = Stages[Stage];
             Health = MaxHealth;
