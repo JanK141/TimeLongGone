@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
@@ -83,6 +84,8 @@ namespace Enemy
         void Update()
         {
             if (!ActiveAI || IsRewinding.Value) return;
+            animator.SetFloat("Randomizer", UnityEngine.Random.value);
+            animator.SetFloat("MovementSpeed", navAgent.velocity.magnitude);
             UpdateSM();
             currSM.Tick(this);
         }
@@ -141,8 +144,9 @@ namespace Enemy
             transform.LookAt(pos);
             var startpos = transform.position;
             var distance = Vector3.Distance(transform.position, pos);
-            var time = distance / 15;
-            animator.SetFloat("JumpSpeed", 1.25f / time);
+            //var time = distance / 15;
+            var time = 2.05f;
+            //animator.SetFloat("JumpSpeed", 1.25f / time);
             float currTime = 0;
             while (currTime < time)
             {
@@ -204,20 +208,25 @@ namespace Enemy
             
             Vector3 spot = projectilesSpots.
                 Aggregate((min, next) => Vector3.Distance(transform.position, min) < Vector3.Distance(transform.position, next) ? min : next);
+            spot.y = transform.position.y;
             while (currSM.GetInt("ProjectilesThrown") < projToThrow)
             {
                 Rigidbody rb;
                 GameObject proj;
                 if (!restoring)
                 {
-                    transform.DOLookAt(spot, 0.5f);
-                    yield return new WaitForSeconds(0.5f);
+                    transform.DOLookAt(spot, 1f);
+                    if (Vector3.SignedAngle((spot - transform.position), transform.forward, Vector3.up) > 0) animator.Play("RotatingRight");
+                    else animator.Play("RotatingLeft");
+                    yield return new WaitForSeconds(1f);
+                    animator.Play("PickUp");
+                    yield return new WaitForSeconds(0.2f);
                     proj = GameObject.Instantiate(Projectile);
                     proj.transform.SetParent(ProjectilesParent, true);
                     rb = proj.GetComponent<Rigidbody>();
                     rb.detectCollisions = false;
-                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y, ProjectilesParent.position.z + 3);
-                    yield return new WaitForSeconds(0.25f);
+                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y, ProjectilesParent.position.z);
+                    yield return new WaitForSeconds(1f);
                 }
                 else
                 {
@@ -227,8 +236,12 @@ namespace Enemy
                     restoring = false;
                 }
                 transform.DOLookAt(player.transform.position, 0.5f);
+                if (Vector3.SignedAngle((player.transform.position - transform.position), transform.forward, Vector3.up) > 0) 
+                    animator.Play("RotatingRight");
+                else animator.Play("RotatingLeft");
                 yield return new WaitForSeconds(1f);
-
+                animator.Play("Throw");
+                yield return new WaitForSeconds(0.5f);
                 proj.transform.SetParent(null, true);
                 rb.isKinematic = false;
                 rb.detectCollisions = true;
@@ -254,13 +267,14 @@ namespace Enemy
         public void IncrementCombo() => currSM.SetInt("AttacksInCombo", currSM.GetInt("AttacksInCombo") + 1);
         public void BasicAttack()
         {
-            var currAnim = animator.GetCurrentAnimatorStateInfo(0);
+            animator.SetTrigger("BasicAttack");
+            /*var currAnim = animator.GetCurrentAnimatorStateInfo(0);
             if (!currAnim.IsName("BasicAttack1") && !currAnim.IsName("BasicAttack2")
                 && !currAnim.IsName("BasicAttack3") && !currAnim.IsName("BasicAttack4"))
             {
                 PlayAnimation("BasicAttack1", 0.1f);
             }
-            else animator.SetTrigger("BasicAttack");
+            else animator.SetTrigger("BasicAttack");*/
         }
         public void CountBreakTime() => currSM.SetFloat("BreakTime", currSM.GetFloat("BreakTime") + Time.deltaTime);
         public void WaitForAttackEnd() => StartCoroutine(ResetAttack());
@@ -295,7 +309,7 @@ namespace Enemy
             if (navAgent.remainingDistance < 5) FindEscapeTarget();
             navAgent.SetDestination(escapeTargetPos);
         }
-        public void StopAgent() => navAgent.ResetPath();
+        public void StopAgent() { navAgent.ResetPath(); navAgent.velocity = Vector3.zero; }
         public void RunToProjectiles()
         {
             navAgent.SetDestination(projectilesSpots.
@@ -308,6 +322,7 @@ namespace Enemy
         {
             if (Status != EnemyStatus.Untouchable) {
                 Health -= damage;
+                animator.CrossFade("Shake", 0.2f, 1);
                 if (Health <= MaxHealth - (Stage + 1) * (MaxHealth / Stages.Count))
                     StartCoroutine(NextStage());
             }
@@ -380,7 +395,15 @@ namespace Enemy
             currSM.SetBool("IsParried", false);
             Status = EnemyStatus.Passive;
         }
+
+        void ResetAI() => ActiveAI = true;
         #endregion
+
+        public void StopAI(float seconds)
+        {
+            ActiveAI = false;
+            Invoke(nameof(ResetAI), seconds);
+        }
         public void SetStatus(string statusName)
         {
             EnemyStatus tmp;
