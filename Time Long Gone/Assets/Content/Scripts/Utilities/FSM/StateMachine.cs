@@ -36,8 +36,15 @@ public class StateMachine : ScriptableObject
         _currState = initialState;
     }
 
+    private SMState _transitionTo;
     public void Tick(MonoBehaviour executer)
     {
+        if(_transitionTo != null)
+        {
+            _currState = _transitionTo;
+            _transitionTo = null;
+            _currState.StateEnter(executer);
+        }
         _currState.StateUpdate(executer);
         SMState state = null;
         foreach (SMTransition transition in transitions)
@@ -52,8 +59,7 @@ public class StateMachine : ScriptableObject
         if (state != null)
         {
             _currState.StateExit(executer);
-            _currState = state;
-            _currState.StateEnter(executer);
+            _transitionTo = state;
         }
     }
 
