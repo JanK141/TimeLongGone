@@ -54,10 +54,11 @@ namespace Player
                         if(Time.time - player.BlockTime < variables.parryWindow)
                         {
                             print("Parried");
+                            player.animator.Play("Parry");
                             control.Mana += variables.manaReward;
                             player.combat.enemy.ReceiveParry();
                             StartCoroutine(NoCollision(weaponHitBox));
-                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
+                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -84,10 +85,11 @@ namespace Player
                         if (Time.time - player.BlockTime < variables.parryWindow)
                         {
                             print("Parried");
+                            player.animator.Play("Parry");
                             player.combat.enemy.ReceiveParry();
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
-                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -115,10 +117,11 @@ namespace Player
                         if (Time.time - player.BlockTime < variables.parryWindow)
                         {
                             print("Parried");
+                            player.animator.Play("Parry");
                             player.combat.enemy.ReceiveParry();
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
-                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
+                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -143,6 +146,7 @@ namespace Player
             StartCoroutine(NoCollision(weaponHitBox));
             player.CurrentState.OnStateExit();
             player.CurrentState = player.DEAD_STATE;
+            player.CurrentState.OnStateEnter(true);
         }
 
         IEnumerator NoCollision(Collider weaponHitBox)
@@ -159,6 +163,7 @@ namespace Player
 
         IEnumerator PushPlayer(Transform source, float factor, float timeToStart = 0)
         {
+            if (factor == 0) yield break;
             isPushing = true;
             pushSource = source;
             pushFactor = factor;
@@ -167,9 +172,10 @@ namespace Player
             var y = variables.pushVelocity * factor;
             var initVel = variables.pushVelocity * factor;
             time = timeToStart;
-            while(time < variables.pushTime)
+            var pushTime = variables.pushTime * factor;
+            while(time < pushTime)
             {
-                player.velocity += pushCurve.Evaluate(time/variables.pushTime) * direction * initVel;
+                player.velocity = pushCurve.Evaluate(time/variables.pushTime) * direction * initVel;
                 if(time<variables.pushTime/6)player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
                 time += Time.deltaTime;
                 yield return null;

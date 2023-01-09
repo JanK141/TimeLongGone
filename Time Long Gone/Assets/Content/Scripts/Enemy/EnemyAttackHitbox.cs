@@ -8,7 +8,7 @@ namespace Enemy
     public class EnemyAttackHitbox : MonoBehaviour
     {
         [SerializeField] AttackStatus status;
-        [SerializeField] float pushFactor;
+        [SerializeField] [Range(0,1)] float pushFactor;
         [SerializeField] bool setInactiveAfterCol = true;
 
         private void OnTriggerEnter(Collider other)

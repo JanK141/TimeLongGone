@@ -6,6 +6,7 @@
 
         public virtual void OnStateEnter(bool playAnimation)
         {
+            if(playAnimation) player.animator.Play("Death");
         }
 
         public virtual void OnStateExit()

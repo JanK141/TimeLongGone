@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Enemy1))]
+// [CustomEditor(typeof(Enemy1))]
 public class Enemy1Editor : UnityEditor.Editor
 {
     private int stage = 0;

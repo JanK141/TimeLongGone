@@ -19,6 +19,7 @@ namespace Content.Scripts
                 return _i;
             }
         }
+        public LevelDataManager CurrentDataManager { get{ return Level1DataManager.Instance; } }
 
         private PlayerInput _playerInput;
 

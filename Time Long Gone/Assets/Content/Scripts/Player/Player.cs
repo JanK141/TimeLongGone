@@ -206,9 +206,18 @@ namespace Player
         internal void ResetAttack()
         {
             CanAttack = false;
-            Invoke(nameof(ResetAttackInvoke), variables.attackCooldown / SpeedFactor);
+            StartCoroutine(ResetAttackInvoke());
         }
-        void ResetAttackInvoke() => CanAttack = true;
+        IEnumerator ResetAttackInvoke()
+        {
+            float cd = variables.attackCooldown / SpeedFactor;
+            yield return new WaitForSeconds(cd);
+            while (!CanAttack)
+            {
+                yield return null;
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1) CanAttack = true; 
+            }
+        }
         #endregion
 
         #region Helper methods
@@ -279,6 +288,7 @@ namespace Player
                     if (entries > 1)
                     {
                         CurrentState = timeEntries.Last.Value.state;
+                        animator.SetFloat("horizontalVelocity", timeEntries.Last.Value.horSpeed);
                         timeEntries.RemoveLast();
                         entries--;
                     }
@@ -286,7 +296,7 @@ namespace Player
                 }
                 else
                 {
-                    timeEntries.AddLast(new TimeEntry(CurrentState, velocity, ChargeAttackMultiplier, (CurrentState as Dash)?.GetTime()));
+                    timeEntries.AddLast(new TimeEntry(CurrentState, velocity, ChargeAttackMultiplier, (CurrentState as Dash)?.GetTime(), animator.GetFloat("horizontalVelocity")));
                     entries++;
                     if (entries > maxentries)
                     {
@@ -304,13 +314,15 @@ namespace Player
             public Vector3 velocity;
             public float charge;
             public float? dashtime;
+            public float horSpeed;
 
-            public TimeEntry(IPlayerState state, Vector3 velocity, float charge, float? dashtime)
+            public TimeEntry(IPlayerState state, Vector3 velocity, float charge, float? dashtime, float horSpeed)
             {
                 this.state = state;
                 this.velocity = velocity;
                 this.charge = charge;
                 this.dashtime = dashtime;
+                this.horSpeed = horSpeed;
             }
         }
 
