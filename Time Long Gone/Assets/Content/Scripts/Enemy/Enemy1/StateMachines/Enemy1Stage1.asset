@@ -1,93 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8979156946072764162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: SequenceAttack->Break(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: SequenceAttack -> Break
-  from: {fileID: -1731279091847898285}
-  to: {fileID: 6258576535331163029}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -2302318094094493659}
-    type: 2
-    comparison: 2
-    intValue: 0
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: -8979156946072764162}
-  - parameter: {fileID: -1338109786806862060}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.1
-    boolValue: 0
-    parent: {fileID: -8979156946072764162}
---- !u!114 &-8375170093663407734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080676dbd395ca94882bbd4c6692ded5, type: 3}
-  m_Name: AreaAttack(State)
-  m_EditorClassIdentifier: 
-  stateName: AreaAttack
-  transitions:
-  - {fileID: -6851408177822696993}
-  - {fileID: -2411935945613457991}
-  parent: {fileID: 11400000}
-  OnEnter:
-  - Executer: StateMachine
-    MethodName: SetBool
-    Parameters: IsAttacking,true
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: IncrementCombo
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: PlayAnimation
-    Parameters: BUMattack,0.1
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: WaitForAttackEnd
-    Parameters: 
-  OnUpdate: []
-  OnExit: []
-  timeInState: 0
---- !u!114 &-8252920420084026652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: RunningToProjectiles->ThrowingProjectiles(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: RunningToProjectiles -> ThrowingProjectiles
-  from: {fileID: -4456617161886212634}
-  to: {fileID: -4679333917381343630}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -3851436909877916909}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 8
-    boolValue: 0
-    parent: {fileID: -8252920420084026652}
 --- !u!114 &-7514451657018053984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +16,6 @@ MonoBehaviour:
   transitions:
   - {fileID: 1571725014341316700}
   - {fileID: -5424614956064814829}
-  - {fileID: 1383735906964022454}
   parent: {fileID: 11400000}
   OnEnter:
   - Executer: Enemy.Enemy1, Assembly-CSharp
@@ -112,7 +23,7 @@ MonoBehaviour:
     Parameters: 
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: ChangeAgentSpeed
-    Parameters: 10
+    Parameters: 7
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: PlayAnimation
     Parameters: Walk,0.1
@@ -132,8 +43,8 @@ MonoBehaviour:
     Parameters: 
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: ChangeAgentSpeed
-    Parameters: 8
-  timeInState: 0
+    Parameters: 5
+  timeInState: 3.869142
 --- !u!114 &-7486901424565671647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -194,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AttacksInCombo
   parent: {fileID: 11400000}
-  value: 0
+  value: 1
 --- !u!114 &-7003119212788906151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,38 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: StrongAttackChance
   parent: {fileID: 11400000}
-  value: 0.3785748
---- !u!114 &-6851408177822696993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: AreaAttack->Break(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: AreaAttack -> Break
-  from: {fileID: -8375170093663407734}
-  to: {fileID: 6258576535331163029}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -2302318094094493659}
-    type: 2
-    comparison: 2
-    intValue: 0
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: -6851408177822696993}
-  - parameter: {fileID: -1338109786806862060}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.1
-    boolValue: 0
-    parent: {fileID: -6851408177822696993}
+  value: 0.56131464
 --- !u!114 &-6578909526048214687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,30 +145,6 @@ MonoBehaviour:
     floatValue: 0
     boolValue: 0
     parent: {fileID: -6578909526048214687}
---- !u!114 &-6151261420359759997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: SequenceAttack->Attacking(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: SequenceAttack -> Attacking
-  from: {fileID: -1731279091847898285}
-  to: {fileID: 6427508880621793736}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -2302318094094493659}
-    type: 2
-    comparison: 2
-    intValue: 0
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: -6151261420359759997}
 --- !u!114 &-6065879413641606533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: RestingChance
   parent: {fileID: 11400000}
-  value: 0.94563556
+  value: 0.3862856
 --- !u!114 &-6023649603816990685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +181,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 1
+    floatValue: 3.5
     boolValue: 0
     parent: {fileID: -6023649603816990685}
   - parameter: {fileID: -1338109786806862060}
@@ -352,13 +208,6 @@ MonoBehaviour:
   to: {fileID: -3672640481316883401}
   parent: {fileID: 11400000}
   conditions:
-  - parameter: {fileID: -3173042375957694250}
-    type: 1
-    comparison: 5
-    intValue: 0
-    floatValue: 90
-    boolValue: 0
-    parent: {fileID: -5938372302073632858}
   - parameter: {fileID: 5094373519130023342}
     type: 1
     comparison: 0
@@ -446,7 +295,7 @@ MonoBehaviour:
     type: 1
     comparison: 0
     intValue: 0
-    floatValue: 0.1
+    floatValue: 0.3
     boolValue: 0
     parent: {fileID: -5447526827177347234}
 --- !u!114 &-5424614956064814829
@@ -480,76 +329,6 @@ MonoBehaviour:
     floatValue: 0.2
     boolValue: 0
     parent: {fileID: -5424614956064814829}
---- !u!114 &-4679333917381343630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080676dbd395ca94882bbd4c6692ded5, type: 3}
-  m_Name: ThrowingProjectiles(State)
-  m_EditorClassIdentifier: 
-  stateName: ThrowingProjectiles
-  transitions:
-  - {fileID: 7216689529454334798}
-  parent: {fileID: 11400000}
-  OnEnter:
-  - Executer: StateMachine
-    MethodName: SetBool
-    Parameters: IsThrowing,true
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: ThrowingProjectiles
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: SetStatus
-    Parameters: Attacking
-  OnUpdate: []
-  OnExit:
-  - Executer: StateMachine
-    MethodName: SetInt
-    Parameters: ProjectilesThrown,0
-  timeInState: 1.0158954
---- !u!114 &-4456617161886212634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080676dbd395ca94882bbd4c6692ded5, type: 3}
-  m_Name: RunningToProjectiles(State)
-  m_EditorClassIdentifier: 
-  stateName: RunningToProjectiles
-  transitions:
-  - {fileID: -8252920420084026652}
-  parent: {fileID: 11400000}
-  OnEnter:
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: RunToProjectiles
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: ChangeAgentSpeed
-    Parameters: 13
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: SetStatus
-    Parameters: Fleeing
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: PlayAnimation
-    Parameters: Walk,0.1
-  OnUpdate: []
-  OnExit:
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: ChangeAgentSpeed
-    Parameters: 8
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: StopAgent
-    Parameters: 
-  timeInState: 1.479464
 --- !u!114 &-3925195924199516983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -588,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: DistanceToProjectileSpot
   parent: {fileID: 11400000}
-  value: 16.172771
+  value: 16.17554
 --- !u!114 &-3833740265433555036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -603,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceForProjectiles
   parent: {fileID: 11400000}
-  value: 0.31961957
+  value: 0.08383978
 --- !u!114 &-3672640481316883401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -636,38 +415,7 @@ MonoBehaviour:
     Parameters: 
   OnUpdate: []
   OnExit: []
-  timeInState: 0
---- !u!114 &-3292353400377748537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: Resting->RunningToProjectiles(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: Resting -> RunningToProjectiles
-  from: {fileID: 2720560349636597602}
-  to: {fileID: -4456617161886212634}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -3851436909877916909}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 15
-    boolValue: 0
-    parent: {fileID: -3292353400377748537}
-  - parameter: {fileID: -3833740265433555036}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.2
-    boolValue: 0
-    parent: {fileID: -3292353400377748537}
+  timeInState: 0.8844637
 --- !u!114 &-3187388150811122311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +444,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 10
+    floatValue: 5
     boolValue: 0
     parent: {fileID: -3187388150811122311}
 --- !u!114 &-3173042375957694250
@@ -713,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AngleToPlayer
   parent: {fileID: 11400000}
-  value: 14.149907
+  value: -11.27732
 --- !u!114 &-3010156364280426804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,30 +486,6 @@ MonoBehaviour:
     floatValue: 0
     boolValue: 0
     parent: {fileID: -3010156364280426804}
---- !u!114 &-2411935945613457991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: AreaAttack->Attacking(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: AreaAttack -> Attacking
-  from: {fileID: -8375170093663407734}
-  to: {fileID: 6427508880621793736}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -2302318094094493659}
-    type: 2
-    comparison: 2
-    intValue: 0
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: -2411935945613457991}
 --- !u!114 &-2302318094094493659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,7 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: IsAttacking
   parent: {fileID: 11400000}
-  value: 0
+  value: 1
 --- !u!114 &-2280033030889724069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -857,7 +581,7 @@ MonoBehaviour:
     Parameters: 1
   OnUpdate: []
   OnExit: []
-  timeInState: 0.54091805
+  timeInState: 2.3425212
 --- !u!114 &-2143134397046952014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -872,55 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: IsParried
   parent: {fileID: 11400000}
-  value: 1
---- !u!114 &-1731279091847898285
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 080676dbd395ca94882bbd4c6692ded5, type: 3}
-  m_Name: SequenceAttack(State)
-  m_EditorClassIdentifier: 
-  stateName: SequenceAttack
-  transitions:
-  - {fileID: -8979156946072764162}
-  - {fileID: -6151261420359759997}
-  parent: {fileID: 11400000}
-  OnEnter:
-  - Executer: StateMachine
-    MethodName: SetBool
-    Parameters: IsAttacking,true
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: IncrementCombo
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: PlayAnimation
-    Parameters: SequenceAttack,0.1
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: StartSequenceAttack
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: WaitForAttackEnd
-    Parameters: 
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: ChangeAgentSpeed
-    Parameters: 4
-  OnUpdate:
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: Chase
-    Parameters: 
-  OnExit:
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: ChangeAgentSpeed
-    Parameters: 8
-  - Executer: Enemy.Enemy1, Assembly-CSharp
-    MethodName: StopAgent
-    Parameters: 
-  timeInState: 0
+  value: 0
 --- !u!114 &-1338109786806862060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceToBreak
   parent: {fileID: 11400000}
-  value: 0.007861138
+  value: 0.856501
 --- !u!114 &-932811567731586269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1005,7 +681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: TimeSinceRest
   parent: {fileID: 11400000}
-  value: 3.5546737
+  value: 3.5687485
 --- !u!114 &-235305879450084001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +703,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 3
+    floatValue: 5
     boolValue: 0
     parent: {fileID: -235305879450084001}
   - parameter: {fileID: -6065879413641606533}
@@ -1100,16 +776,12 @@ MonoBehaviour:
   - {fileID: 3298594755277012691}
   - {fileID: 5396285495869863491}
   - {fileID: -7514451657018053984}
-  - {fileID: -4456617161886212634}
-  - {fileID: -4679333917381343630}
   - {fileID: 4199334344330925329}
   - {fileID: 6258576535331163029}
   - {fileID: 8947328671275812691}
   - {fileID: -2163350679458180259}
   - {fileID: -3672640481316883401}
-  - {fileID: -1731279091847898285}
-  - {fileID: -8375170093663407734}
-  initialState: {fileID: 2720560349636597602}
+  initialState: {fileID: 6258576535331163029}
   transitions:
   - {fileID: 57230674367910310}
   - {fileID: -3925195924199516983}
@@ -1153,7 +825,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: TimeSinceCharge
   parent: {fileID: 11400000}
-  value: 24.782528
+  value: 18.6882
+--- !u!114 &319873511646401083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
+  m_Name: Attacking->BackAttack(Transition)
+  m_EditorClassIdentifier: 
+  transitionName: Attacking -> BackAttack
+  from: {fileID: 6427508880621793736}
+  to: {fileID: -3672640481316883401}
+  parent: {fileID: 11400000}
+  conditions:
+  - parameter: {fileID: 5094373519130023342}
+    type: 1
+    comparison: 0
+    intValue: 0
+    floatValue: 6
+    boolValue: 0
+    parent: {fileID: 319873511646401083}
+  - parameter: {fileID: 1607808968626616567}
+    type: 1
+    comparison: 0
+    intValue: 0
+    floatValue: 0.8
+    boolValue: 0
+    parent: {fileID: 319873511646401083}
+  - parameter: {fileID: -3173042375957694250}
+    type: 1
+    comparison: 5
+    intValue: 0
+    floatValue: 90
+    boolValue: 0
+    parent: {fileID: 319873511646401083}
 --- !u!114 &496368378583216487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1192,76 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: HealthDelta
   parent: {fileID: 11400000}
-  value: -33
---- !u!114 &1346985068326487843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: Attacking->AreaAttack(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: Attacking -> AreaAttack
-  from: {fileID: 6427508880621793736}
-  to: {fileID: -8375170093663407734}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: 969850246131364226}
-    type: 1
-    comparison: 5
-    intValue: 0
-    floatValue: 300
-    boolValue: 0
-    parent: {fileID: 1346985068326487843}
-  - parameter: {fileID: -7180307674830366772}
-    type: 0
-    comparison: 5
-    intValue: 5
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: 1346985068326487843}
-  - parameter: {fileID: 4610692036006202743}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.2
-    boolValue: 0
-    parent: {fileID: 1346985068326487843}
---- !u!114 &1383735906964022454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: Escaping->RunningToProjectiles(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: Escaping -> RunningToProjectiles
-  from: {fileID: -7514451657018053984}
-  to: {fileID: -4456617161886212634}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -3851436909877916909}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 15
-    boolValue: 0
-    parent: {fileID: 1383735906964022454}
-  - parameter: {fileID: -3833740265433555036}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.5
-    boolValue: 0
-    parent: {fileID: 1383735906964022454}
+  value: 47
 --- !u!114 &1527016721630378862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1287,6 +928,9 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: SetStatus
     Parameters: Chasing
+  - Executer: Enemy.Enemy1, Assembly-CSharp
+    MethodName: ChangeAgentSpeed
+    Parameters: 5
   OnUpdate:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: Chase
@@ -1295,7 +939,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAgent
     Parameters: 
-  timeInState: 0.41060486
+  timeInState: 0.7194262
 --- !u!114 &1571725014341316700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1334,7 +978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: BackAttackChance
   parent: {fileID: 11400000}
-  value: 0.7706528
+  value: 0.84913266
 --- !u!114 &1832720012643884353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,7 +1046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: SequenceChance
   parent: {fileID: 11400000}
-  value: 0.12450911
+  value: 0.6081725
 --- !u!114 &2080424734486124463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1496,7 +1140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: BreakTime
   parent: {fileID: 11400000}
-  value: 0
+  value: 3.5032322
 --- !u!114 &2720560349636597602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,7 +1157,6 @@ MonoBehaviour:
   transitions:
   - {fileID: 6499677422616439043}
   - {fileID: -235305879450084001}
-  - {fileID: -3292353400377748537}
   parent: {fileID: 11400000}
   OnEnter:
   - Executer: StateMachine
@@ -1539,7 +1182,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAI
     Parameters: 1
-  timeInState: 3.72753
+  timeInState: 5.1207647
 --- !u!114 &2885115708544357640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1568,34 +1211,10 @@ MonoBehaviour:
     Parameters: 
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: PlayAnimation
-    Parameters: JumpAttack,0.1
+    Parameters: JumpAttack,0
   OnUpdate: []
   OnExit: []
-  timeInState: 3.0677319
---- !u!114 &3268708610165693787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: Charge->Attacking(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: Charge -> Attacking
-  from: {fileID: 3504050260275569787}
-  to: {fileID: 6427508880621793736}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: 5094373519130023342}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 5
-    boolValue: 0
-    parent: {fileID: 3268708610165693787}
+  timeInState: 2.4087102
 --- !u!114 &3298594755277012691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1628,7 +1247,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAI
     Parameters: 0.5
-  timeInState: 1.2958251
+  timeInState: 1.5089957
 --- !u!114 &3504050260275569787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1643,19 +1262,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stateName: Charge
   transitions:
-  - {fileID: 3268708610165693787}
   - {fileID: -910956208495712871}
   parent: {fileID: 11400000}
   OnEnter:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: ChangeAgentSpeed
-    Parameters: 15
+    Parameters: 10
   - Executer: StateMachine
     MethodName: SetFloat
     Parameters: TimeSinceCharge,0
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: PlayAnimation
     Parameters: Charge,0.2
+  - Executer: Enemy.Enemy1, Assembly-CSharp
+    MethodName: AlterChargeHitBox
+    Parameters: true
   OnUpdate:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: Chase
@@ -1663,11 +1284,14 @@ MonoBehaviour:
   OnExit:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: ChangeAgentSpeed
-    Parameters: 8
+    Parameters: 5
   - Executer: StateMachine
     MethodName: SetFloat
     Parameters: TimeSinceCharge,0
-  timeInState: 1.1058716
+  - Executer: Enemy.Enemy1, Assembly-CSharp
+    MethodName: AlterChargeHitBox
+    Parameters: false
+  timeInState: 5.00331
 --- !u!114 &3995806996338220359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1751,52 +1375,7 @@ MonoBehaviour:
     Parameters: .25
   OnUpdate: []
   OnExit: []
-  timeInState: 0.75462157
---- !u!114 &4260759442579028300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: Attacking->SequenceAttack(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: Attacking -> SequenceAttack
-  from: {fileID: 6427508880621793736}
-  to: {fileID: -1731279091847898285}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -3173042375957694250}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 90
-    boolValue: 0
-    parent: {fileID: 4260759442579028300}
-  - parameter: {fileID: -3173042375957694250}
-    type: 1
-    comparison: 5
-    intValue: 0
-    floatValue: -90
-    boolValue: 0
-    parent: {fileID: 4260759442579028300}
-  - parameter: {fileID: 969850246131364226}
-    type: 1
-    comparison: 5
-    intValue: 0
-    floatValue: 200
-    boolValue: 0
-    parent: {fileID: 4260759442579028300}
-  - parameter: {fileID: 2050653432526691786}
-    type: 1
-    comparison: 0
-    intValue: 0
-    floatValue: 0.5
-    boolValue: 0
-    parent: {fileID: 4260759442579028300}
+  timeInState: 0.57747906
 --- !u!114 &4346749150601176214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1825,7 +1404,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 10
+    floatValue: 5
     boolValue: 0
     parent: {fileID: 4346749150601176214}
 --- !u!114 &4610692036006202743
@@ -1842,7 +1421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AreaAttackChance
   parent: {fileID: 11400000}
-  value: 0.645737
+  value: 0.3010619
 --- !u!114 &4700513866151777259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1857,7 +1436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: PlayerAvgDeltaPos
   parent: {fileID: 11400000}
-  value: 2.0498166
+  value: 2.4902523
 --- !u!114 &4701797197034955880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1934,7 +1513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: Distance
   parent: {fileID: 11400000}
-  value: 9.667013
+  value: 6.067796
 --- !u!114 &5396285495869863491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1950,10 +1529,13 @@ MonoBehaviour:
   stateName: SwitchingStage
   transitions: []
   parent: {fileID: 11400000}
-  OnEnter: []
+  OnEnter:
+  - Executer: Enemy.Enemy1, Assembly-CSharp
+    MethodName: PlayAnimation
+    Parameters: NextStage,0.1
   OnUpdate: []
   OnExit: []
-  timeInState: 0
+  timeInState: 2.9875696
 --- !u!114 &6005111185821024854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1968,7 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceToEscape
   parent: {fileID: 11400000}
-  value: 0.65591985
+  value: 0.33759037
 --- !u!114 &6258576535331163029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1989,12 +1571,15 @@ MonoBehaviour:
   - Executer: StateMachine
     MethodName: SetFloat
     Parameters: BreakTime,0
+  - Executer: Enemy.Enemy1, Assembly-CSharp
+    MethodName: PlayAnimation
+    Parameters: Break,0
   OnUpdate:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: CountBreakTime
     Parameters: 
   OnExit: []
-  timeInState: 1.0053468
+  timeInState: 3.5032322
 --- !u!114 &6387417298893473783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2023,7 +1608,7 @@ MonoBehaviour:
     type: 1
     comparison: 0
     intValue: 0
-    floatValue: 0.1
+    floatValue: 0.05
     boolValue: 0
     parent: {fileID: 6387417298893473783}
 --- !u!114 &6427508880621793736
@@ -2043,9 +1628,8 @@ MonoBehaviour:
   - {fileID: 8318574653391136703}
   - {fileID: 2244927503519869691}
   - {fileID: -7486901424565671647}
-  - {fileID: 1346985068326487843}
-  - {fileID: 4260759442579028300}
   - {fileID: -5938372302073632858}
+  - {fileID: 319873511646401083}
   - {fileID: -2280033030889724069}
   - {fileID: 4701797197034955880}
   - {fileID: 9108456301642120987}
@@ -2056,7 +1640,7 @@ MonoBehaviour:
     Parameters: Attacking
   OnUpdate: []
   OnExit: []
-  timeInState: 0.0066926
+  timeInState: 0.0037002
 --- !u!114 &6499677422616439043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2078,7 +1662,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 3
+    floatValue: 5
     boolValue: 0
     parent: {fileID: 6499677422616439043}
   - parameter: {fileID: 5094373519130023342}
@@ -2128,30 +1712,6 @@ MonoBehaviour:
     MethodName: StopAI
     Parameters: 1
   timeInState: 0
---- !u!114 &7216689529454334798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4cdac13aa7cce748974293674777834, type: 3}
-  m_Name: ThrowingProjectiles->Resting(Transition)
-  m_EditorClassIdentifier: 
-  transitionName: ThrowingProjectiles -> Resting
-  from: {fileID: -4679333917381343630}
-  to: {fileID: 2720560349636597602}
-  parent: {fileID: 11400000}
-  conditions:
-  - parameter: {fileID: -7325078061909382370}
-    type: 2
-    comparison: 2
-    intValue: 0
-    floatValue: 0
-    boolValue: 0
-    parent: {fileID: 7216689529454334798}
 --- !u!114 &7496725404235033055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2166,7 +1726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: RepulsingChance
   parent: {fileID: 11400000}
-  value: 0.33961788
+  value: 0.18018498
 --- !u!114 &7857009748711810827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2205,7 +1765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: JumpAttackChance
   parent: {fileID: 11400000}
-  value: 0.2510201
+  value: 0.084083326
 --- !u!114 &8318574653391136703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +1787,7 @@ MonoBehaviour:
     type: 1
     comparison: 5
     intValue: 0
-    floatValue: 300
+    floatValue: 80
     boolValue: 0
     parent: {fileID: 8318574653391136703}
   - parameter: {fileID: -7180307674830366772}
@@ -2272,7 +1832,7 @@ MonoBehaviour:
     type: 1
     comparison: 0
     intValue: 0
-    floatValue: 0.1
+    floatValue: 0.5
     boolValue: 0
     parent: {fileID: 8633697757220168679}
 --- !u!114 &8733470166233641836
@@ -2289,7 +1849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: SwitchingStage
   parent: {fileID: 11400000}
-  value: 0
+  value: 1
 --- !u!114 &8947328671275812691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2322,7 +1882,7 @@ MonoBehaviour:
     Parameters: 
   OnUpdate: []
   OnExit: []
-  timeInState: 4.367969
+  timeInState: 3.871785
 --- !u!114 &9108456301642120987
 MonoBehaviour:
   m_ObjectHideFlags: 0

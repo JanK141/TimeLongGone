@@ -9,9 +9,9 @@ namespace Enemy
     {
         [SerializeField] AttackStatus status;
         [SerializeField] [Range(0,1)] float pushFactor;
-        [SerializeField] bool setInactiveAfterCol = true;
+        [SerializeField] protected bool setInactiveAfterCol = true;
 
-        private void OnTriggerEnter(Collider other)
+        protected void OnTriggerEnter(Collider other)
         {
             PlayerHitHandler player;
             if(other.TryGetComponent<PlayerHitHandler>(out player))

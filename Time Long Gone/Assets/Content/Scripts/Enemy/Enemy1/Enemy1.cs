@@ -31,6 +31,8 @@ namespace Enemy
         [SerializeField][Range(0, 1)] private float VulnerableOnParryChance;
         [SerializeField] private AnimationCurve jumpHeightCurve;
         [SerializeField] private AnimationCurve jumpDistanceCurve;
+        [SerializeField] private ChargeHitbox ChargeHitbox;
+        [SerializeField] private Transform model;
         private List<StateMachine> Stages;
 
         public float Health { get; private set; }
@@ -86,6 +88,7 @@ namespace Enemy
             if (!ActiveAI || IsRewinding.Value) return;
             animator.SetFloat("Randomizer", UnityEngine.Random.value);
             animator.SetFloat("MovementSpeed", navAgent.velocity.magnitude);
+            animator.SetInteger("Stage", Stage);
             UpdateSM();
             currSM.Tick(this);
         }
@@ -145,7 +148,7 @@ namespace Enemy
             var startpos = transform.position;
             var distance = Vector3.Distance(transform.position, pos);
             //var time = distance / 15;
-            var time = 2.05f;
+            var time = 1.4f;
             //animator.SetFloat("JumpSpeed", 1.25f / time);
             float currTime = 0;
             while (currTime < time)
@@ -225,7 +228,7 @@ namespace Enemy
                     proj.transform.SetParent(ProjectilesParent, true);
                     rb = proj.GetComponent<Rigidbody>();
                     rb.detectCollisions = false;
-                    proj.transform.position = new Vector3(ProjectilesParent.position.x, ProjectilesParent.position.y, ProjectilesParent.position.z);
+                    proj.transform.position = new Vector3(ProjectilesParent.position.x+0.5f, ProjectilesParent.position.y, ProjectilesParent.position.z);
                     yield return new WaitForSeconds(1f);
                 }
                 else
@@ -235,7 +238,7 @@ namespace Enemy
                     rb.detectCollisions = false;
                     restoring = false;
                 }
-                transform.DOLookAt(player.transform.position, 0.5f);
+                transform.DOLookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.5f);
                 if (Vector3.SignedAngle((player.transform.position - transform.position), transform.forward, Vector3.up) > 0) 
                     animator.Play("RotatingRight");
                 else animator.Play("RotatingLeft");
@@ -264,7 +267,11 @@ namespace Enemy
         #endregion
 
         #region Attacks
-        public void IncrementCombo() => currSM.SetInt("AttacksInCombo", currSM.GetInt("AttacksInCombo") + 1);
+        public void IncrementCombo() { 
+            currSM.SetInt("AttacksInCombo", currSM.GetInt("AttacksInCombo") + 1);
+            if (currSM.GetInt("AttacksInCombo") > 10)
+                print("somethings wrong");
+        }
         public void BasicAttack()
         {
             animator.SetTrigger("BasicAttack");
@@ -280,6 +287,8 @@ namespace Enemy
         public void WaitForAttackEnd() => StartCoroutine(ResetAttack());
         public void StartSequenceAttack() => StartCoroutine(SequenceAttack());
         public void ThrowingProjectiles() => StartCoroutine(ThrowProjectiles());
+        public void AlterChargeHitBox(bool active) => ChargeHitbox.gameObject.SetActive(active);
+        public void ChargeHit() => currSM.SetFloat("TimeSinceCharge", 100f);
         #endregion
 
         #region Movement
@@ -366,7 +375,7 @@ namespace Enemy
             {
                 if (!animator.IsInTransition(0) && animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.98f)
                 {
-                    yield return new WaitForSeconds(UnityEngine.Random.value);
+                    //yield return new WaitForSeconds(UnityEngine.Random.value);
                     currSM.SetBool("IsAttacking", false);
                     yield break;
                 }
@@ -417,7 +426,9 @@ namespace Enemy
             if (Stage + 1 >= Stages.Count) yield break;
             currSM.SetBool("SwitchingStage", true);
             Status = EnemyStatus.Untouchable;
-            yield return new WaitForSeconds(3f);
+            var mat = model.GetComponent<Renderer>().material;
+            mat.DOFloat(Mathf.Clamp01(mat.GetFloat("Vector1_1d9bba632cdf45e79180a3146c4ff625") * 2), "Vector1_1d9bba632cdf45e79180a3146c4ff625", 1f);
+            yield return new WaitForSeconds(5f);
             Status = EnemyStatus.Passive;
             Stage++;
             currSM = Stages[Stage];
