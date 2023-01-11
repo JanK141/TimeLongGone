@@ -32,10 +32,15 @@ namespace Enemy
         private List<StateMachine> Stages;
 
         private bool beingHit = false;
+
         public float GetMaxHealth => MaxHealth;
         public bool GetHurtByPlayer => beingHit;
         public float Health { get; private set; }
+
         public EnemyStatus Status { get; private set; }
+
+        public void ChangeEnemyStatus(EnemyStatus status) => Status = status;
+
         public int Stage { get; private set; }
         public bool ActiveAI { get; set; } = true;
 

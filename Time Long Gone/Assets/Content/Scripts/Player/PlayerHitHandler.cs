@@ -16,14 +16,19 @@ namespace Player
         private FloatVariable TimeBetweenEntries;
 
         private Player player;
+
         private PlayerVariables variables;
         private PlayerTimeControl control;
+        public bool ReceiveHitActive { get; set; }
         private bool ignoreHit = false;
+        private bool isHit = false;
+        public bool IsHit => isHit;
         private LinkedList<TimeEntry> timeEntries = new LinkedList<TimeEntry>();
         private int maxentries;
         private int entries;
 
         [SerializeField] private AnimationCurve pushCurve;
+        public AnimationCurve GetPushCurve => pushCurve;
 
         private void Awake()
         {
@@ -31,6 +36,7 @@ namespace Player
             TimeToRemember = GameLogic.Instance.TimeToRemember;
             TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
         }
+
         private void Start()
         {
             entries = 0;
@@ -44,20 +50,22 @@ namespace Player
         public void ProcessHit(Enemy.AttackStatus status, Collider weaponHitBox, float pushFactor)
         {
             if (IsRewinding.Value) return;
+            isHit = true;
             print("HIT by " + status.ToString());
+            isHit = false;
             if (ignoreHit) return;
             switch (status)
             {
                 case Enemy.AttackStatus.Regular:
                     if (player.IsBlocking)
                     {
-                        if(Time.time - player.BlockTime < variables.parryWindow)
+                        if (Time.time - player.BlockTime < variables.parryWindow)
                         {
                             print("Parried");
                             control.Mana += variables.manaReward;
                             player.combat.enemy.ReceiveParry();
                             StartCoroutine(NoCollision(weaponHitBox));
-                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -65,11 +73,12 @@ namespace Player
                         {
                             print("Blocked");
                             StartCoroutine(NoCollision(weaponHitBox));
-                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/2));
+                            StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
                             player.combat.ContinueCombo(0);
                             return;
                         }
-                    }else if (player.IsInvincible)
+                    }
+                    else if (player.IsInvincible)
                     {
                         print("Dodged");
                         control.Mana += variables.manaReward;
@@ -77,6 +86,7 @@ namespace Player
                         player.combat.ContinueCombo(0);
                         return;
                     }
+
                     break;
                 case Enemy.AttackStatus.Sequence:
                     if (player.IsBlocking)
@@ -108,6 +118,7 @@ namespace Player
                         player.combat.ContinueCombo(0);
                         return;
                     }
+
                     break;
                 case Enemy.AttackStatus.Unblockable:
                     if (player.IsBlocking)
@@ -131,12 +142,14 @@ namespace Player
                         player.combat.ContinueCombo(0);
                         return;
                     }
+
                     break;
                 case Enemy.AttackStatus.Force:
                     StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
                     StartCoroutine(NoCollision(weaponHitBox));
                     return;
             }
+            if ( ! ReceiveHitActive) return;
             print("Death");
             player.combat.ContinueCombo(-1);
             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
@@ -147,9 +160,11 @@ namespace Player
 
         IEnumerator NoCollision(Collider weaponHitBox)
         {
-            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, true);
+            if (player.combat.enemy != null)
+                Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, true);
             yield return new WaitForSeconds(variables.postHitNoCollision);
-            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, false);
+            if (player.combat.enemy != null)
+                Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, false);
         }
 
         public bool isPushing = false;
@@ -167,18 +182,22 @@ namespace Player
             var y = variables.pushVelocity * factor;
             var initVel = variables.pushVelocity * factor;
             time = timeToStart;
-            while(time < variables.pushTime)
+            while (time < variables.pushTime)
             {
-                player.velocity += pushCurve.Evaluate(time/variables.pushTime) * direction * initVel;
-                if(time<variables.pushTime/6)player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
+                player.velocity += pushCurve.Evaluate(time / variables.pushTime) * direction * initVel;
+                if (time < variables.pushTime / 6)
+                    player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
                 time += Time.deltaTime;
                 yield return null;
             }
+
             isPushing = false;
         }
+
         private void ResetIgnore() => ignoreHit = false;
         void OnEnable() => IsRewinding.OnValueChange += HandleRewind;
         void OnDisable() => IsRewinding.OnValueChange -= HandleRewind;
+
         private void HandleRewind()
         {
             if (IsRewinding.Value)
@@ -210,6 +229,7 @@ namespace Player
                         timeEntries.RemoveLast();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
                 else
@@ -222,6 +242,7 @@ namespace Player
                         timeEntries.RemoveFirst();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
             }
@@ -241,9 +262,10 @@ namespace Player
                 this.pushFactor = pushFactor;
                 this.pushTime = pushTime;
             }
+
             public TimeEntry(bool isPushing)
             {
-                this.isPushing=isPushing;
+                this.isPushing = isPushing;
                 pushSource = null;
                 pushFactor = 0;
                 pushTime = 0;
