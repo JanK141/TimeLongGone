@@ -10,6 +10,6 @@ namespace Content.Scripts.Camera
         [SerializeField] private CinemachineVirtualCamera altVcam;
 
         private void Awake() => Instance = this;
-        public void Switch(bool x) => altVcam.gameObject.SetActive(x);
+        public void Switch(bool x) => altVcam.enabled = x;
     }
 }

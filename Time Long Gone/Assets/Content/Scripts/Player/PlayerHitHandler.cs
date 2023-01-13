@@ -44,9 +44,46 @@ namespace Player
         public void ProcessHit(Enemy.AttackStatus status, Collider weaponHitBox, float pushFactor)
         {
             if (IsRewinding.Value) return;
-            print("HIT by " + status.ToString());
             if (ignoreHit) return;
-            switch (status)
+            if (status != Enemy.AttackStatus.Unstoppable)
+            {
+                if (status == Enemy.AttackStatus.Force)
+                {
+                    StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
+                    StartCoroutine(NoCollision(weaponHitBox));
+                    return;
+                }
+                else if (player.IsInvincible && (status == Enemy.AttackStatus.Regular || status == Enemy.AttackStatus.Sequence || status == Enemy.AttackStatus.Unblockable))
+                {
+                    control.Mana += variables.manaReward;
+                    StartCoroutine(NoCollision(weaponHitBox));
+                    player.combat.ContinueCombo(0);
+                    return;
+                }
+                else if (player.IsBlocking)
+                {
+                    if (Time.time - player.BlockTime < variables.parryWindow)
+                    {
+                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x, player.transform.position.y, weaponHitBox.transform.position.z));
+                        player.animator.Play("Parry");
+                        control.Mana += variables.manaReward;
+                        player.combat.enemy.ReceiveParry();
+                        StartCoroutine(NoCollision(weaponHitBox));
+                        player.combat.ContinueCombo(0);
+                        return;
+                    }
+                    else if (status == Enemy.AttackStatus.Regular)
+                    {
+                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x, player.transform.position.y, weaponHitBox.transform.position.z));
+                        StartCoroutine(NoCollision(weaponHitBox));
+                        StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
+                        player.combat.ContinueCombo(0);
+                        return;
+                    }
+                }
+            }
+
+            /*switch (status)
             {
                 case Enemy.AttackStatus.Regular:
                     if (player.IsBlocking)
@@ -58,7 +95,6 @@ namespace Player
                             control.Mana += variables.manaReward;
                             player.combat.enemy.ReceiveParry();
                             StartCoroutine(NoCollision(weaponHitBox));
-                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor/3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -89,7 +125,6 @@ namespace Player
                             player.combat.enemy.ReceiveParry();
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
-                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -121,7 +156,6 @@ namespace Player
                             player.combat.enemy.ReceiveParry();
                             control.Mana += variables.manaReward;
                             StartCoroutine(NoCollision(weaponHitBox));
-                            //StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 3));
                             player.combat.ContinueCombo(0);
                             return;
                         }
@@ -139,8 +173,8 @@ namespace Player
                     StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
                     StartCoroutine(NoCollision(weaponHitBox));
                     return;
-            }
-            print("Death");
+            }*/
+
             player.combat.ContinueCombo(-1);
             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
             StartCoroutine(NoCollision(weaponHitBox));

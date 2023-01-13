@@ -12,6 +12,11 @@ namespace Player.States
 
         public override void OnStateEnter(bool playAnimation)
         {
+            if(Vector3.Distance(player.transform.position, (player.combat.enemy as MonoBehaviour).transform.position) < player.variables.attackDistance + player.variables.attackRadius*2)
+            {
+                var t = (player.combat.enemy as MonoBehaviour).transform.position;
+                player.transform.LookAt(new Vector3(t.x, player.transform.position.y, t.z));
+            }
             time = 0;
             player.move = player.MoveSlow;
             player.rotate = player.SlowRotate;

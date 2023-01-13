@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AttacksInCombo
   parent: {fileID: 11400000}
-  value: 1
+  value: 0
 --- !u!114 &-7003119212788906151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: StrongAttackChance
   parent: {fileID: 11400000}
-  value: 0.56131464
+  value: 0.45740837
 --- !u!114 &-6578909526048214687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: RestingChance
   parent: {fileID: 11400000}
-  value: 0.3862856
+  value: 0.1275784
 --- !u!114 &-6023649603816990685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: DistanceToProjectileSpot
   parent: {fileID: 11400000}
-  value: 16.17554
+  value: 18.221935
 --- !u!114 &-3833740265433555036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,7 +382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceForProjectiles
   parent: {fileID: 11400000}
-  value: 0.08383978
+  value: 0.40568823
 --- !u!114 &-3672640481316883401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,7 +415,7 @@ MonoBehaviour:
     Parameters: 
   OnUpdate: []
   OnExit: []
-  timeInState: 0.8844637
+  timeInState: 1.4272995
 --- !u!114 &-3187388150811122311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AngleToPlayer
   parent: {fileID: 11400000}
-  value: -11.27732
+  value: 16.714611
 --- !u!114 &-3010156364280426804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: IsAttacking
   parent: {fileID: 11400000}
-  value: 1
+  value: 0
 --- !u!114 &-2280033030889724069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,7 +581,7 @@ MonoBehaviour:
     Parameters: 1
   OnUpdate: []
   OnExit: []
-  timeInState: 2.3425212
+  timeInState: 2.4241147
 --- !u!114 &-2143134397046952014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceToBreak
   parent: {fileID: 11400000}
-  value: 0.856501
+  value: 0.34949985
 --- !u!114 &-932811567731586269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: TimeSinceRest
   parent: {fileID: 11400000}
-  value: 3.5687485
+  value: 3.9925148
 --- !u!114 &-235305879450084001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -825,7 +825,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: TimeSinceCharge
   parent: {fileID: 11400000}
-  value: 18.6882
+  value: 33.256115
 --- !u!114 &319873511646401083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: HealthDelta
   parent: {fileID: 11400000}
-  value: 47
+  value: 0
 --- !u!114 &1527016721630378862
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,7 +939,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAgent
     Parameters: 
-  timeInState: 0.7194262
+  timeInState: 0.0159757
 --- !u!114 &1571725014341316700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -978,7 +978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: BackAttackChance
   parent: {fileID: 11400000}
-  value: 0.84913266
+  value: 0.5318678
 --- !u!114 &1832720012643884353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,7 +1046,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: SequenceChance
   parent: {fileID: 11400000}
-  value: 0.6081725
+  value: 0.72931904
 --- !u!114 &2080424734486124463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: BreakTime
   parent: {fileID: 11400000}
-  value: 3.5032322
+  value: 4.0985336
 --- !u!114 &2720560349636597602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,7 +1182,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAI
     Parameters: 1
-  timeInState: 5.1207647
+  timeInState: 4.810795
 --- !u!114 &2885115708544357640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1214,7 +1214,7 @@ MonoBehaviour:
     Parameters: JumpAttack,0
   OnUpdate: []
   OnExit: []
-  timeInState: 2.4087102
+  timeInState: 2.4460642
 --- !u!114 &3298594755277012691
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAI
     Parameters: 0.5
-  timeInState: 1.5089957
+  timeInState: 0.4648612
 --- !u!114 &3504050260275569787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: AlterChargeHitBox
     Parameters: false
-  timeInState: 5.00331
+  timeInState: 5.0242343
 --- !u!114 &3995806996338220359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,7 +1375,7 @@ MonoBehaviour:
     Parameters: .25
   OnUpdate: []
   OnExit: []
-  timeInState: 0.57747906
+  timeInState: 3.7173429
 --- !u!114 &4346749150601176214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: AreaAttackChance
   parent: {fileID: 11400000}
-  value: 0.3010619
+  value: 0.29204622
 --- !u!114 &4700513866151777259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1436,7 +1436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: PlayerAvgDeltaPos
   parent: {fileID: 11400000}
-  value: 2.4902523
+  value: 0.9379342
 --- !u!114 &4701797197034955880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: Distance
   parent: {fileID: 11400000}
-  value: 6.067796
+  value: 2.9227524
 --- !u!114 &5396285495869863491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,7 +1535,7 @@ MonoBehaviour:
     Parameters: NextStage,0.1
   OnUpdate: []
   OnExit: []
-  timeInState: 2.9875696
+  timeInState: 3.9925148
 --- !u!114 &6005111185821024854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1550,7 +1550,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: ChanceToEscape
   parent: {fileID: 11400000}
-  value: 0.33759037
+  value: 0.07113791
 --- !u!114 &6258576535331163029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1579,7 +1579,7 @@ MonoBehaviour:
     MethodName: CountBreakTime
     Parameters: 
   OnExit: []
-  timeInState: 3.5032322
+  timeInState: 4.0985336
 --- !u!114 &6387417298893473783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1640,7 +1640,7 @@ MonoBehaviour:
     Parameters: Attacking
   OnUpdate: []
   OnExit: []
-  timeInState: 0.0037002
+  timeInState: 0.012964846
 --- !u!114 &6499677422616439043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1699,7 +1699,7 @@ MonoBehaviour:
   OnEnter:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: PlayAnimation
-    Parameters: StunStart,0.1
+    Parameters: StunStart,0
   - Executer: StateMachine
     MethodName: SetInt
     Parameters: AttacksInCombo,0
@@ -1707,11 +1707,11 @@ MonoBehaviour:
   OnExit:
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: PlayAnimation
-    Parameters: StunEnd,0.1
+    Parameters: StunEnd,0
   - Executer: Enemy.Enemy1, Assembly-CSharp
     MethodName: StopAI
     Parameters: 1
-  timeInState: 0
+  timeInState: 3.5432007
 --- !u!114 &7496725404235033055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1726,7 +1726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: RepulsingChance
   parent: {fileID: 11400000}
-  value: 0.18018498
+  value: 0.011398316
 --- !u!114 &7857009748711810827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1765,7 +1765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paramName: JumpAttackChance
   parent: {fileID: 11400000}
-  value: 0.084083326
+  value: 0.8761606
 --- !u!114 &8318574653391136703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1882,7 +1882,7 @@ MonoBehaviour:
     Parameters: 
   OnUpdate: []
   OnExit: []
-  timeInState: 3.871785
+  timeInState: 0.0461829
 --- !u!114 &9108456301642120987
 MonoBehaviour:
   m_ObjectHideFlags: 0
