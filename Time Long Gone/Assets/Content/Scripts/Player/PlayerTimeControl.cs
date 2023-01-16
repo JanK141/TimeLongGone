@@ -1,9 +1,11 @@
+using Cinemachine;
 using Content.Scripts.Variables;
 using Enemy;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -14,6 +16,7 @@ namespace Player
         [SerializeField] private float targetDeathScale;
         [SerializeField] private float rewindTimeScale;
         [SerializeField] private float timeToInterpolate;
+        [SerializeField] private Image slowmoOverlay;
 
         private float mana;
         public float Mana { get => mana; set{ mana = Mathf.Clamp(value, 0, MaxMana); } }
@@ -24,6 +27,7 @@ namespace Player
         private Player player;
         private PlayerVariables variables;
         private TimeState currState;
+        private CinemachineBrain cam;
 
         private void Awake()
         {
@@ -31,6 +35,7 @@ namespace Player
         }
         void Start()
         {
+            cam = Camera.main.GetComponent<CinemachineBrain>();
             player = GetComponent<Player>();
             variables = player.variables;
             MaxMana = variables.mana;
@@ -41,6 +46,8 @@ namespace Player
         void Update()
         {
             if (!ActiveTime) return;
+            (cam.ActiveVirtualCamera as CinemachineVirtualCamera).m_Lens.FieldOfView = 80 + Mathf.Abs(1 - Time.timeScale) * 10;
+            slowmoOverlay.color = new Color(1, 1, 1, currState is DeathFlow ? 0 : Mathf.Abs(1 - Time.timeScale)/10);
             currState.Tick(this);
             var state = currState.Evaluate(this);
             if(state != null)

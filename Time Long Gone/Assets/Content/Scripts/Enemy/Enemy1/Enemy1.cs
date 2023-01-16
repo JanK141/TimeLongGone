@@ -33,6 +33,7 @@ namespace Enemy
         [SerializeField] private AnimationCurve jumpDistanceCurve;
         [SerializeField] private ChargeHitbox ChargeHitbox;
         [SerializeField] private Transform model;
+        [SerializeField] internal SoundPlayer sound;
         private List<StateMachine> Stages;
 
         public float Health { get; private set; }
@@ -53,6 +54,8 @@ namespace Enemy
         private LinkedList<TimeEntry> timeEntries = new LinkedList<TimeEntry>();
         private int maxentries;
         private int entries;
+
+        public UnityEvent OnDeath;
 
         void Awake()
         {
@@ -423,7 +426,10 @@ namespace Enemy
         }
         IEnumerator NextStage()
         {
-            if (Stage + 1 >= Stages.Count) yield break;
+            if (Stage + 1 >= Stages.Count) {
+                OnDeath.Invoke();
+                yield break; 
+            }
             currSM.SetBool("SwitchingStage", true);
             Status = EnemyStatus.Untouchable;
             var mat = model.GetComponent<Renderer>().material;

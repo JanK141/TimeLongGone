@@ -70,6 +70,7 @@ namespace Player
                         player.combat.enemy.ReceiveParry();
                         StartCoroutine(NoCollision(weaponHitBox));
                         player.combat.ContinueCombo(0);
+                        player.sound.Play("Block");
                         return;
                     }
                     else if (status == Enemy.AttackStatus.Regular)
@@ -78,6 +79,7 @@ namespace Player
                         StartCoroutine(NoCollision(weaponHitBox));
                         StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
                         player.combat.ContinueCombo(0);
+                        player.sound.Play("Parry");
                         return;
                     }
                 }
@@ -175,6 +177,7 @@ namespace Player
                     return;
             }*/
 
+            player.sound.Play("Kill");
             player.combat.ContinueCombo(-1);
             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
             StartCoroutine(NoCollision(weaponHitBox));

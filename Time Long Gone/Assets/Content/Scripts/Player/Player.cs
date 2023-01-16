@@ -18,6 +18,7 @@ namespace Player
         [SerializeField] private LayerMask ground;
         [SerializeField] internal LayerMask enemy;
         [SerializeField] internal Animator animator;
+        [SerializeField] internal SoundPlayer sound;
 
         #region Dependencies
 
