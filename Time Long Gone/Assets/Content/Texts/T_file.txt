@@ -25,7 +25,7 @@ Combos and Finishers
 \
 „I hit him, but I feel like my sword is trying to cut through stone. His body is impossibly hard. I need to wear it down before I can truly hurt him!”
 \
-Consecutive Attacks increase your combo meter /strzałka?/, but if you don’t land any hits for a long enough time, it will reset. The higher your Combo meter, the more damage you will deal!
+Consecutive Attacks increase your combo meter, but if you don’t land any hits for a long enough time, it will reset. The higher your Combo meter, the more damage you will deal!
 
 Try raising your combo meter to 10!
 /

@@ -24,6 +24,9 @@ namespace Player
         private int entries;
 
         [SerializeField] private AnimationCurve pushCurve;
+        public AnimationCurve GetPushCurve => pushCurve;
+
+        public bool ReceiveHitActive { get; set; }
 
         private void Awake()
         {
@@ -31,6 +34,7 @@ namespace Player
             TimeToRemember = GameLogic.Instance.TimeToRemember;
             TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
         }
+
         private void Start()
         {
             entries = 0;
@@ -53,7 +57,9 @@ namespace Player
                     StartCoroutine(NoCollision(weaponHitBox));
                     return;
                 }
-                else if (player.IsInvincible && (status == Enemy.AttackStatus.Regular || status == Enemy.AttackStatus.Sequence || status == Enemy.AttackStatus.Unblockable))
+                else if (player.IsInvincible && (status == Enemy.AttackStatus.Regular ||
+                                                 status == Enemy.AttackStatus.Sequence ||
+                                                 status == Enemy.AttackStatus.Unblockable))
                 {
                     control.Mana += variables.manaReward;
                     StartCoroutine(NoCollision(weaponHitBox));
@@ -64,7 +70,8 @@ namespace Player
                 {
                     if (Time.time - player.BlockTime < variables.parryWindow)
                     {
-                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x, player.transform.position.y, weaponHitBox.transform.position.z));
+                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x,
+                            player.transform.position.y, weaponHitBox.transform.position.z));
                         player.animator.Play("Parry");
                         control.Mana += variables.manaReward;
                         player.combat.enemy.ReceiveParry();
@@ -74,7 +81,8 @@ namespace Player
                     }
                     else if (status == Enemy.AttackStatus.Regular)
                     {
-                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x, player.transform.position.y, weaponHitBox.transform.position.z));
+                        player.transform.LookAt(new Vector3(weaponHitBox.transform.position.x,
+                            player.transform.position.y, weaponHitBox.transform.position.z));
                         StartCoroutine(NoCollision(weaponHitBox));
                         StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor / 2));
                         player.combat.ContinueCombo(0);
@@ -174,7 +182,7 @@ namespace Player
                     StartCoroutine(NoCollision(weaponHitBox));
                     return;
             }*/
-
+            if ( ! ReceiveHitActive) return;
             player.combat.ContinueCombo(-1);
             StartCoroutine(PushPlayer(weaponHitBox.transform, pushFactor));
             StartCoroutine(NoCollision(weaponHitBox));
@@ -185,9 +193,11 @@ namespace Player
 
         IEnumerator NoCollision(Collider weaponHitBox)
         {
-            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, true);
+            if (player.combat.enemy != null)
+                Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, true);
             yield return new WaitForSeconds(variables.postHitNoCollision);
-            if (player.combat.enemy != null) Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, false);
+            if (player.combat.enemy != null)
+                Physics.IgnoreCollision(player.GetComponent<Collider>(), weaponHitBox, false);
         }
 
         public bool isPushing = false;
@@ -207,18 +217,22 @@ namespace Player
             var initVel = variables.pushVelocity * factor;
             time = timeToStart;
             var pushTime = variables.pushTime * factor;
-            while(time < pushTime)
+            while (time < pushTime)
             {
-                player.velocity = pushCurve.Evaluate(time/variables.pushTime) * direction * initVel;
-                if(time<variables.pushTime/6)player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
+                player.velocity = pushCurve.Evaluate(time / variables.pushTime) * direction * initVel;
+                if (time < variables.pushTime / 6)
+                    player.velocity.y = pushCurve.Evaluate(time / variables.pushTime) * y;
                 time += Time.deltaTime;
                 yield return null;
             }
+
             isPushing = false;
         }
+
         private void ResetIgnore() => ignoreHit = false;
         void OnEnable() => IsRewinding.OnValueChange += HandleRewind;
         void OnDisable() => IsRewinding.OnValueChange -= HandleRewind;
+
         private void HandleRewind()
         {
             if (IsRewinding.Value)
@@ -250,6 +264,7 @@ namespace Player
                         timeEntries.RemoveLast();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
                 else
@@ -262,6 +277,7 @@ namespace Player
                         timeEntries.RemoveFirst();
                         entries--;
                     }
+
                     yield return waitBetween;
                 }
             }
@@ -281,9 +297,10 @@ namespace Player
                 this.pushFactor = pushFactor;
                 this.pushTime = pushTime;
             }
+
             public TimeEntry(bool isPushing)
             {
-                this.isPushing=isPushing;
+                this.isPushing = isPushing;
                 pushSource = null;
                 pushFactor = 0;
                 pushTime = 0;

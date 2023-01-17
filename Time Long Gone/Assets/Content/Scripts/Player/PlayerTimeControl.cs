@@ -16,7 +16,15 @@ namespace Player
         [SerializeField] private float timeToInterpolate;
 
         private float mana;
-        public float Mana { get => mana; set{ mana = Mathf.Clamp(value, 0, MaxMana); } }
+
+        public float getTargetSlowMoScale => targetSlowMoScale;
+
+        public float Mana
+        {
+            get => mana;
+            set { mana = Mathf.Clamp(value, 0, MaxMana); }
+        }
+
         public float MaxMana { get; private set; }
         public bool WantsToTimeControl { get; set; } = false;
         public bool ActiveTime { get; set; } = true;
@@ -29,6 +37,7 @@ namespace Player
         {
             IsRewinding = GameLogic.Instance.IsRewinding;
         }
+
         void Start()
         {
             player = GetComponent<Player>();
@@ -43,7 +52,7 @@ namespace Player
             if (!ActiveTime) return;
             currState.Tick(this);
             var state = currState.Evaluate(this);
-            if(state != null)
+            if (state != null)
             {
                 currState.Exit(this);
                 currState = state;
@@ -51,26 +60,31 @@ namespace Player
             }
         }
 
-        private interface TimeState {
+        private interface TimeState
+        {
             public void Enter(PlayerTimeControl control);
             public void Tick(PlayerTimeControl control);
             public TimeState Evaluate(PlayerTimeControl control);
             public void Exit(PlayerTimeControl control);
         }
+
         private class NormalFlow : TimeState
         {
             private bool CanTimeControl;
             private float time;
+
             public NormalFlow(bool canTimeControl)
             {
                 CanTimeControl = canTimeControl;
                 time = 0f;
             }
+
             public NormalFlow()
             {
                 CanTimeControl = false;
                 time = 0f;
             }
+
             public void Enter(PlayerTimeControl control) => Time.timeScale = control.targetSlowMoScale;
 
             public TimeState Evaluate(PlayerTimeControl control)
@@ -96,12 +110,14 @@ namespace Player
                         CanTimeControl = true;
                     }
                 }
-                if(control.Mana < control.MaxMana)
+
+                if (control.Mana < control.MaxMana)
                 {
                     control.Mana += control.variables.manaRegPerSecond * Time.unscaledDeltaTime;
                 }
             }
         }
+
         private class SlowFlow : TimeState
         {
             private float time = 0f;
@@ -110,7 +126,11 @@ namespace Player
             public TimeState Evaluate(PlayerTimeControl control)
             {
                 if (control.player.CurrentState == control.player.DEAD_STATE) return new DeathFlow();
-                if (control.Mana <= 0 || !control.WantsToTimeControl) return new NormalFlow();
+                if (control.Mana <= 0 || !control.WantsToTimeControl)
+                {
+                    return new NormalFlow();
+                }
+
                 return null;
             }
 
@@ -120,15 +140,17 @@ namespace Player
 
             public void Tick(PlayerTimeControl control)
             {
-                if(Time.timeScale > control.targetSlowMoScale)
+                if (Time.timeScale > control.targetSlowMoScale)
                 {
                     time += Time.unscaledDeltaTime;
                     Time.timeScale = Mathf.Lerp(1, control.targetSlowMoScale, time / control.timeToInterpolate);
                     if (time >= control.timeToInterpolate) Time.timeScale = control.targetSlowMoScale;
                 }
+
                 control.Mana -= control.variables.slowmoCostPerSecond * Time.unscaledDeltaTime;
             }
         }
+
         private class DeathFlow : TimeState
         {
             private float time = 0f;
@@ -137,14 +159,16 @@ namespace Player
 
             public TimeState Evaluate(PlayerTimeControl control)
             {
-                if(control.Mana < control.variables.rewindFlatCost || time >= 10f)
+                if (control.Mana < control.variables.rewindFlatCost || time >= 10f)
                 {
                     print("GAME OVER");
                     return null;
-                }else if(CanTimeControl && control.WantsToTimeControl)
+                }
+                else if (CanTimeControl && control.WantsToTimeControl)
                 {
                     return new Rewind();
                 }
+
                 return null;
             }
 
@@ -155,20 +179,23 @@ namespace Player
             public void Tick(PlayerTimeControl control)
             {
                 time += Time.unscaledDeltaTime;
-                if(Time.timeScale > control.targetDeathScale)
+                if (Time.timeScale > control.targetDeathScale)
                 {
-                    Time.timeScale = Mathf.Lerp(1, control.targetDeathScale , time / control.timeToInterpolate);
-                    if (time >= control.timeToInterpolate) { 
-                        Time.timeScale = control.targetDeathScale; 
+                    Time.timeScale = Mathf.Lerp(1, control.targetDeathScale, time / control.timeToInterpolate);
+                    if (time >= control.timeToInterpolate)
+                    {
+                        Time.timeScale = control.targetDeathScale;
                         CanTimeControl = true;
                     }
                 }
             }
         }
+
         private class Rewind : TimeState
         {
             private float needsMoreTime = 0f;
             private float additionalTime = 0f;
+
             public void Enter(PlayerTimeControl control)
             {
                 Time.timeScale = control.rewindTimeScale;
@@ -178,9 +205,9 @@ namespace Player
 
             public TimeState Evaluate(PlayerTimeControl control)
             {
-                if(needsMoreTime == 0)
+                if (needsMoreTime == 0)
                 {
-                    if(control.Mana <= 0 || !control.WantsToTimeControl)
+                    if (control.Mana <= 0 || !control.WantsToTimeControl)
                     {
                         needsMoreTime = control.player.combat.enemy.RewindTimeNeeded();
                         if (needsMoreTime == 0)
@@ -193,12 +220,13 @@ namespace Player
                 }
                 else
                 {
-                    if(additionalTime >= needsMoreTime)
+                    if (additionalTime >= needsMoreTime)
                     {
                         if (control.player.CurrentState == control.player.DEAD_STATE) return new DeathFlow();
                         else return new NormalFlow();
                     }
                 }
+
                 return null;
             }
 
@@ -220,5 +248,4 @@ namespace Player
             }
         }
     }
-
 }

@@ -1,0 +1,64 @@
+﻿{
+  "tutorialsData": [
+    {
+      "title": "The Story Begins!",
+      "flavour": "„I haven’t fought for so long… Can I really do this? Do I still know how?...”",
+      "instruction": "Welcome to “Time Long Gone”! \nIf it’s your first time playing, we recommend you follow the Banished in a quick review of his skills and capabilities during the Tutorial phase. If you already know all the basics and intricacies of combat, feel free to skip it, to get straight into the action!"
+    },
+    {
+      "title": "Movement",
+      "flavour": "„I see the monstrous silhouette of a warrior in the distance. Is he the one that destroyed this place? I need to take a better look at him…”",
+      "instruction": "Use WSAD keys or /left analog/ to move the Banished, and Space key or A/X button to jump.\n Try approaching the mysterious silhouette!"
+    },
+    {
+      "title": "Attacks",
+      "flavour": "„Yes, I can see it from this distance. He’s panting, tired from the fighting, his body splashed with the blood of his victims. Only the weapon in his hand could sow such distraction to this place. I need to attack before he sees me!\"\n",
+      "instruction": "Use LMB/X/Square to perform an attack. You can press it quickly or hold it to perform a set sequence of them, with the last attack dealing bonus damage!\n\nPress the Attack button now, and perform the full chain of attacks!"
+    },
+    {
+      "title": "Combos and finishers",
+      "flavour": "„I hit him, but I feel like my sword is trying to cut through stone. His body is impossibly hard. I need to wear it down before I can truly hurt him!”",
+      "instruction": "Consecutive Attacks increase your combo meter, but if you don’t land any hits for a long enough time, it will reset. The higher your Combo meter, the more damage you will deal!\n\nTry raising your combo meter to 3!"
+    },
+    {
+      "title": "Charge attack",
+      "flavour": "„This is not a good position, I need to close the distance again before I continue the attack!”",
+      "instruction": "Press and hold the LMB TR/L2 button to start preparing a Charge attack. The Banished will be slowed and unable to attack during the preparation phase, but when you release the button he will perform a long, dashing attack in the direction he is currently facing. Remember, that the longer you hold the button for, the longer the distance of the dash and damage of the attack, but there is a limit!\n\nTry holding the Charge Attack button and close the distance to the enemy now!"
+    },
+    {
+      "title": "Blocks",
+      "flavour": "„He is slow, but I didn’t manage to cut him down fast enough! Here comes his attack, I need to block it!”",
+      "instruction": "Hold the CTRL/B/Circle button to Block enemy attacks and not take any damage from being hit!"
+    },
+    {
+      "title": "Dodges and parries",
+      "flavour": "„Ugh, he is too strong! I need to time my reaction better, or he’s going to break my defence!”\nRemember that some attacks cannot be blocked! You can try dodging them with a quick dash by pressing ALT/L1/LB.\nAnother way of defending is by pressing and quickly releasing the Block button instead of holding it – this will instead perform a Parry, that can deflect some attacks that cannot be blocked. Additionally, parrying certain attacks may cause the enemy warriors to lose their balance and become vulnerable for a moment, so use it to your advantage. But keep in mind, that timing is very important – a Parry will only work if it is performed the moment the Banished would be struck!\n",
+      "instruction": "Try pressing the Block button and releasing it quickly to Parry the enemy attack now!"
+    },
+    {
+      "title": "Kicks",
+      "flavour": "„Now, the parry threw him off balance! I can see an opening, I need to take advantage of it!”",
+      "instruction": "When an enemy is Vulnerable, you can press the E/RB/R1 button to perform an unexpected kick and stun him for a moment. Stunned enemies do not move or attack, while also taking more damage!\n\nTry pressing the Kick button and stun the enemy attack now!"
+    },
+    {
+      "title": "Finishers",
+      "flavour": "„Good, now that he doesn’t move I can attack him all I want! Let’s finish this monster!”",
+      "instruction": "Now that the the mysterious warrior is stunned, you can deal the most damage to him. The best way to do that is to build up your combo meter and then use the Y button to perform a Finisher attack. This technique multiplies your Combo meter’s damage bonus, but also resets it back to 0. Use it wisely.\n\nBuild up your combo meter up to 10 and then use the Y button to perform the Finisher and deal extra damage!"
+    },
+    {
+      "title": "Time rewind",
+      "flavour": "„Ygh! I didn’t expect this counterattack… It seems my life is fleeting… But what is this Mystic Essence swirling around me? It seems to pull me back in some way…”",
+      "instruction": "The Banished was struck, and is now dying! When fighting such powerful enemies, a single well placed hit is a matter of life and death. There is no way to survive them… by normal means.\nThe Mystical Essence of the Banished, however, gives him a degree of control over time itself. The moment an enemy’s blow lands, the Banished has the option to rewind time to a moment before he made a mistake, to try and avoid the attack instead.\nBe careful! The longer the Banished will try to go back in time, the more of his Mystic Essence will be consumed. If the Mystic Essence falls under a certain threshold there will not be enough of it to perform this technique again, making the next blow truly fatal.\nMystic Essence regenerates on its own, but the Banished also gains small amounts of it by fighting skilfully – performing Parries, Attacks and Finishers (the higher the Combo meter when using a Finisher, the bigger the Mystic Essence amount gained).\nTry holding the R button to start Rewinding Time, and release it when you decide it’s time to return its natural flow."
+    },
+    {
+      "title": "Time dilution",
+      "flavour": "„This energy… Can it be used in a different way? Can it truly give me the advantage I need to win this fight?!...”",
+      "instruction": "Mystic Essence can also be used to Dilute Time by holding the R button! This will slow the timeflow a considerable amount, but not afflict the Banished as much as his adversary – allowing him to either make avoiding enemy attacks easier in dire situations, or deal more damage in a short amount of time, than he would normally be able to.\nDiluting Time consumes Mystic Essence over the duration it is being activated.\n\nTry holding to the DUSDIUGBSG button now to Dilute Time!"
+    },
+    {
+      "title": "Go forth, fight, and win!",
+      "flavour": "„Now I am confident. With these skills, I can truly beat him! Let’s finish this!”",
+      "instruction": "Use everything you learned to defeat the enemy!\n\nPress any key to finish the tutorial and face the mysterious warrior in all his might!"
+    }
+  ]
+}

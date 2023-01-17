@@ -22,13 +22,22 @@ namespace Player
             Jump,
             Dash,
             Stun,
+
             BlockStarted,
+            BlockPerformed,
             BlockCanceled,
+
+
             FinisherStarted,
             FinisherCanceled,
+
             Attack,
+
             ChargeStarted,
             ChargeCanceled,
+
+            RewindStarted,
+            RewindCanceled
         }
 
         void Start()
@@ -42,7 +51,8 @@ namespace Player
             if (_isCharging)
             {
                 _holdTime += Time.unscaledDeltaTime;
-                if (_holdTime >= chargeTreshhold && player.inputContext != InputContext.ChargeStarted) player.inputContext = InputContext.ChargeStarted;
+                if (_holdTime >= chargeTreshhold && player.inputContext != InputContext.ChargeStarted)
+                    player.inputContext = InputContext.ChargeStarted;
             }
         }
 
@@ -86,6 +96,7 @@ namespace Player
         public void ProcessBlock(InputAction.CallbackContext ctx)
         {
             if (ctx.started) player.inputContext = InputContext.BlockStarted;
+            if (ctx.performed) player.inputContext = InputContext.BlockPerformed;
             else if (ctx.performed || ctx.canceled) player.inputContext = InputContext.BlockCanceled;
         }
 
@@ -105,10 +116,13 @@ namespace Player
             if (ctx.started)
             {
                 control.WantsToTimeControl = true;
+                player.inputContext = InputContext.RewindStarted;
             }
             else if (ctx.performed || ctx.canceled)
             {
                 control.WantsToTimeControl = false;
+                if (ctx.canceled)
+                    player.inputContext = InputContext.RewindCanceled;
             }
         }
 
@@ -116,6 +130,5 @@ namespace Player
         {
             PausingScript.Instance.Pausing();
         }
-
     }
 }

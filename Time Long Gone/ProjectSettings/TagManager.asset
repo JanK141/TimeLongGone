@@ -13,6 +13,7 @@ TagManager:
   - Arena
   - Enemy Weapon
   - Projectiles Spot
+  - Screen
   layers:
   - Default
   - TransparentFX
@@ -45,7 +46,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Screen
   m_SortingLayers:
   - name: Default
     uniqueID: 0
