@@ -8,24 +8,21 @@ namespace Enemy
         [SerializeField] private LayerMask mask;
         [SerializeField] [Tooltip("If false renderer and collider will be disabled instead")] private bool destroyOnHit = false;
 
-        /*private void OnCollisionEnter(Collision collision)
-        {
-            print("");
-            if (((1 << collision.gameObject.layer) & mask) != 0)
-            {
-                print("test2");
-                Instantiate(fracturedPrefab, transform.position, transform.rotation);
-                //Instantiate(fracturedPrefab, transform.parent).transform.localPosition = transform.localPosition;
+        private SoundPlayer sound;
 
-                Destroy(this.gameObject);
-            }
-        }*/
+        private void Start()
+        {
+            sound = GetComponent<SoundPlayer>();
+        }
 
         private void OnTriggerEnter(Collider other)
         {
             if (((1 << other.gameObject.layer) & mask) == 0) return;
 
-            
+            if (other.tag == "Player")
+                sound.Play("WoodParry");
+            else
+                sound.Play("WoodCrash");
 
             Vector3 vel = Vector3.zero;
             if(TryGetComponent<Rigidbody>(out var rb))

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 906936645839140020}
   - component: {fileID: 906936645839140019}
   - component: {fileID: 906936645839140018}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rim.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 951128644639716241}
   - component: {fileID: 951128644639716240}
   - component: {fileID: 951128644639716239}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 1767457569862979964}
   - component: {fileID: 1767457569862979963}
   - component: {fileID: 1767457569862979962}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rim.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 1796158250738549705}
   - component: {fileID: 1796158250738549704}
   - component: {fileID: 1796158250738549703}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -705,7 +705,7 @@ GameObject:
   - component: {fileID: 1867926514322460679}
   - component: {fileID: 1867926514322460678}
   - component: {fileID: 1867926514322460677}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.008
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -877,7 +877,7 @@ GameObject:
   - component: {fileID: 3462161746366789990}
   - component: {fileID: 3462161746366789989}
   - component: {fileID: 3462161746366789988}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1049,7 +1049,7 @@ GameObject:
   - component: {fileID: 3512986240320170831}
   - component: {fileID: 3512986240320170830}
   - component: {fileID: 3512986240320170829}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.007
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1221,7 +1221,7 @@ GameObject:
   - component: {fileID: 4105069116125317463}
   - component: {fileID: 4105069116125317462}
   - component: {fileID: 4105069116125317461}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rim.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1385,7 +1385,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3630895052274751140}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: barrel_1_destruction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1436,7 +1436,7 @@ GameObject:
   - component: {fileID: 4358282838412419966}
   - component: {fileID: 4358282838412419965}
   - component: {fileID: 4358282838412419964}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1608,7 +1608,7 @@ GameObject:
   - component: {fileID: 4730169012308888512}
   - component: {fileID: 4730169012308888511}
   - component: {fileID: 4730169012308888510}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1780,7 +1780,7 @@ GameObject:
   - component: {fileID: 6537500198240191622}
   - component: {fileID: 6537500198240191621}
   - component: {fileID: 6537500198240191620}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1952,7 +1952,7 @@ GameObject:
   - component: {fileID: 8005972568729294266}
   - component: {fileID: 8005972568729294265}
   - component: {fileID: 8005972568729294264}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2124,7 +2124,7 @@ GameObject:
   - component: {fileID: 8656257492952655894}
   - component: {fileID: 8656257492952655893}
   - component: {fileID: 8656257492952655892}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: plank
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -18,6 +18,8 @@ public class ManagersWindow : MultipleEditorWindow
         serializedObjects = Resources.LoadAll("Managers").Select(o => new SerializedObject((o as GameObject).GetComponents(typeof(MonoBehaviour))[0])).ToArray();
     }
 
+    Vector2 scroll;
+
     private void OnGUI()
     {
         using(new EditorGUILayout.HorizontalScope())
@@ -38,7 +40,9 @@ public class ManagersWindow : MultipleEditorWindow
                 if(currentSerializedObject != null)
                 {
                     EditorGUILayout.LabelField(currentSerializedObject.targetObject.name, EditorStyles.boldLabel);
+                    scroll = EditorGUILayout.BeginScrollView(scroll, GUIStyle.none);
                     DrawSerializedObject(currentSerializedObject, true);
+                    EditorGUILayout.EndScrollView();
                     currentSerializedObject.ApplyModifiedProperties();
                 }
                 else

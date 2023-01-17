@@ -27,6 +27,7 @@ public class SoundPlayer : MonoBehaviour
                     tmp.source.loop = false;
                     tmp.source.playOnAwake = false;
                     tmp.source.volume = sound.volume;
+                    tmp.source.spatialBlend = 1;
                     tmp.minPitch = sound.minPitch;
                     tmp.maxPitch = sound.maxPitch;
                     list.Add(tmp);
@@ -45,7 +46,7 @@ public class SoundPlayer : MonoBehaviour
             if (clips.Count > 1) choosenSound = clips[Random.Range(0, clips.Count)];
             else choosenSound = clips[0];
 
-            choosenSound.source.pitch = Random.Range(choosenSound.minPitch, choosenSound.maxPitch);
+            choosenSound.source.pitch = 1 + Random.Range(choosenSound.minPitch, choosenSound.maxPitch);
             choosenSound.source.Play();
         }
     }

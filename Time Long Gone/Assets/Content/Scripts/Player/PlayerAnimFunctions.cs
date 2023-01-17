@@ -15,5 +15,7 @@ namespace Player
         public void LastHit() => player.combat.Hit(true);
 
         public void Finisher() => player.combat.Finisher();
+
+        public void PlayWalkSound() => player.sound.Play("Walk");
     }
 }

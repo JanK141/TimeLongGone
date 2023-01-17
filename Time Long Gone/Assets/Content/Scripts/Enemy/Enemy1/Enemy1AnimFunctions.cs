@@ -33,6 +33,9 @@ namespace Enemy {
             if (IsRewinding.Value) return;
             StartCoroutine(MoveCorutine());
         }
+        public void WalkSound() => enemy.sound.Play("Walk");
+        public void SwingPlay() => enemy.sound.Play("Swing");
+        public void HitPlay() => enemy.sound.Play("Kill");
 
         private IEnumerator MoveCorutine()
         {

@@ -50,7 +50,10 @@ namespace Player
 
         internal void Hit(bool lastInChain = false)
         {
-            if(!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) return;
+            if (!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) {
+                player.sound.Play("Attack");
+                return; 
+            }
             if (enemy != null && enemy.Status != EnemyStatus.Untouchable)
             {
                 OnHit?.Invoke(lastInChain);
@@ -58,18 +61,23 @@ namespace Player
                 float baseDmg = lastInChain ? variables.baseDamage * 1.5f : variables.baseDamage;
                 float damage = baseDmg + baseDmg * _combo * variables.comboMultiplier;
                 enemy.ReceiveHit(damage);
+                player.sound.Play("Hit");
             }
         }
 
         internal void Finisher()
         {
-            if (!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) return;
+            if (!Physics.CheckSphere(transform.position + transform.forward * variables.attackDistance, variables.attackRadius, whatIsEnemy)) {
+                player.sound.Play("Attack");
+                return; 
+            }
             if (enemy != null && enemy.Status != EnemyStatus.Untouchable)
             {
                 OnFinisher?.Invoke(_combo);
                 float damage = variables.baseDamage + variables.baseDamage * _combo * variables.comboMultiplier * variables.finisherMultiplier;
                 ContinueCombo(-1);
                 enemy.ReceiveHit(damage);
+                player.sound.Play("Hit");
             }
         }
 

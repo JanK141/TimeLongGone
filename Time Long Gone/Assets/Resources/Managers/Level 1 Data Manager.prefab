@@ -44,11 +44,156 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips:
-  - name: 
-    clip: {fileID: 0}
-    volume: 0
+  - name: Hit
+    clip: {fileID: 8300000, guid: 98899156085580b4faebfbbc05240c4c, type: 3}
+    volume: 0.5
     minPitch: 0
-    maxPitch: 0
+    maxPitch: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: c54ae4b326b5e944aab01ebdb58344e8, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: 77f0f71d5d3b02246ad90062c9e96ae5, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: 779d3eee91a47d8449f7cc98f9912d19, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: 6e1e673e4539d28498b6d4a905d2301d, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Hit
+    clip: {fileID: 8300000, guid: 99d4ee5c29d9d464cab3d041e59a0291, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Block
+    clip: {fileID: 8300000, guid: b3d4907cf945da34aaad8a9ca67eff2c, type: 3}
+    volume: 0.2
+    minPitch: 0
+    maxPitch: 1
+  - name: Block
+    clip: {fileID: 8300000, guid: cbad4fb26c4bed64fb47c95ebdabc374, type: 3}
+    volume: 0.2
+    minPitch: 0
+    maxPitch: 1
+  - name: Block
+    clip: {fileID: 8300000, guid: 600eceb9aba927247a8bf3754f6d04cd, type: 3}
+    volume: 0.2
+    minPitch: 0
+    maxPitch: 1
+  - name: Attack
+    clip: {fileID: 8300000, guid: 3de3932fe96bff7489e784e8a089fa31, type: 3}
+    volume: 0.3
+    minPitch: 0
+    maxPitch: 1
+  - name: Attack
+    clip: {fileID: 8300000, guid: 87143323ca182e041b1834981f01f5c1, type: 3}
+    volume: 0.3
+    minPitch: 0
+    maxPitch: 1
+  - name: Parry
+    clip: {fileID: 8300000, guid: de4a0fe71fd40174d914a459d168c729, type: 3}
+    volume: 1
+    minPitch: 0
+    maxPitch: 1
+  - name: Parry
+    clip: {fileID: 8300000, guid: c823fd861c4a90d4caab89adf7d58716, type: 3}
+    volume: 1
+    minPitch: 0
+    maxPitch: 1
+  - name: Parry
+    clip: {fileID: 8300000, guid: 34c32fca65119d349afbd52fb75b11da, type: 3}
+    volume: 1
+    minPitch: 0
+    maxPitch: 1
+  - name: Parry
+    clip: {fileID: 8300000, guid: c267d19fca68de54f9b42a2d29cac235, type: 3}
+    volume: 1
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: 64a61c2700f18b54ca2a08e9a952058e, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: 3cc5ad6f6ecfa774e96fd4946b567bca, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: 5286f3da47d0ef64f9fe985353893b21, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: da209cf166296914e84fa6d846804db5, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: cf462734017b27841af1b580a28c3e5b, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Walk
+    clip: {fileID: 8300000, guid: 0068cb50452b0da4a95480111e8b185f, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Swing
+    clip: {fileID: 8300000, guid: 53dc49ef54b944b40b7252a118c36108, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Swing
+    clip: {fileID: 8300000, guid: ba4252ebc3fc87e499938339d6deddf6, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Swing
+    clip: {fileID: 8300000, guid: f5db905de53991e43be7d5a8f6e8466b, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Kill
+    clip: {fileID: 8300000, guid: 440768039d8b333438a4d5a402a96cb2, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Kill
+    clip: {fileID: 8300000, guid: 91e026f92dc32614c9e93cf99cd77963, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: Kill
+    clip: {fileID: 8300000, guid: 5afb323a33189cd4cbdcea89232d6dc3, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: WoodCrash
+    clip: {fileID: 8300000, guid: d6aff243565221946b07cbbf79ac64ed, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: WoodParry
+    clip: {fileID: 8300000, guid: 57f8be668927bfa4f81560b573b1a27e, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
+  - name: WoodParry
+    clip: {fileID: 8300000, guid: 248fcbb249553b948a4abeb4d0245c51, type: 3}
+    volume: 0.5
+    minPitch: 0
+    maxPitch: 1
   enemyStateMachines:
   - stages:
     - {fileID: 11400000, guid: 2bd3c7f2a2911e347bb8e6dc2f57ea1d, type: 2}
