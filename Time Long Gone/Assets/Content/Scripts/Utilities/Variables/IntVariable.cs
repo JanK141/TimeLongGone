@@ -32,5 +32,4 @@ public class IntVariable : ScriptableObject
     public void ResetToOrigin() => _value = variable;
 
     private void OnValidate() => ResetToOrigin();
-
 }
