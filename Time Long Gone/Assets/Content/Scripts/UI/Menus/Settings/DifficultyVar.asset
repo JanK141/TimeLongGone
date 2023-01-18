@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5eaeddce2491e54f8421dd11415f291, type: 3}
   m_Name: DifficultyVar
   m_EditorClassIdentifier: 
-  variable: 2
-  _value: 2
+  variable: 1
+  _value: 1

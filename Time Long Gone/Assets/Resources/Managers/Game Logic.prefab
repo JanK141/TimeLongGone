@@ -48,6 +48,7 @@ MonoBehaviour:
   isRewinding: {fileID: 11400000, guid: 8cafe5f2cc37ab5419782497c63f6e93, type: 2}
   playerVariables:
   - {fileID: 11400000, guid: f9f5d9358ae79414aa41d54652b8754f, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: d5f6e819b42d8364aa5c260e3a9ea285, type: 2}
+  - {fileID: 11400000, guid: 44472c0614760124db816174953dfe10, type: 2}
+  - {fileID: 11400000, guid: b1dcdbf1b72bdf54a96834150c874bdc, type: 2}
+  - {fileID: 11400000, guid: 792da109c205cfe4cbd659e7e587ebc4, type: 2}

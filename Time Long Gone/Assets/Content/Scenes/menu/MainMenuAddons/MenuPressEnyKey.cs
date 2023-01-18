@@ -10,20 +10,28 @@ using DG.Tweening;
 public class MenuPressEnyKey : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI text;
-    private PlayableDirector playableDirector;
+    [SerializeField] PlayableAsset animation;
+    [SerializeField] private PlayableDirector playableDirector;
+
 
     void Start()
     {
+        Time.timeScale = 1;
         text.DOFade(0, 1).SetLoops(-1, LoopType.Yoyo);
-        playableDirector = GetComponent<PlayableDirector>();
+        //playableDirector = GetComponent<PlayableDirector>();
 
-        InputSystem.onAnyButtonPress.CallOnce((action) => { 
+        InputSystem.onAnyButtonPress.CallOnce((action) => {
+            playableDirector.gameObject.SetActive(true);
+            //playableDirector.time = 0;
+            //playableDirector.Stop();
+            //playableDirector.Evaluate();
             playableDirector.Play();
-            text.DOKill();
+            //playableDirector.Resume();
+            //text.DOKill();
             text.gameObject.SetActive(false);
-            enabled = false; 
+            //enabled = false; 
+            print("MenuStart");
         });
     }
 
-  
 }

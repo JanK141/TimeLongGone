@@ -31,6 +31,10 @@ namespace Content.Scripts
         Scene lvlScene1;
         [SerializeField] private string mainMenuSceneName;
 
+        [SerializeField] IntVariable difficultyLevel;
+
+        public int DifficultyLevel { get => difficultyLevel.Value-1; }
+
         private void Awake()
         {
             DontDestroyOnLoad(this.gameObject);

@@ -1,4 +1,5 @@
 using Cinemachine;
+using Content.Scripts;
 using Content.Scripts.Variables;
 using Enemy;
 using System.Collections;
@@ -168,7 +169,7 @@ namespace Player
             {
                 if (control.Mana < control.variables.rewindFlatCost || time >= 10f)
                 {
-                    print("GAME OVER");
+                    GameManager.Instance.LoadLevel("Level 1 map");
                     return null;
                 }
                 else if (CanTimeControl && control.WantsToTimeControl)

@@ -26,29 +26,29 @@ public class SettingsMenu : MonoBehaviour
         {
             case 0:    //easy
                 Debug.Log("Chosen: 0");
-                DifficultyIndicator._value = 1;
-                Debug.Log("Difficulty is set to: " + DifficultyIndicator._value);
+                DifficultyIndicator.Value = 1;
+                Debug.Log("Difficulty is set to: " + DifficultyIndicator.Value);
                 break;
 
             case 1:   //normal
                 Debug.Log("Chosen: 1");
-                DifficultyIndicator._value = 2;
-                Debug.Log("Difficulty is set to: " + DifficultyIndicator._value);
+                DifficultyIndicator.Value = 2;
+                Debug.Log("Difficulty is set to: " + DifficultyIndicator.Value);
                 break;
             case 2:   //hard
                 Debug.Log("Chosen: 2");
-                DifficultyIndicator._value = 3;
-                Debug.Log("Difficulty is set to: " + DifficultyIndicator._value);
+                DifficultyIndicator.Value = 3;
+                Debug.Log("Difficulty is set to: " + DifficultyIndicator.Value);
                 break;
             case 3:   //very hard
                 Debug.Log("Chosen: 3");
-                DifficultyIndicator._value = 4;
-                Debug.Log("Difficulty is set to: " + DifficultyIndicator._value);
+                DifficultyIndicator.Value = 4;
+                Debug.Log("Difficulty is set to: " + DifficultyIndicator.Value);
                 break;
             case 4:   //impossible
                 Debug.Log("Chosen: 4");
-                DifficultyIndicator._value = 5;
-                Debug.Log("Difficulty is set to: " + DifficultyIndicator._value);
+                DifficultyIndicator.Value = 5;
+                Debug.Log("Difficulty is set to: " + DifficultyIndicator.Value);
                 break;
         }
     }

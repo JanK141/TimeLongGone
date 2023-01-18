@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenuSceneName: toTylkoTest
+  difficultyLevel: {fileID: 11400000, guid: c47816f60445b8448b5df6fab7c8b4d1, type: 2}

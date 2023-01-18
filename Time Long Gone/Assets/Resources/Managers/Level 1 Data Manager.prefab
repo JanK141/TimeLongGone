@@ -200,8 +200,24 @@ MonoBehaviour:
     - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
     - {fileID: 11400000, guid: 669cb43077fc7a0419d149d541d05a51, type: 2}
   - stages:
+    - {fileID: 11400000, guid: 2bd3c7f2a2911e347bb8e6dc2f57ea1d, type: 2}
     - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
+    - {fileID: 11400000, guid: 669cb43077fc7a0419d149d541d05a51, type: 2}
   - stages:
+    - {fileID: 11400000, guid: 2bd3c7f2a2911e347bb8e6dc2f57ea1d, type: 2}
     - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
+    - {fileID: 11400000, guid: 669cb43077fc7a0419d149d541d05a51, type: 2}
   - stages:
+    - {fileID: 11400000, guid: 2bd3c7f2a2911e347bb8e6dc2f57ea1d, type: 2}
     - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
+    - {fileID: 11400000, guid: 669cb43077fc7a0419d149d541d05a51, type: 2}
+  - stages:
+    - {fileID: 11400000, guid: 2bd3c7f2a2911e347bb8e6dc2f57ea1d, type: 2}
+    - {fileID: 11400000, guid: a59b81e0888f95743ae6ad5501991800, type: 2}
+    - {fileID: 11400000, guid: 669cb43077fc7a0419d149d541d05a51, type: 2}
+  enemyHealthPoints:
+  - 1000
+  - 2000
+  - 3000
+  - 4000
+  - 5000

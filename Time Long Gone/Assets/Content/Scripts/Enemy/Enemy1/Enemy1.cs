@@ -19,7 +19,7 @@ namespace Enemy
     {
         [SerializeField] private NavMeshAgent navAgent;
         [SerializeField] private Animator animator;
-        [Space(10)] [SerializeField] private float MaxHealth;
+        [Space(10)] 
         [SerializeField] private float StunTime;
         [SerializeField] private float ParryTime;
         [SerializeField] private int SequenceParryCount;
@@ -35,6 +35,7 @@ namespace Enemy
         [SerializeField] internal SoundPlayer sound;
         private List<StateMachine> Stages;
 
+        private float MaxHealth;
         public float Health { get; private set; }
 
         public float GetMaxHealth => MaxHealth;
@@ -64,6 +65,7 @@ namespace Enemy
             TimeToRemember = GameLogic.Instance.TimeToRemember;
             TimeBetweenEntries = GameLogic.Instance.TimeBetweenEntries;
             Stages = Level1DataManager.Instance.EnemyStateMachines;
+            MaxHealth = Level1DataManager.Instance.EnemyHealth;
             Stage = 0;
             currSM = Stages[Stage];
             Health = MaxHealth;

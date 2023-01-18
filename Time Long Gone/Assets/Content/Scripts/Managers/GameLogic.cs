@@ -15,7 +15,7 @@ public class GameLogic : MonoBehaviour
     [SerializeField] private FloatVariable timeToRemember;
     [SerializeField] private FloatVariable timeBetweenEntries;
     [SerializeField] private BoolVariable isRewinding;
-    [SerializeField][Tooltip("Easy, Normal, Hard, Very Hard")] private PlayerVariables[] playerVariables = { null, null, null, null };
+    [SerializeField][Tooltip("Easy, Normal, Hard, Very Hard, Impossible")] private PlayerVariables[] playerVariables;
 
     private static GameLogic _i;
 
@@ -31,10 +31,9 @@ public class GameLogic : MonoBehaviour
     public FloatVariable TimeBetweenEntries => timeBetweenEntries;
     public BoolVariable IsRewinding => isRewinding;
     public PlayerVariables PlayerVariables { get{
-            return playerVariables[0];
-            //TODO
-            // return playerVariables[GameManager.Instance.GameDifficulty];
-            //or smth like that
+            return (playerVariables[GameManager.Instance.DifficultyLevel] == null) ? 
+                playerVariables[0] : 
+                playerVariables[GameManager.Instance.DifficultyLevel];
         }}
 
     private void Awake()
@@ -45,9 +44,9 @@ public class GameLogic : MonoBehaviour
     }
     private void OnValidate()
     {
-        if(playerVariables.Length != 4)
+        if(playerVariables.Length != 5)
         {
-            Array.Resize(ref playerVariables, 4);
+            Array.Resize(ref playerVariables, 5);
         }
     }
 }

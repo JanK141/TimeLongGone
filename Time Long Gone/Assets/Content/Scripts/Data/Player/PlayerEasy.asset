@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d4bf4da721449ac9754af84a6acffc2, type: 3}
-  m_Name: DefaultPlayer
+  m_Name: PlayerEasy
   m_EditorClassIdentifier: 
   initialGravity: -80
   normalSpeed: 12
@@ -20,27 +20,27 @@ MonoBehaviour:
   dashCooldown: 0.5
   dashDistance: 5
   dashTime: 0.15
-  iframesTime: 0.3
-  dashAttackMaxDist: 8
+  iframesTime: 0.15
+  dashAttackMaxDist: 15
   baseDamage: 10
   attackCooldown: 0.4
-  attackRadius: 1.4
+  attackRadius: 2
   attackDistance: 0.9
   chainTime: 1
   airborneTime: 0.5
-  maxChargeMult: 3
-  blockCooldown: 0.7
-  parryWindow: 0.5
-  postHitNoCollision: 0.2
-  pushVelocity: 20
-  pushTime: 2
-  comboMultiplier: 0.1
-  comboTimeout: 4
-  finisherMultiplier: 2
-  speedBoost: 0.4
+  maxChargeMult: 6
+  blockCooldown: 0.1
+  parryWindow: 1
+  postHitNoCollision: 1
+  pushVelocity: 10
+  pushTime: 1
+  comboMultiplier: 0.5
+  comboTimeout: 10
+  finisherMultiplier: 4
+  speedBoost: 1
   mana: 500
-  manaRegPerSecond: 5
-  manaReward: 20
+  manaRegPerSecond: 20
+  manaReward: 50
   slowmoCostPerSecond: 30
-  rewindFlatCost: 50
-  rewindCostPerSecond: 50
+  rewindFlatCost: 30
+  rewindCostPerSecond: 30
