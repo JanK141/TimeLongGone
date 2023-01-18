@@ -494,7 +494,7 @@ namespace Enemy
             Status = EnemyStatus.Untouchable;
             var mat = model.GetComponent<Renderer>().material;
             mat.DOFloat(Mathf.Clamp01(mat.GetFloat("Vector1_1d9bba632cdf45e79180a3146c4ff625") * 2),
-                "Vector1_1d9bba632cdf45e79180a3146c4ff625", 1f);
+                "Vector1_1d9bba632cdf45e79180a3146c4ff625", 5f);
             yield return new WaitForSeconds(5f);
             Status = EnemyStatus.Passive;
             Stage++;

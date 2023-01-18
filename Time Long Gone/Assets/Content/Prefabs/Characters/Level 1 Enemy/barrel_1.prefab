@@ -134,7 +134,7 @@ MonoBehaviour:
   fracturedPrefab: {fileID: 4118638051821816862, guid: 65826657d0ccab94eb973b4d29ae1a80, type: 3}
   mask:
     serializedVersion: 2
-    m_Bits: 1288
+    m_Bits: 264
   destroyOnHit: 0
 --- !u!114 &7055417080555437495
 MonoBehaviour:

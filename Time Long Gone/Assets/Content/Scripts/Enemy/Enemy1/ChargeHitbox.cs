@@ -13,12 +13,14 @@ namespace Enemy {
         {
             if(((1<<other.gameObject.layer) & obstacleMask) != 0)
             {
+                enemy.StopAgent();
                 enemy.PlayAnimation("ChargeHit", 0.1f);
                 enemy.StopAI(2f);
                 enemy.ChargeHit();
                 if(setInactiveAfterCol) gameObject.SetActive(false);
             }else if (other.GetComponent<PlayerHitHandler>() != null)
             {
+                enemy.StopAgent();
                 enemy.PlayAnimation("ChargeHit", 0.1f);
                 enemy.StopAI(2f);
                 enemy.ChargeHit();

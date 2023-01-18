@@ -26,7 +26,7 @@ namespace Player
         [SerializeField] private AnimationCurve pushCurve;
         public AnimationCurve GetPushCurve => pushCurve;
 
-        public bool ReceiveHitActive { get; set; }
+        public bool ReceiveHitActive { get; set; } = true;
 
         private void Awake()
         {

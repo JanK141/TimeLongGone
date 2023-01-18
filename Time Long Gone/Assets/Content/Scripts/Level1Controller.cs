@@ -58,6 +58,8 @@ public class Level1Controller : MonoBehaviour
 
     public void EnemyDead()
     {
+        player.animator.Play("Idle");
+        enemy.PlayAnimation("Idle", 0);
         GameManager.Instance.LoadHUD(false);
         cutscenecam.enabled = true;
         _isPlaying = true;
@@ -71,7 +73,7 @@ public class Level1Controller : MonoBehaviour
         enemy.transform.DOMove(midpos, 1.5f);
         enemy.transform.DORotate(midrot, 1.5f);
         player.transform.DOMove(midpos, 1.5f);
-        player.transform.DORotate(midrot, 1.5f).OnComplete(()=> cutscene1.Play(finisher));
+        player.transform.DORotate(midrot, 1f).OnComplete(()=> cutscene1.Play(finisher));
 
     }
     public void PlayEnd()

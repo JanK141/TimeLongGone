@@ -34,6 +34,7 @@ public class StateMachine : ScriptableObject
         }
 
         _currState = initialState;
+        _transitionTo = initialState;
     }
 
     private SMState _transitionTo;
