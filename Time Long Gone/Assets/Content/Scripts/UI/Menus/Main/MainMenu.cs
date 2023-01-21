@@ -18,9 +18,8 @@ public class MainMenu : MonoBehaviour
 
     private void OnEnable() => gameObject.GetComponent<PlayerInput>().actions.FindActionMap("Menu").Enable();
 
-    public void Continue(){}
+    public void Continue() => NewGame();
 
-    [Obsolete("Obsolete")]
     public void NewGame()
     {
         GameManager.Instance.LoadLevel("Level 1 map");

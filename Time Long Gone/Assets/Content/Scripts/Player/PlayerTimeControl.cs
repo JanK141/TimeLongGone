@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace Player
@@ -18,6 +19,7 @@ namespace Player
         [SerializeField] private float rewindTimeScale;
         [SerializeField] private float timeToInterpolate;
         [SerializeField] private Image slowmoOverlay;
+        public UnityEvent OnGameOver;
 
         private float mana;
 
@@ -169,7 +171,7 @@ namespace Player
             {
                 if (control.Mana < control.variables.rewindFlatCost || time >= 10f)
                 {
-                    GameManager.Instance.LoadLevel("Level 1 map");
+                    control.OnGameOver.Invoke();
                     return null;
                 }
                 else if (CanTimeControl && control.WantsToTimeControl)

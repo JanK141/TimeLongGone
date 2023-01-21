@@ -252,8 +252,9 @@ namespace Enemy
                     proj.transform.SetParent(ProjectilesParent, true);
                     rb = proj.GetComponent<Rigidbody>();
                     rb.detectCollisions = false;
-                    proj.transform.position = new Vector3(ProjectilesParent.position.x + 0.5f,
+                    proj.transform.position = new Vector3(ProjectilesParent.position.x,
                         ProjectilesParent.position.y, ProjectilesParent.position.z);
+                    proj.transform.rotation = new Quaternion(0, 0, 0, 0);
                     yield return new WaitForSeconds(1f);
                 }
                 else

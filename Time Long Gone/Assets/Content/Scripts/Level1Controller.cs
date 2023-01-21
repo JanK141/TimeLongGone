@@ -1,5 +1,6 @@
 using Cinemachine;
 using Content.Scripts;
+using Content.Scripts.Camera;
 using DG.Tweening;
 using Enemy;
 using Player;
@@ -9,6 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
+using UnityEngine.Rendering;
 
 public class Level1Controller : MonoBehaviour
 {
@@ -19,6 +21,9 @@ public class Level1Controller : MonoBehaviour
     [SerializeField] TextMeshProUGUI skipText;
     [SerializeField] PlayableAsset finisher;
     [SerializeField] PlayableAsset end;
+    [SerializeField] CinemachineVirtualCamera executionCam;
+    [SerializeField] Volume DeathVolume;
+    [SerializeField] TextMeshProUGUI GameOverText;
 
     bool _isPlaying = true;
     void Start()
@@ -44,6 +49,35 @@ public class Level1Controller : MonoBehaviour
             cutscene1.Evaluate();
         }
     }
+
+    public void GameOver() => StartCoroutine(GameOverCorutine());
+
+    public IEnumerator GameOverCorutine()
+    {
+        var cam = (Camera.main.GetComponent<CinemachineBrain>().ActiveVirtualCamera as CinemachineVirtualCamera);
+        cam.LookAt = player.transform;
+        yield return new WaitForSecondsRealtime(0.5f);
+        float time = 0f;
+        while (time < 3f)
+        {
+            time += Time.unscaledDeltaTime;
+            DeathVolume.weight = Mathf.Lerp(0, 1, time / 3f);
+            cam.m_Lens.FieldOfView = Mathf.Lerp(80, 60, time / 3f);
+            yield return null;
+        }
+        GameOverText.gameObject.SetActive(true);
+        yield return new WaitForSecondsRealtime(1);
+        time = 0;
+        while (time < 0.3)
+        {
+            time += Time.unscaledDeltaTime;
+            cam.m_Lens.FieldOfView = Mathf.Lerp(60, 1, time / 0.3f);
+            yield return null;
+        }
+        Time.timeScale = 1;
+        GameManager.Instance.LoadLevel("Level 1 map");
+    }
+
     public void EndCutscene1() => StartCoroutine(ActivatePlayer());
     IEnumerator ActivatePlayer()
     {
@@ -58,6 +92,8 @@ public class Level1Controller : MonoBehaviour
 
     public void EnemyDead()
     {
+        CinemachineSwitcher.Instance.Switch(true);
+        executionCam.GetComponent<PlayerCameraSet>().enabled = false;
         player.animator.Play("Idle");
         enemy.PlayAnimation("Idle", 0);
         GameManager.Instance.LoadHUD(false);
@@ -67,13 +103,20 @@ public class Level1Controller : MonoBehaviour
         player.GetComponent<PlayerTimeControl>().ActiveTime = false;
         enemy.ActiveAI = false;
 
-        var midpos = Vector3.Lerp(player.transform.position, enemy.transform.position, 0.5f);
+        var playerpos = new Vector3(player.transform.position.x, player.transform.position.y - 0.5f * player.GetComponent<CharacterController>().height, player.transform.position.z);
+        var midpos = Vector3.Lerp(playerpos, enemy.transform.position, 0.5f);
         var midrot = Vector3.Lerp(player.transform.rotation.eulerAngles, enemy.transform.rotation.eulerAngles, 0.5f);
 
-        enemy.transform.DOMove(midpos, 1.5f);
-        enemy.transform.DORotate(midrot, 1.5f);
-        player.transform.DOMove(midpos, 1.5f);
-        player.transform.DORotate(midrot, 1f).OnComplete(()=> cutscene1.Play(finisher));
+        enemy.transform.DOMove(midpos, 0.5f);
+        enemy.transform.DORotate(midrot, 0.5f);
+        midpos.y += 0.5f * player.GetComponent<CharacterController>().height;
+        player.transform.DOMove(midpos + Quaternion.Euler(midrot) * Vector3.forward *2, 0.5f);
+        player.transform.DORotate(midrot + 180f * Vector3.up, 0.5f).OnComplete(()=> {
+            player.transform.position = midpos;
+            player.transform.rotation = Quaternion.Euler(midrot);
+            cutscene1.Play(finisher); 
+        });
+
 
     }
     public void PlayEnd()
