@@ -8,13 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: KanaboMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: c7deae4b7119853489f1d2d786abce0d, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 2a85a6ff1a05b4a4db4bd1388554239b, type: 3}
   m_ValidKeywords:
-  - ADDITIONAL_LIGHT_CALCULATE_SHADOWS
-  - MAIN_LIGHT_CALCULATE_SHADOWS
   - _MAIN_LIGHT_SHADOWS_CASCADE
   - _SHADOWS_SOFT
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - ADDITIONAL_LIGHT_CALCULATE_SHADOWS
+  - MAIN_LIGHT_CALCULATE_SHADOWS
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -74,6 +74,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_bdcd883fc33848119e0475487312e215_Texture_1:
+        m_Texture: {fileID: 2800000, guid: b3256a41dc952e94ab9ff8531ed44415, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_f42cbb3be0674a7bbc518d713cb4b7d9_Texture_1:
+        m_Texture: {fileID: 2800000, guid: ba6a665993b6eee4bb639f7a19eceb14, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
