@@ -27,4 +27,4 @@ Below is a video presenting current state of gamepaly.
 [![Gameplay video](https://user-images.githubusercontent.com/36763441/223861264-55ccc756-0725-4d78-812f-39eda5b5cd8d.png)](https://drive.google.com/file/d/1jC1iEtWyF_OtkVgl4lF28J1pPuDTamj8/view?usp=share_link)
 
 ## Read more about
-(Section in progress)
+* [Programing](https://github.com/JanK141/TimeLongGone/blob/dev/Programing.md)
