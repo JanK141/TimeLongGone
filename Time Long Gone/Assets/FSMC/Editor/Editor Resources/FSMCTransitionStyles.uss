@@ -1,0 +1,80 @@
+.unity-inspector-element{
+	padding-right: 0px;
+	padding-left: 0px;
+}
+.list-top-bar{
+	align-content: center;
+	border-color: rgba(1,1,1,0.3);
+	border-bottom-width: 1px;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 0px;
+	padding-left: 15px;
+	padding-right: 5px;
+}
+.list-top-bar > #ButtonsContainer{
+	flex-direction: row;
+	justify-content: flex-end;
+	width: 40%;
+}
+.list-top-bar > #ButtonsContainer > Button{
+	flex-direction: row;
+	width: 30px;
+	background-color: var(--unity-colors-window-background);
+	flex-grow: 0.05;
+	border-radius:0px;
+	border-width:0px;
+	align-content: center;
+	justify-content:center;
+	padding: 0px;
+	margin: 0px;
+}
+.list-top-bar > #ButtonsContainer > Button:hover{
+	background-color: var(--unity-colors-button-background-hover);
+}
+.list-top-bar > #ButtonsContainer > Button:active{
+	background-color: var(--unity-colors-button-background-pressed);
+}
+.list-top-bar > #ButtonsContainer > #OptionsButton{
+	background-image: var(--unity-icons-pane_options); 
+	flex-grow:0;
+	width: 20px;
+	height: 20px;
+}
+.list-top-bar > Label{
+	padding-top: 2px;
+}
+.list-container > .unity-list-view{
+	border-color: rgba(1,1,1,0.3);
+	border-bottom-width: 1px;
+	padding: 3px;
+}
+.main-container{
+	margin-left: -15px;
+	margin-right: -6px;
+}
+.list-item{
+	flex-direction: row;
+	justify-content: space-between;
+	align-content: center;
+}
+.list-item > .unity-enum-field{
+	flex-grow: 1;
+	padding-right: 5%;
+}
+.list-item > .unity-base-text-field, .list-item > .unity-toggle{
+	flex-grow: 0;
+	padding-right: 5%;
+	width: 30%;
+}
+.list-item > Label{
+	margin-left: 10px;
+	width: 25%;
+	padding-top: 4px;
+}
+.unity-list-view__reorderable-item__container{
+	justify-content: center;
+}
+.main-container > Button{
+	margin-top: 30px;
+}

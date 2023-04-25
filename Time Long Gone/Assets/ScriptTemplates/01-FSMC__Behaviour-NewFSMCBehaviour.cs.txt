@@ -1,0 +1,26 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using FSMC;
+
+public class #SCRIPTNAME# : FSMCBehaviour
+{
+    public override void StateInit(FSMController stateMachine, FSMCExecuter executer)
+    {
+    #NOTRIM#
+    }
+    public override void OnStateEnter(FSMController stateMachine, FSMCExecuter executer)
+    {
+    #NOTRIM#
+    }
+
+    public override void OnStateUpdate(FSMController stateMachine, FSMCExecuter executer)
+    {
+    #NOTRIM#
+    }
+
+    public override void OnStateExit(FSMController stateMachine, FSMCExecuter executer)
+    {
+    #NOTRIM#
+    }
+}

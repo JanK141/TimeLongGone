@@ -1,0 +1,65 @@
+#TopBar{
+	align-content: center;
+	border-color: rgba(1,1,1,0.7);
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	flex-direction: row;
+	justify-content: space-between;
+	margin: 0px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+#SearchField{
+	flex-grow: 1;
+}
+#SearchField > #unity-text-input{
+	border-radius:7px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.unity-text-field__placeholder > .unity-base-text-field__input {
+    color: #969696
+}
+#TopBar > .CustomButton{
+	flex-direction: row;
+	width: 30px;
+	background-color: var(--unity-colors-window-background);
+}
+#TopBar > .CustomButton:hover{
+	background-color: var(--unity-colors-button-background-hover);
+}
+#TopBar > .CustomButton:active{
+	background-color: var(--unity-colors-button-background-pressed);
+}
+FSMCParameter{
+	flex-direction: row;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	flex-grow: 1;
+}
+.unity-list-view__reorderable-item{
+	border-color: rgba(1,1,1,0.7);
+	border-bottom-width: 1px;
+}
+.unity-list-view__reorderable-item__container{
+	justify-content: center;
+}
+#paramName{
+	flex-grow: 1;
+}
+#paramName > .unity-base-text-field__input{
+	border-width: 0px;
+	background-color: var(--unity-colors-window-background);
+}
+#paramValue{
+	width: 50px;
+	align-items: flex-end;
+	justify-content: center;
+}
+#paramValue > .unity-base-field{
+	flex-grow: 1;
+	align-items: flex-end;
+}
+#TriggerValue > .unity-toggle__input > .unity-toggle__checkmark{
+	border-radius: 10px;
+}

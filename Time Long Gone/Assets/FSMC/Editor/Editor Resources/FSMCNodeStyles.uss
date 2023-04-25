@@ -1,0 +1,46 @@
+.node{
+	justify-content: center;
+}
+#main{
+	width: 200px;
+	height: 50px;
+	background-color: #909090;
+	border-radius: 5px;
+	border-color: #1D1D1E;
+	border-width: 1px;
+}
+FSMCStartNode>#main{
+	background-color: #006400;
+	border-color: #005f00;
+	border-width: 5px;
+}
+FSMCAnyNode>#main{
+	background-color: #006464;
+	border-color: #005a5a;
+	border-width: 5px;
+}
+.MainTitleClass{
+	-unity-text-align: middle-center;
+	-unity-font-style: bold;
+	-unity-text-overflow-position: middle;
+	-unity-text-outline-width: 0.3px;
+	-unity-text-outline-color: grey;
+	font-size: 17px;
+}
+.InvisPort{
+	position: absolute;
+	align-self: center;
+	height: 50px;
+	width: 150px;
+	justify-content: center;
+	padding: 0px;
+}
+.InvisPort.output{
+	padding: 0px;
+}
+.InvisPort.input{
+	padding: 0px;
+}
+Port>Label{
+	display:none;
+}

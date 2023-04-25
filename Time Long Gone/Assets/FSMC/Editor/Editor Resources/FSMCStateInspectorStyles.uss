@@ -1,0 +1,39 @@
+#BehaviourFold{
+	height: 25px;
+	background-color: var(--unity-colors-inspector_titlebar-background);
+	border-width: 1px;
+	border-color: var(--unity-colors-inspector_titlebar-border);
+	margin-top: 5px;
+	align-items: center;
+}
+#BehaviourFold:hover{
+	background-color: var(--unity-colors-inspector_titlebar-background-hover);
+}
+#BehaviourFold > #unity-checkmark{
+	align-self: center;
+	margin-top: 0px;
+}
+#BehaviourFold > Image{
+	height: 15px;
+	width: 20px;
+	margin-left: 10px;
+}
+.transition{
+	margin-top: 5px;
+	margin-top: 5px;
+}
+#OptionsContainer{
+	flex-grow: 1;
+	flex-direction: row-reverse;
+	align-items: center;
+}
+#OptionsButton{
+	background-image: var(--unity-icons-pane_options); 
+	background-color: var(--unity-colors-inspector_titlebar-background);
+	border-width: 0px;
+	width: 20px;
+	height: 20px;
+}
+#OptionsButton:hover{
+	background-color: var(--unity-colors-button-background-hover);
+}
